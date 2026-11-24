@@ -1,0 +1,77 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Emre Çuhadar",
+    "label": "Backend Yazılım Geliştirici",
+    "email": "cuhadaremre54@gmail.com",
+    "url": "https://emrec54.github.io",
+    "summary": "Backend Yazılım Geliştirici · Seyir Mobil (Uygulama Altyapıları). Araçlar: C#, .NET, ASP.NET, MSSQL, MongoDB, Redis, Graylog, Grafana, Prometheus.",
+    "location": {
+      "city": "Kocaeli",
+      "countryCode": "TR"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "EmreC54",
+        "url": "https://github.com/EmreC54"
+      },
+      {
+        "network": "LinkedIn",
+        "url": "https://www.linkedin.com/in/emre-%C3%A7uhadar-b49871297"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Seyir Mobil",
+      "position": "Backend Yazılım Geliştirici",
+      "startDate": "2026-10",
+      "summary": "Uygulama Altyapıları"
+    },
+    {
+      "name": "Seyir Mobil",
+      "position": "Stajyer",
+      "startDate": "2025",
+      "endDate": "2026",
+      "summary": "Mobil Uygulama Geliştirme · ~8 ay"
+    }
+  ],
+  "education": [
+    {
+      "institution": "Mehmet Akif Ersoy Üniversitesi",
+      "area": "Bilişim Sistemleri ve Teknolojileri"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Dil & Framework",
+      "keywords": [
+        "C#",
+        ".NET",
+        "ASP.NET"
+      ]
+    },
+    {
+      "name": "Veri & Önbellek",
+      "keywords": [
+        "MSSQL",
+        "MongoDB",
+        "Redis"
+      ]
+    },
+    {
+      "name": "Gözlemlenebilirlik",
+      "keywords": [
+        "Graylog",
+        "Grafana",
+        "Prometheus"
+      ]
+    }
+  ],
+  "meta": {
+    "canonical": "https://emrec54.github.io/api/cv.json",
+    "version": "v1.0.0",
+    "lastModified": "2026-11-23"
+  }
+}

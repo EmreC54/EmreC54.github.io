@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Seyir Defteri — Emre Çuhadar</title>
+    <link>https://emrec54.github.io/seyir-defteri.html</link>
+    <atom:link href="https://emrec54.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Backend, önbellekleme, loglama ve izleme üzerine notlar.</description>
+    <language>tr</language>
+    <lastBuildDate>Fri, 20 Nov 2026 06:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Garaj açıldı: Bu siteyi nasıl kurdum?</title>
+      <link>https://emrec54.github.io/yazi/garaj-acildi.html</link>
+      <guid isPermaLink="false">https://emrec54.github.io/posts/garaj-acildi</guid>
+      <pubDate>Fri, 20 Nov 2026 06:00:00 GMT</pubDate>
+      <category>frontend</category>
+      <category>css-3d</category>
+      <category>performans</category>
+      <category>github-pages</category>
+      <description>Framework kullanmadan, düz HTML, CSS ve JavaScript ile 3B bir garaj kurmak: kavisli monitör, katlanan kepenkler ve akıcılık için verdiğim kararlar.</description>
+    </item>
+  </channel>
+</rss>

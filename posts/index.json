@@ -1,0 +1,11 @@
+{
+  "posts": [
+    {
+      "slug": "garaj-acildi",
+      "title": "Garaj açıldı: Bu siteyi nasıl kurdum?",
+      "date": "2026-11-20",
+      "summary": "Framework kullanmadan, düz HTML, CSS ve JavaScript ile 3B bir garaj kurmak: kavisli monitör, katlanan kepenkler ve akıcılık için verdiğim kararlar.",
+      "tags": ["frontend", "css-3d", "performans", "github-pages"]
+    }
+  ]
+}

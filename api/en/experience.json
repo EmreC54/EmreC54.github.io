@@ -1,0 +1,39 @@
+{
+  "experience": [
+    {
+      "role": "Backend Software Developer",
+      "company": "Seyir Mobil",
+      "team": "Application Infrastructure",
+      "start": "2026-10",
+      "end": null,
+      "current": true,
+      "note": null
+    },
+    {
+      "role": "Intern",
+      "company": "Seyir Mobil",
+      "team": "Mobile Application Development",
+      "start": "2025",
+      "end": "2026",
+      "current": false,
+      "note": "~8 months"
+    }
+  ],
+  "education": [
+    {
+      "school": "Mehmet Akif Ersoy University",
+      "field": "Information Systems and Technologies"
+    }
+  ],
+  "_links": {
+    "self": "https://emrec54.github.io/api/en/experience.json",
+    "profile": "https://emrec54.github.io/api/en/emre.json",
+    "stack": "https://emrec54.github.io/api/en/stack.json",
+    "experience": "https://emrec54.github.io/api/en/experience.json",
+    "posts": "https://emrec54.github.io/api/en/posts.json",
+    "cv": "https://emrec54.github.io/api/en/cv.json",
+    "health": "https://emrec54.github.io/api/en/health.json",
+    "openapi": "https://emrec54.github.io/api/openapi.json",
+    "docs": "https://emrec54.github.io/api.html"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "count": 9,
+  "drawers": [
+    {
+      "id": "lang",
+      "name": "Language & Framework",
+      "tools": [
+        {
+          "name": "C#",
+          "note": "My main language for building services."
+        },
+        {
+          "name": ".NET",
+          "note": "The platform my APIs and background services run on."
+        },
+        {
+          "name": "ASP.NET",
+          "note": "HTTP APIs and web services."
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "name": "Data & Caching",
+      "tools": [
+        {
+          "name": "MSSQL",
+          "note": "Relational data, queries and reporting."
+        },
+        {
+          "name": "MongoDB",
+          "note": "Flexible, document-based data."
+        },
+        {
+          "name": "Redis",
+          "note": "Caching and fast key-value access."
+        }
+      ]
+    },
+    {
+      "id": "obs",
+      "name": "Observability",
+      "tools": [
+        {
+          "name": "Graylog",
+          "note": "Collecting, searching and debugging logs."
+        },
+        {
+          "name": "Grafana",
+          "note": "Metric dashboards and alerts."
+        },
+        {
+          "name": "Prometheus",
+          "note": "Collecting metrics from services."
+        }
+      ]
+    }
+  ],
+  "_links": {
+    "self": "https://emrec54.github.io/api/en/stack.json",
+    "profile": "https://emrec54.github.io/api/en/emre.json",
+    "stack": "https://emrec54.github.io/api/en/stack.json",
+    "experience": "https://emrec54.github.io/api/en/experience.json",
+    "posts": "https://emrec54.github.io/api/en/posts.json",
+    "cv": "https://emrec54.github.io/api/en/cv.json",
+    "health": "https://emrec54.github.io/api/en/health.json",
+    "openapi": "https://emrec54.github.io/api/openapi.json",
+    "docs": "https://emrec54.github.io/api.html"
+  }
+}

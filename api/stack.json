@@ -1,0 +1,70 @@
+{
+  "count": 9,
+  "drawers": [
+    {
+      "id": "lang",
+      "name": "Dil & Framework",
+      "tools": [
+        {
+          "name": "C#",
+          "note": "Servisleri yazdığım ana dil."
+        },
+        {
+          "name": ".NET",
+          "note": "API’lerin ve arka plan servislerinin çalıştığı platform."
+        },
+        {
+          "name": "ASP.NET",
+          "note": "HTTP API’leri ve web servisleri."
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "name": "Veri & Önbellek",
+      "tools": [
+        {
+          "name": "MSSQL",
+          "note": "İlişkisel veriler, sorgular ve raporlama."
+        },
+        {
+          "name": "MongoDB",
+          "note": "Esnek şemalı, doküman tabanlı veriler."
+        },
+        {
+          "name": "Redis",
+          "note": "Önbellek ve hızlı anahtar-değer erişimi."
+        }
+      ]
+    },
+    {
+      "id": "obs",
+      "name": "Gözlemlenebilirlik",
+      "tools": [
+        {
+          "name": "Graylog",
+          "note": "Logları toplama, arama ve hata ayıklama."
+        },
+        {
+          "name": "Grafana",
+          "note": "Metrik panoları ve uyarılar."
+        },
+        {
+          "name": "Prometheus",
+          "note": "Servislerden metrik toplama."
+        }
+      ]
+    }
+  ],
+  "_links": {
+    "self": "https://emrec54.github.io/api/stack.json",
+    "profile": "https://emrec54.github.io/api/emre.json",
+    "stack": "https://emrec54.github.io/api/stack.json",
+    "experience": "https://emrec54.github.io/api/experience.json",
+    "posts": "https://emrec54.github.io/api/posts.json",
+    "cv": "https://emrec54.github.io/api/cv.json",
+    "health": "https://emrec54.github.io/api/health.json",
+    "openapi": "https://emrec54.github.io/api/openapi.json",
+    "docs": "https://emrec54.github.io/api.html"
+  }
+}

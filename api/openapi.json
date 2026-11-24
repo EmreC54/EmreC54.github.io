@@ -1,0 +1,966 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Emre API",
+    "version": "1.0.0",
+    "description": "Read-only JSON endpoints for Emre Çuhadar’s site, generated from config.js on every deploy. No authentication; CORS enabled.",
+    "x-description-tr": "Emre Çuhadar’ın sitesinin salt okunur JSON uçları; her yayında config.js’ten üretilir. Kimlik doğrulama yok; CORS açık.",
+    "contact": {
+      "name": "Emre Çuhadar",
+      "email": "cuhadaremre54@gmail.com",
+      "url": "https://emrec54.github.io"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://emrec54.github.io/api",
+      "description": "Türkçe"
+    },
+    {
+      "url": "https://emrec54.github.io/api/en",
+      "description": "English"
+    }
+  ],
+  "tags": [
+    {
+      "name": "profile",
+      "description": "Who I am",
+      "x-description-tr": "Ben kimim"
+    },
+    {
+      "name": "content",
+      "description": "Posts",
+      "x-description-tr": "Yazılar"
+    },
+    {
+      "name": "system",
+      "description": "Index and health",
+      "x-description-tr": "Dizin ve sağlık"
+    }
+  ],
+  "paths": {
+    "/index.json": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "operationId": "getIndex",
+        "summary": "API index",
+        "x-summary-tr": "API dizini",
+        "description": "Lists every endpoint with its absolute URL.",
+        "x-description-tr": "Tüm uçları tam adresleriyle listeler.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "x-description-tr": "Başarılı",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Index"
+                },
+                "example": {
+                  "name": "Emre API",
+                  "version": "1.0.0",
+                  "language": "tr",
+                  "endpoints": [
+                    {
+                      "path": "/api/emre.json",
+                      "url": "https://emrec54.github.io/api/emre.json"
+                    },
+                    {
+                      "path": "/api/stack.json",
+                      "url": "https://emrec54.github.io/api/stack.json"
+                    },
+                    {
+                      "path": "/api/experience.json",
+                      "url": "https://emrec54.github.io/api/experience.json"
+                    },
+                    {
+                      "path": "/api/posts.json",
+                      "url": "https://emrec54.github.io/api/posts.json"
+                    },
+                    {
+                      "path": "/api/cv.json",
+                      "url": "https://emrec54.github.io/api/cv.json"
+                    },
+                    {
+                      "path": "/api/health.json",
+                      "url": "https://emrec54.github.io/api/health.json"
+                    }
+                  ],
+                  "_links": {
+                    "self": "https://emrec54.github.io/api/index.json",
+                    "profile": "https://emrec54.github.io/api/emre.json",
+                    "stack": "https://emrec54.github.io/api/stack.json",
+                    "experience": "https://emrec54.github.io/api/experience.json",
+                    "posts": "https://emrec54.github.io/api/posts.json",
+                    "cv": "https://emrec54.github.io/api/cv.json",
+                    "health": "https://emrec54.github.io/api/health.json",
+                    "openapi": "https://emrec54.github.io/api/openapi.json",
+                    "docs": "https://emrec54.github.io/api.html"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found (GitHub Pages returns its HTML 404 page)",
+            "x-description-tr": "Bulunamadı (GitHub Pages HTML 404 sayfasını döner)"
+          }
+        }
+      }
+    },
+    "/emre.json": {
+      "get": {
+        "tags": [
+          "profile"
+        ],
+        "operationId": "getEmre",
+        "summary": "Profile",
+        "x-summary-tr": "Profil",
+        "description": "Name, role, company, location, stack and links.",
+        "x-description-tr": "Ad, rol, şirket, konum, araçlar ve bağlantılar.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "x-description-tr": "Başarılı",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                },
+                "example": {
+                  "name": "Emre Çuhadar",
+                  "role": "Backend Yazılım Geliştirici",
+                  "company": "Seyir Mobil",
+                  "team": "Uygulama Altyapıları",
+                  "since": "2026-10",
+                  "location": "Kocaeli, Türkiye",
+                  "timeZone": "Europe/Istanbul",
+                  "summary": "Backend Yazılım Geliştirici · Seyir Mobil (Uygulama Altyapıları). Araçlar: C#, .NET, ASP.NET, MSSQL, MongoDB, Redis, Graylog, Grafana, Prometheus.",
+                  "stack": [
+                    "C#",
+                    ".NET",
+                    "ASP.NET",
+                    "MSSQL",
+                    "MongoDB",
+                    "Redis",
+                    "Graylog",
+                    "Grafana",
+                    "Prometheus"
+                  ],
+                  "links": {
+                    "site": "https://emrec54.github.io",
+                    "github": "https://github.com/EmreC54",
+                    "linkedin": "https://www.linkedin.com/in/emre-%C3%A7uhadar-b49871297",
+                    "email": "mailto:cuhadaremre54@gmail.com"
+                  },
+                  "_links": {
+                    "self": "https://emrec54.github.io/api/emre.json",
+                    "profile": "https://emrec54.github.io/api/emre.json",
+                    "stack": "https://emrec54.github.io/api/stack.json",
+                    "experience": "https://emrec54.github.io/api/experience.json",
+                    "posts": "https://emrec54.github.io/api/posts.json",
+                    "cv": "https://emrec54.github.io/api/cv.json",
+                    "health": "https://emrec54.github.io/api/health.json",
+                    "openapi": "https://emrec54.github.io/api/openapi.json",
+                    "docs": "https://emrec54.github.io/api.html"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found (GitHub Pages returns its HTML 404 page)",
+            "x-description-tr": "Bulunamadı (GitHub Pages HTML 404 sayfasını döner)"
+          }
+        }
+      }
+    },
+    "/stack.json": {
+      "get": {
+        "tags": [
+          "profile"
+        ],
+        "operationId": "getStack",
+        "summary": "Toolbox",
+        "x-summary-tr": "Takım çantası",
+        "description": "Technologies grouped by drawer, each with a short note.",
+        "x-description-tr": "Çekmecelere göre teknolojiler ve kısa notları.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "x-description-tr": "Başarılı",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Stack"
+                },
+                "example": {
+                  "count": 9,
+                  "drawers": [
+                    {
+                      "id": "lang",
+                      "name": "Dil & Framework",
+                      "tools": [
+                        {
+                          "name": "C#",
+                          "note": "Servisleri yazdığım ana dil."
+                        },
+                        {
+                          "name": ".NET",
+                          "note": "API’lerin ve arka plan servislerinin çalıştığı platform."
+                        },
+                        {
+                          "name": "ASP.NET",
+                          "note": "HTTP API’leri ve web servisleri."
+                        }
+                      ]
+                    },
+                    {
+                      "id": "data",
+                      "name": "Veri & Önbellek",
+                      "tools": [
+                        {
+                          "name": "MSSQL",
+                          "note": "İlişkisel veriler, sorgular ve raporlama."
+                        },
+                        {
+                          "name": "MongoDB",
+                          "note": "Esnek şemalı, doküman tabanlı veriler."
+                        },
+                        {
+                          "name": "Redis",
+                          "note": "Önbellek ve hızlı anahtar-değer erişimi."
+                        }
+                      ]
+                    },
+                    {
+                      "id": "obs",
+                      "name": "Gözlemlenebilirlik",
+                      "tools": [
+                        {
+                          "name": "Graylog",
+                          "note": "Logları toplama, arama ve hata ayıklama."
+                        },
+                        {
+                          "name": "Grafana",
+                          "note": "Metrik panoları ve uyarılar."
+                        },
+                        {
+                          "name": "Prometheus",
+                          "note": "Servislerden metrik toplama."
+                        }
+                      ]
+                    }
+                  ],
+                  "_links": {
+                    "self": "https://emrec54.github.io/api/stack.json",
+                    "profile": "https://emrec54.github.io/api/emre.json",
+                    "stack": "https://emrec54.github.io/api/stack.json",
+                    "experience": "https://emrec54.github.io/api/experience.json",
+                    "posts": "https://emrec54.github.io/api/posts.json",
+                    "cv": "https://emrec54.github.io/api/cv.json",
+                    "health": "https://emrec54.github.io/api/health.json",
+                    "openapi": "https://emrec54.github.io/api/openapi.json",
+                    "docs": "https://emrec54.github.io/api.html"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found (GitHub Pages returns its HTML 404 page)",
+            "x-description-tr": "Bulunamadı (GitHub Pages HTML 404 sayfasını döner)"
+          }
+        }
+      }
+    },
+    "/experience.json": {
+      "get": {
+        "tags": [
+          "profile"
+        ],
+        "operationId": "getExperience",
+        "summary": "Experience and education",
+        "x-summary-tr": "Deneyim ve eğitim",
+        "description": "Jobs (newest first; end: null means current) and education.",
+        "x-description-tr": "İşler (en yeni en üstte; end: null hâlâ devam ediyor demek) ve eğitim.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "x-description-tr": "Başarılı",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Experience"
+                },
+                "example": {
+                  "experience": [
+                    {
+                      "role": "Backend Yazılım Geliştirici",
+                      "company": "Seyir Mobil",
+                      "team": "Uygulama Altyapıları",
+                      "start": "2026-10",
+                      "end": null,
+                      "current": true,
+                      "note": null
+                    },
+                    {
+                      "role": "Stajyer",
+                      "company": "Seyir Mobil",
+                      "team": "Mobil Uygulama Geliştirme",
+                      "start": "2025",
+                      "end": "2026",
+                      "current": false,
+                      "note": "~8 ay"
+                    }
+                  ],
+                  "education": [
+                    {
+                      "school": "Mehmet Akif Ersoy Üniversitesi",
+                      "field": "Bilişim Sistemleri ve Teknolojileri"
+                    }
+                  ],
+                  "_links": {
+                    "self": "https://emrec54.github.io/api/experience.json",
+                    "profile": "https://emrec54.github.io/api/emre.json",
+                    "stack": "https://emrec54.github.io/api/stack.json",
+                    "experience": "https://emrec54.github.io/api/experience.json",
+                    "posts": "https://emrec54.github.io/api/posts.json",
+                    "cv": "https://emrec54.github.io/api/cv.json",
+                    "health": "https://emrec54.github.io/api/health.json",
+                    "openapi": "https://emrec54.github.io/api/openapi.json",
+                    "docs": "https://emrec54.github.io/api.html"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found (GitHub Pages returns its HTML 404 page)",
+            "x-description-tr": "Bulunamadı (GitHub Pages HTML 404 sayfasını döner)"
+          }
+        }
+      }
+    },
+    "/posts.json": {
+      "get": {
+        "tags": [
+          "content"
+        ],
+        "operationId": "getPosts",
+        "summary": "Logbook posts",
+        "x-summary-tr": "Seyir Defteri yazıları",
+        "description": "Published posts, newest first, with links to the page and the Markdown source.",
+        "x-description-tr": "Yayımlanmış yazılar, en yeni en üstte; sayfa ve Markdown kaynağı bağlantılarıyla.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "x-description-tr": "Başarılı",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostList"
+                },
+                "example": {
+                  "count": 1,
+                  "posts": [
+                    {
+                      "slug": "garaj-acildi",
+                      "title": "Garaj açıldı: Bu siteyi nasıl kurdum?",
+                      "date": "2026-11-20",
+                      "tags": [
+                        "frontend",
+                        "css-3d",
+                        "performans",
+                        "github-pages"
+                      ],
+                      "summary": "Framework kullanmadan, düz HTML, CSS ve JavaScript ile 3B bir garaj kurmak: kavisli monitör, katlanan kepenkler ve akıcılık için verdiğim kararlar.",
+                      "url": "https://emrec54.github.io/yazi/garaj-acildi.html",
+                      "markdown": "https://emrec54.github.io/posts/garaj-acildi.md"
+                    }
+                  ],
+                  "_links": {
+                    "self": "https://emrec54.github.io/api/posts.json",
+                    "profile": "https://emrec54.github.io/api/emre.json",
+                    "stack": "https://emrec54.github.io/api/stack.json",
+                    "experience": "https://emrec54.github.io/api/experience.json",
+                    "posts": "https://emrec54.github.io/api/posts.json",
+                    "cv": "https://emrec54.github.io/api/cv.json",
+                    "health": "https://emrec54.github.io/api/health.json",
+                    "openapi": "https://emrec54.github.io/api/openapi.json",
+                    "docs": "https://emrec54.github.io/api.html"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found (GitHub Pages returns its HTML 404 page)",
+            "x-description-tr": "Bulunamadı (GitHub Pages HTML 404 sayfasını döner)"
+          }
+        }
+      }
+    },
+    "/cv.json": {
+      "get": {
+        "tags": [
+          "profile"
+        ],
+        "operationId": "getCv",
+        "summary": "Résumé (JSON Resume)",
+        "x-summary-tr": "Özgeçmiş (JSON Resume)",
+        "description": "The CV in the open JSON Resume v1.0.0 format; any JSON Resume theme can render it.",
+        "x-description-tr": "Açık JSON Resume v1.0.0 biçiminde özgeçmiş; herhangi bir JSON Resume temasıyla çizilebilir.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "x-description-tr": "Başarılı",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resume"
+                },
+                "example": {
+                  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+                  "basics": {
+                    "name": "Emre Çuhadar",
+                    "label": "Backend Yazılım Geliştirici",
+                    "email": "cuhadaremre54@gmail.com",
+                    "url": "https://emrec54.github.io",
+                    "summary": "Backend Yazılım Geliştirici · Seyir Mobil (Uygulama Altyapıları). Araçlar: C#, .NET, ASP.NET, MSSQL, MongoDB, Redis, Graylog, Grafana, Prometheus.",
+                    "location": {
+                      "city": "Kocaeli",
+                      "countryCode": "TR"
+                    },
+                    "profiles": [
+                      {
+                        "network": "GitHub",
+                        "username": "EmreC54",
+                        "url": "https://github.com/EmreC54"
+                      },
+                      {
+                        "network": "LinkedIn",
+                        "url": "https://www.linkedin.com/in/emre-%C3%A7uhadar-b49871297"
+                      }
+                    ]
+                  },
+                  "work": [
+                    {
+                      "name": "Seyir Mobil",
+                      "position": "Backend Yazılım Geliştirici",
+                      "startDate": "2026-10",
+                      "summary": "Uygulama Altyapıları"
+                    },
+                    {
+                      "name": "Seyir Mobil",
+                      "position": "Stajyer",
+                      "startDate": "2025",
+                      "endDate": "2026",
+                      "summary": "Mobil Uygulama Geliştirme · ~8 ay"
+                    }
+                  ],
+                  "education": [
+                    {
+                      "institution": "Mehmet Akif Ersoy Üniversitesi",
+                      "area": "Bilişim Sistemleri ve Teknolojileri"
+                    }
+                  ],
+                  "skills": [
+                    {
+                      "name": "Dil & Framework",
+                      "keywords": [
+                        "C#",
+                        ".NET",
+                        "ASP.NET"
+                      ]
+                    },
+                    {
+                      "name": "Veri & Önbellek",
+                      "keywords": [
+                        "MSSQL",
+                        "MongoDB",
+                        "Redis"
+                      ]
+                    },
+                    {
+                      "name": "Gözlemlenebilirlik",
+                      "keywords": [
+                        "Graylog",
+                        "Grafana",
+                        "Prometheus"
+                      ]
+                    }
+                  ],
+                  "meta": {
+                    "canonical": "https://emrec54.github.io/api/cv.json",
+                    "version": "v1.0.0",
+                    "lastModified": "2026-11-23"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found (GitHub Pages returns its HTML 404 page)",
+            "x-description-tr": "Bulunamadı (GitHub Pages HTML 404 sayfasını döner)"
+          }
+        }
+      }
+    },
+    "/health.json": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "operationId": "getHealth",
+        "summary": "Health",
+        "x-summary-tr": "Sağlık",
+        "description": "Build status: version, commit and build time of the deployed site.",
+        "x-description-tr": "Yayındaki sitenin sürümü, commit’i ve derlenme zamanı.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "x-description-tr": "Başarılı",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                },
+                "example": {
+                  "status": "Healthy",
+                  "version": "garage-3f9c0a1b2d4e",
+                  "commit": "9b1e2c7d4a…",
+                  "run": 42,
+                  "built": "2026-11-23T09:41:00.000Z",
+                  "checks": {
+                    "pages": "Healthy",
+                    "posts": "Healthy",
+                    "config": "Healthy"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found (GitHub Pages returns its HTML 404 page)",
+            "x-description-tr": "Bulunamadı (GitHub Pages HTML 404 sayfasını döner)"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Links": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string",
+          "format": "uri",
+          "nullable": true
+        }
+      },
+      "Index": {
+        "type": "object",
+        "required": [
+          "name",
+          "version",
+          "endpoints"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "tr",
+              "en"
+            ]
+          },
+          "endpoints": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "Profile": {
+        "type": "object",
+        "required": [
+          "name",
+          "role",
+          "company"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "team": {
+            "type": "string",
+            "nullable": true
+          },
+          "since": {
+            "type": "string",
+            "example": "2026-10",
+            "nullable": true
+          },
+          "location": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeZone": {
+            "type": "string",
+            "nullable": true
+          },
+          "summary": {
+            "type": "string"
+          },
+          "stack": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "links": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "format": "uri",
+              "nullable": true
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "Tool": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Drawer": {
+        "type": "object",
+        "required": [
+          "name",
+          "tools"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tool"
+            }
+          }
+        }
+      },
+      "Stack": {
+        "type": "object",
+        "required": [
+          "count",
+          "drawers"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "drawers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Drawer"
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "Job": {
+        "type": "object",
+        "required": [
+          "role",
+          "company",
+          "start"
+        ],
+        "properties": {
+          "role": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "team": {
+            "type": "string",
+            "nullable": true
+          },
+          "start": {
+            "type": "string"
+          },
+          "end": {
+            "type": "string",
+            "nullable": true
+          },
+          "current": {
+            "type": "boolean"
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "School": {
+        "type": "object",
+        "required": [
+          "school"
+        ],
+        "properties": {
+          "school": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          }
+        }
+      },
+      "Experience": {
+        "type": "object",
+        "properties": {
+          "experience": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Job"
+            }
+          },
+          "education": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/School"
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "Post": {
+        "type": "object",
+        "required": [
+          "slug",
+          "title",
+          "date"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "summary": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "markdown": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "PostList": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "posts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Post"
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "Resume": {
+        "type": "object",
+        "description": "JSON Resume v1.0.0 (https://jsonresume.org/schema)",
+        "x-description-tr": "JSON Resume v1.0.0 (https://jsonresume.org/schema)",
+        "properties": {
+          "basics": {
+            "type": "object"
+          },
+          "work": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "education": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "meta": {
+            "type": "object"
+          }
+        }
+      },
+      "Health": {
+        "type": "object",
+        "required": [
+          "status",
+          "version"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "Healthy"
+            ]
+          },
+          "version": {
+            "type": "string"
+          },
+          "commit": {
+            "type": "string",
+            "nullable": true
+          },
+          "run": {
+            "type": "integer",
+            "nullable": true
+          },
+          "built": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "checks": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

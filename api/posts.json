@@ -1,0 +1,30 @@
+{
+  "count": 1,
+  "posts": [
+    {
+      "slug": "garaj-acildi",
+      "title": "Garaj açıldı: Bu siteyi nasıl kurdum?",
+      "date": "2026-11-20",
+      "tags": [
+        "frontend",
+        "css-3d",
+        "performans",
+        "github-pages"
+      ],
+      "summary": "Framework kullanmadan, düz HTML, CSS ve JavaScript ile 3B bir garaj kurmak: kavisli monitör, katlanan kepenkler ve akıcılık için verdiğim kararlar.",
+      "url": "https://emrec54.github.io/yazi/garaj-acildi.html",
+      "markdown": "https://emrec54.github.io/posts/garaj-acildi.md"
+    }
+  ],
+  "_links": {
+    "self": "https://emrec54.github.io/api/posts.json",
+    "profile": "https://emrec54.github.io/api/emre.json",
+    "stack": "https://emrec54.github.io/api/stack.json",
+    "experience": "https://emrec54.github.io/api/experience.json",
+    "posts": "https://emrec54.github.io/api/posts.json",
+    "cv": "https://emrec54.github.io/api/cv.json",
+    "health": "https://emrec54.github.io/api/health.json",
+    "openapi": "https://emrec54.github.io/api/openapi.json",
+    "docs": "https://emrec54.github.io/api.html"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Emre Çuhadar",
+  "role": "Backend Yazılım Geliştirici",
+  "company": "Seyir Mobil",
+  "team": "Uygulama Altyapıları",
+  "since": "2026-10",
+  "location": "Kocaeli, Türkiye",
+  "timeZone": "Europe/Istanbul",
+  "summary": "Backend Yazılım Geliştirici · Seyir Mobil (Uygulama Altyapıları). Araçlar: C#, .NET, ASP.NET, MSSQL, MongoDB, Redis, Graylog, Grafana, Prometheus.",
+  "stack": [
+    "C#",
+    ".NET",
+    "ASP.NET",
+    "MSSQL",
+    "MongoDB",
+    "Redis",
+    "Graylog",
+    "Grafana",
+    "Prometheus"
+  ],
+  "links": {
+    "site": "https://emrec54.github.io",
+    "github": "https://github.com/EmreC54",
+    "linkedin": "https://www.linkedin.com/in/emre-%C3%A7uhadar-b49871297",
+    "email": "mailto:cuhadaremre54@gmail.com"
+  },
+  "_links": {
+    "self": "https://emrec54.github.io/api/emre.json",
+    "profile": "https://emrec54.github.io/api/emre.json",
+    "stack": "https://emrec54.github.io/api/stack.json",
+    "experience": "https://emrec54.github.io/api/experience.json",
+    "posts": "https://emrec54.github.io/api/posts.json",
+    "cv": "https://emrec54.github.io/api/cv.json",
+    "health": "https://emrec54.github.io/api/health.json",
+    "openapi": "https://emrec54.github.io/api/openapi.json",
+    "docs": "https://emrec54.github.io/api.html"
+  }
+}

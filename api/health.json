@@ -1,0 +1,23 @@
+{
+  "status": "Healthy",
+  "version": "local",
+  "commit": null,
+  "run": null,
+  "built": "2026-11-23T21:00:44.576Z",
+  "checks": {
+    "pages": "Healthy",
+    "posts": "Healthy",
+    "config": "Healthy"
+  },
+  "_links": {
+    "self": "https://emrec54.github.io/api/health.json",
+    "profile": "https://emrec54.github.io/api/emre.json",
+    "stack": "https://emrec54.github.io/api/stack.json",
+    "experience": "https://emrec54.github.io/api/experience.json",
+    "posts": "https://emrec54.github.io/api/posts.json",
+    "cv": "https://emrec54.github.io/api/cv.json",
+    "health": "https://emrec54.github.io/api/health.json",
+    "openapi": "https://emrec54.github.io/api/openapi.json",
+    "docs": "https://emrec54.github.io/api.html"
+  }
+}

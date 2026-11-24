@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title data-en="Blueprint: a request’s journey — Emre Çuhadar">Şema: bir isteğin yolculuğu — Emre Çuhadar</title>
+  <meta name="description" content="Bir isteğin mobil uygulamadan API’ye, Redis’e ve MSSQL/MongoDB’ye yolculuğunun canlı simülasyonu; Graylog, Prometheus ve Grafana ile." data-en-content="A live simulation of a request travelling from a mobile app to the API, Redis and MSSQL/MongoDB — with Graylog, Prometheus and Grafana.">
+  <link rel="canonical" href="https://emrec54.github.io/sema.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Garage by Emre Çuhadar">
+  <meta property="og:title" content="Şema: bir isteğin yolculuğu — Emre Çuhadar">
+  <meta property="og:description" content="Bir isteğin mobil uygulamadan API’ye, Redis’e ve MSSQL/MongoDB’ye yolculuğunun canlı simülasyonu; Graylog, Prometheus ve Grafana ile.">
+  <meta property="og:url" content="https://emrec54.github.io/sema.html">
+  <meta property="og:image" content="https://emrec54.github.io/assets/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0b0c0f">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="alternate" type="application/rss+xml" title="Seyir Defteri — Emre Çuhadar" href="feed.xml">
+  <link rel="preload" href="assets/fonts/BigShoulders-Bold.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="assets/fonts/Inter-Regular.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/sema.css">
+  <script src="config.js"></script>
+  <script src="assets/js/site.js"></script>
+</head>
+<body class="sub-page room-sema has-dock" data-page="sema">
+<a class="skip-link" href="#main" data-en="Skip to content">İçeriğe geç</a>
+<div class="door-curtain" aria-hidden="true"><span><span>ATÖLYE</span> · <span data-en="BLUEPRINT">ŞEMA</span></span></div>
+<div class="bg-scene" aria-hidden="true"></div>
+<canvas class="dust" id="dust" aria-hidden="true"></canvas>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="garaj.html" title="Garaja dön" data-en-title="Back to the garage"><span class="back">← cd ..</span><b>GARAGE</b></a>
+    <nav class="nav" aria-label="Ana menü" data-en-label="Main menu">
+      <a href="hakkimda.html" data-en="About">Hakkımda</a>
+      <a href="takim-cantasi.html" data-en="Toolbox">Takım Çantası</a>
+      <a href="seyir-defteri.html" data-en="Logbook">Seyir Defteri</a>
+      <a href="iletisim.html" data-en="Contact">İletişim</a>
+      <span class="sep" aria-hidden="true"></span>
+      <details class="nav-drop cur"><summary><span data-en="Workshop">Atölye</span><svg class="ico chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></summary><div class="nav-menu"><p class="nm-head mono"><span class="tape kurcala" aria-hidden="true"></span><span data-en="Tinker route · 4 stops">Kurcala rotası · 4 durak</span></p><a href="sema.html" aria-current="page"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M7 9h4v4H7zM14 8h3M14 11h3M7 16h10M11 11h3"/></svg><span><b data-en="Blueprint">Şema</b><small data-en="A request’s journey">Bir isteğin yolculuğu</small></span></a><a href="kontrol-odasi.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6M8 18h8"/></svg><span><b data-en="Control Room">Kontrol Odası</b><small data-en="The site’s live metrics and logs">Sitenin canlı metrikleri ve logları</small></span></a><a href="veri-odasi.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></svg><span><b data-en="Data Room">Veri Odası</b><small data-en="Query the data with SQL and MongoDB">SQL ve MongoDB ile veriyi sorgula</small></span></a><a href="api.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 4H7a2 2 0 0 0-2 2v3.5A1.5 1.5 0 0 1 3.5 11H3v2h.5A1.5 1.5 0 0 1 5 14.5V18a2 2 0 0 0 2 2h1M16 4h1a2 2 0 0 1 2 2v3.5a1.5 1.5 0 0 0 1.5 1.5h.5v2h-.5a1.5 1.5 0 0 0-1.5 1.5V18a2 2 0 0 1-2 2h-1"/><path d="M10 12h.01M14 12h.01"/></svg><span><b data-en="API">API</b><small data-en="Real JSON endpoints, Swagger-style">Gerçek JSON uçları, Swagger tarzı</small></span></a></div></details>
+    </nav>
+    <div class="tools" data-controls>
+      <button class="icon-btn plan-btn" type="button" data-plan aria-label="Garaj planı: neredesin, nereye gidebilirsin (M)" data-en-label="Garage plan: where you are, where to go (M)" title="Garaj planı (M)" data-en-title="Garage plan (M)"><span class="mini-plan" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 10h5M11 10h10M8 4v6M14 4v6M3 14.5h18M9 14.5V20M15 14.5V20"/></svg></span><span class="label" data-en="Plan">Plan</span></button>
+      <button class="icon-btn pal-btn" type="button" data-palette aria-label="Ara: sayfalar, yazılar, eylemler (Ctrl K)" data-en-label="Search pages, posts and actions (Ctrl K)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label" data-en="Search">Ara</span><kbd>Ctrl K</kbd></button>
+      <button class="icon-btn term-btn" type="button" data-terminal aria-label="Terminali aç" data-en-label="Open the terminal" title="Terminal ( &quot; )"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12.5 15H17"/></svg></button>
+    </div>
+  </div>
+</header>
+<div class="slat-band" aria-hidden="true"></div>
+
+<main id="main" tabindex="-1">
+  <div class="wrap sub">
+    <section class="sub-hero">
+      <p class="kicker" data-en="$ trace GET /api/users/42">$ trace GET /api/users/42</p>
+      <h1 data-en="A request’s journey">Bir isteğin yolculuğu</h1>
+      <p class="lead" data-en="A request leaves the mobile app and reaches the API; the API checks Redis first and falls back to the database. Every request leaves a log in Graylog, Prometheus scrapes the metrics and Grafana draws them. Send a request, watch the cache, then break the database.">Mobil uygulamadan çıkan bir istek API’ye gelir; API önce Redis’e bakar, yoksa veritabanına gider. Her istek Graylog’a log bırakır, Prometheus metrikleri çeker, Grafana çizer. İstek gönder, önbelleği izle, sonra veritabanını boz.</p>
+      <div class="explain">
+        <div class="explain-switch" role="group" aria-label="Anlatım düzeyi" data-en-label="Explanation level">
+          <span class="mono" data-en="explain:">anlatım:</span>
+          <button type="button" data-explain-set="basit" data-en="Simple">Basit</button>
+          <button type="button" data-explain-set="teknik" data-en="Technical">Teknik</button>
+        </div>
+        <p class="x-basit" data-en="What happens behind the scenes when you tap a screen in a mobile app? This page acts it out. Press <b>Send request</b>: the first time, the data comes from the database (slow); the second time, from memory (fast). Use <b>DB down</b> to cause an outage and see in the panels below how the team would notice.">Bir mobil uygulamada bir ekrana dokunduğunda arka planda ne olur? Bu sayfa onu canlandırır. <b>İstek gönder</b>’e bas: ilk seferde bilgi veritabanından gelir (yavaş), ikinci seferde hafızadan (hızlı). <b>DB kapalı</b> ile bir arıza çıkar; alttaki panellerde ekibin bunu nasıl fark ettiğini gör.</p>
+        <p class="x-teknik" data-en="A cache-aside ASP.NET API: Redis first, MSSQL or MongoDB on a miss, then a SET with a TTL. Logs are pushed to Graylog as GELF, Prometheus scrapes <code>/metrics</code>, Grafana alerts on p95. Slow the database down, take it down or make it flaky; try Polly-style retries (exponential backoff + jitter) and the circuit breaker, single-flight (request coalescing), a token-bucket rate limit (429), cache invalidation with PUT and a cache stampede; follow every request’s trace on a timeline.">Cache-aside bir ASP.NET API’si: önce Redis, ıskada MSSQL ya da MongoDB ve TTL’li SET. Loglar GELF ile Graylog’a itilir, metrikleri Prometheus <code>/metrics</code>’ten çeker, Grafana p95’e göre uyarır. Kaos düğmeleriyle veritabanını yavaşlat, kapat ya da dalgalandır; Polly tarzı yeniden deneme (üstel geri çekilme + jitter) ve devre kesici, tek uçuş (request coalescing), token bucket hız sınırı (429), PUT ile önbellek geçersiz kılma ve önbellek fırtınası senaryolarını dene; her isteğin izini (trace) zaman çizelgesinde gör.</p>
+      </div>
+    </section>
+
+    <section class="bp-wrap" aria-label="Simülasyon" data-en-label="Simulation">
+      <div class="bp-controls">
+        <span class="lbl" data-en="route">rota</span>
+        <div class="seg" id="segRoute" role="group" aria-label="Rota" data-en-label="Route"><button type="button" data-v="users" aria-pressed="true">users → MSSQL</button><button type="button" data-v="feed" aria-pressed="false">feed → MongoDB</button></div>
+        <span class="lbl" lang="en">id</span>
+        <div class="seg" id="segId" role="group" aria-label="Kullanıcı numarası" data-en-label="User id"><button type="button" data-v="fixed" aria-pressed="true">42</button><button type="button" data-v="random" aria-pressed="false" data-en="random 1–8">rastgele 1–8</button></div>
+        <span class="lbl">TTL</span>
+        <div class="seg" id="segTtl" role="group" aria-label="Önbellek süresi" data-en-label="Cache TTL"><button type="button" data-v="10" aria-pressed="false" data-en="10 s">10 sn</button><button type="button" data-v="30" aria-pressed="true" data-en="30 s">30 sn</button><button type="button" data-v="60" aria-pressed="false" data-en="60 s">60 sn</button></div>
+        <span class="grow"></span>
+        <button class="btn btn-primary" type="button" id="btnSend"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 5l12 7-12 7z"/></svg><span data-en="Send request">İstek gönder</span> <kbd>R</kbd></button>
+        <button class="btn" type="button" id="btnBurst"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></svg><span data-en="×20 load test">×20 yük testi</span> <kbd>B</kbd></button>
+      </div>
+      <div class="bp-controls bp-controls-2">
+        <span class="lbl" data-en="chaos">kaos</span>
+        <button class="chaos" type="button" id="chaosSlow" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-en="DB slow ×8">DB yavaş ×8</span></button>
+        <button class="chaos" type="button" id="chaosDown" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg><span data-en="DB down">DB kapalı</span></button>
+        <button class="chaos" type="button" id="chaosFlaky" aria-pressed="false" title="İsteklerin yarısı geçici bir bağlantı hatası alır" data-en-title="Half of the calls fail with a transient connection error"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></svg><span data-en="DB flaky 50%">DB dalgalı %50</span></button>
+        <span class="grp grp-resil"><span class="lbl" data-en="resilience">dayanıklılık</span>
+        <button class="resil" type="button" id="retryToggle" aria-pressed="false" title="Geçici hatada en çok 3 kez yeniden dener; aralar üstel artar, üstüne rastgele jitter eklenir" data-en-title="Retries up to 3 times on transient errors; waits grow exponentially with random jitter"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.3-5.7L20 8M20 3v5h-5"/></svg><span data-en="Retry">Yeniden dene</span></button>
+        <button class="resil" type="button" id="cbToggle" aria-pressed="false" title="3 ardışık hatada devre açılır, 6 sn veritabanına istek gitmez, sonra tek bir deneme isteği" data-en-title="Opens after 3 consecutive failures, no database calls for 6 s, then one trial request"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span data-en="Circuit breaker">Devre kesici</span></button>
+        <button class="resil" type="button" id="sfToggle" aria-pressed="false" title="Aynı anahtara gelen eşzamanlı ıskalar tek veritabanı sorgusunda birleşir" data-en-title="Concurrent misses for the same key share a single database query"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h6a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h6"/></svg><span data-en="Single-flight">Tek uçuş</span></button>
+        <button class="resil" type="button" id="rlToggle" aria-pressed="false" title="Token bucket: 10 jeton, saniyede 2 dolum; fazlası 429 alır" data-en-title="Token bucket: 10 tokens, refills 2 per second; the rest get 429"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6M8 18h8"/></svg><span data-en="Rate limit">Hız sınırı</span></button></span>
+      </div>
+      <div class="bp-controls bp-controls-3">
+        <span class="lbl" data-en="method">yöntem</span>
+        <div class="seg" id="segMethod" role="group" aria-label="HTTP yöntemi" data-en-label="HTTP method"><button type="button" data-v="GET" aria-pressed="true">GET</button><button type="button" data-v="PUT" aria-pressed="false">PUT</button></div>
+        <span class="lbl" data-en="scenario">senaryo</span>
+        <button class="scn" type="button" id="scnInvalidate"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.3-5.7L20 8M20 3v5h-5"/></svg><span data-en="Cache invalidation (GET → PUT → GET)">Önbellek geçersiz kılma (GET → PUT → GET)</span></button>
+        <button class="scn" type="button" id="scnStampede"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></svg><span data-en="Cache stampede ×20">Önbellek fırtınası ×20</span></button>
+        <span class="grow"></span>
+        <button class="btn btn-sm" type="button" id="btnFlush"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg><span data-en="Flush cache">Önbelleği boşalt</span></button>
+        <button class="btn btn-sm" type="button" id="btnRedisCli"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12.5 15H17"/></svg><span data-en="Open in redis-cli">redis-cli’da aç</span></button>
+      </div>
+
+      <div class="bp" id="bp">
+        <svg class="bp-svg" aria-hidden="true"></svg>
+        <div class="bp-grid"></div>
+        <ul class="bp-legend" aria-hidden="true">
+          <li><i class="sw"></i><span data-en="request">istek</span></li>
+          <li><i class="sw obs"></i><span data-en="observability">gözlem</span></li>
+          <li><i class="dot req"></i><span data-en="in flight">yolda</span></li>
+          <li><i class="dot hit"></i><span data-en="cache hit">isabet</span></li>
+          <li><i class="dot db"></i><span data-en="database">veritabanı</span></li>
+          <li><i class="dot err"></i><span data-en="error">hata</span></li>
+        </ul>
+        <div class="bp-title" aria-hidden="true"><span>GARAGE</span><b>ŞEMA-01</b><span data-en="DRAWN BY">ÇİZEN</span><b>E. ÇUHADAR</b><span data-en="SCALE">ÖLÇEK</span><b>1:1 · REV. A · 2026</b></div>
+        <noscript><p class="sim-note" style="position:relative;z-index:3;color:#fff">Simülasyon için JavaScript gerekli. / The simulation needs JavaScript.</p></noscript>
+      </div>
+      <p class="vh" id="bpLive" aria-live="polite"></p>
+
+      <div class="bp-panels">
+        <section class="pnl" aria-labelledby="pnlRedis">
+          <h2 class="pnl-h" id="pnlRedis"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="10" rx="1.5"/><path d="M7 7v10M11 7v10M15 7v10M5 17v3M19 17v3M5 4v3M19 4v3"/></svg>Redis <span class="sp" data-en="keys · TTL">anahtarlar · TTL</span></h2>
+          <div class="pnl-b"><ul class="redis-list" id="redisList"></ul></div>
+        </section>
+        <section class="pnl" aria-labelledby="pnlGraf">
+          <h2 class="pnl-h" id="pnlGraf"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 20V4M4 20h16"/><path d="M7 15l4-5 3 3 5-6"/></svg>Grafana <span class="alert-badge" id="gAlert">HighLatency</span><span class="sp" id="gAgo"></span></h2>
+          <div class="pnl-b">
+            <div class="graf-stats">
+              <div class="gs"><small data-en="requests">istek</small><b id="gReq">0</b></div>
+              <div class="gs"><small data-en="hit ratio">isabet</small><b id="gHit">—</b></div>
+              <div class="gs"><small>p95</small><b id="gP95">—</b></div>
+              <div class="gs"><small data-en="5xx">hata</small><b id="gErr">0</b></div>
+            </div>
+            <div class="graf-chart"><svg id="gChart" role="img" aria-label="Son isteklerin süreleri" data-en-label="Durations of the latest requests"></svg></div>
+          </div>
+        </section>
+        <section class="pnl" aria-labelledby="pnlGl">
+          <h2 class="pnl-h" id="pnlGl"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>Graylog <span class="sp">GELF · stream</span></h2>
+          <div class="pnl-b">
+            <input class="gl-search" id="glSearch" type="search" placeholder="ara: ERROR, trace_id, /api/feed…" data-en-placeholder="search: ERROR, trace_id, /api/feed…" aria-label="Loglarda ara" data-en-label="Search logs" autocomplete="off" spellcheck="false">
+            <ul class="gl-list" id="glList"></ul>
+          </div>
+        </section>
+      </div>
+
+      <div class="bp-explain">
+        <section class="story">
+          <h3 data-en="What just happened?">Neler oldu?</h3>
+          <ol id="story"></ol>
+        </section>
+        <section class="inspector" aria-live="polite">
+          <p class="kicker" data-en="node inspector · click a node">düğüm denetçisi · bir düğüme tıkla</p>
+          <h3 id="inspTitle"></h3>
+          <p id="inspDesc"></p>
+          <dl class="kv" id="inspKv"></dl>
+        </section>
+      </div>
+
+      <section class="trace" id="trace" aria-labelledby="traceTitle">
+        <div class="trace-h">
+          <h3 id="traceTitle" data-en="Trace">İz (trace)</h3>
+          <span class="trace-meta mono" id="traceMeta"></span>
+          <label class="trace-pick"><span class="vh" data-en="Recent requests">Son istekler</span><select id="traceSel" class="mono"></select></label>
+        </div>
+        <div class="trace-legend"><span><i style="background:#3987e5"></i>API</span><span><i style="background:#d95926"></i>Redis</span><span><i style="background:#199e70"></i><span data-en="database">veritabanı</span></span><span><i style="background:#c98500"></i><span data-en="waiting">bekleme</span></span><span><i style="background:#5b6170"></i><span data-en="network">ağ</span></span><span><i class="err"></i><span data-en="error">hata</span></span></div>
+        <div class="trace-wrap" id="traceWrap"><svg id="traceSvg" role="img" aria-label="Son isteğin zaman çizelgesi" data-en-label="Timeline of the latest request"></svg><div class="ts-tip" hidden></div></div>
+      </section>
+      <p class="sim-note" data-en="This is a simulation: durations are illustrative and nothing leaves your browser. The cache is real, though — it lives in this tab and the terminal’s redis-cli sees the same keys. Metrics appear in the Control Room and at curl /metrics.">Bu bir simülasyon: süreler temsilidir ve tarayıcından hiçbir şey çıkmaz. Önbellek ise gerçek: bu sekmede yaşar ve terminaldeki redis-cli aynı anahtarları görür. Metrikler Kontrol Odası’nda ve curl /metrics çıktısında görünür.</p>
+    </section>
+
+    <nav class="route-nav" data-route="kurcala" aria-label="Rota: Kurcala" data-en-label="Route: Tinker">
+      <a class="rn-prev" href="garaj.html"><small class="mono" data-en="← start of the route">← rotanın başı</small><b data-en="Garage">Garaj</b></a>
+      <div class="rn-mid"><span class="rn-name mono"><span class="tape kurcala" aria-hidden="true"></span><span data-en="ROUTE · TINKER">ROTA · KURCALA</span> <b>1/4</b></span><ol class="rn-dots"><li data-p="sema" class="cur" aria-current="step"><a href="sema.html" title="Şema" data-en-title="Blueprint"><span class="vh" data-en="Blueprint">Şema</span></a></li><li data-p="kontrol-odasi"><a href="kontrol-odasi.html" title="Kontrol Odası" data-en-title="Control Room"><span class="vh" data-en="Control Room">Kontrol Odası</span></a></li><li data-p="veri-odasi"><a href="veri-odasi.html" title="Veri Odası" data-en-title="Data Room"><span class="vh" data-en="Data Room">Veri Odası</span></a></li><li data-p="api"><a href="api.html" title="API" data-en-title="API"><span class="vh" data-en="API">API</span></a></li></ol></div>
+      <a class="rn-next" href="kontrol-odasi.html"><small class="mono" data-en="next stop →">sonraki durak →</small><b data-en="Control Room">Kontrol Odası</b></a>
+    </nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-l"><span>© 2026 Emre Çuhadar · Kocaeli</span><span class="build-info" data-build hidden></span></div>
+    <nav aria-label="Alt bağlantılar" data-en-label="Footer links">
+      <a href="https://github.com/EmreC54" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/emre-%C3%A7uhadar-b49871297" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="cv.html">CV</a>
+      <a href="feed.xml">RSS</a>
+      <button type="button" class="linkish" data-share><span data-en="Share · QR">Paylaş · QR</span></button>
+      <button type="button" class="linkish" data-keys><span data-en="Shortcuts">Kısayollar</span> <kbd>?</kbd></button>
+      <a href="https://zehrabetulcuhadar.github.io/" target="_blank" rel="noopener" data-en="Next door: Galaksim ↗">Komşu garaj: Galaksim ↗</a>
+    </nav>
+  </div>
+</footer>
+<nav class="dock" aria-label="Hızlı menü" data-en-label="Quick menu"><ul><li><a href="garaj.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 10l9-6 9 6v10H3z"/><path d="M7 20v-7h10v7M7 16h10"/></svg><span data-en="Garage">Garaj</span></a></li><li><a href="hakkimda.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"/></svg><span data-en="About">Hakkımda</span></a></li><li><a href="sema.html" aria-current="page"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M7 9h4v4H7zM14 8h3M14 11h3M7 16h10M11 11h3"/></svg><span data-en="Blueprint">Şema</span></a></li><li><a href="iletisim.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="3" width="12" height="18" rx="2"/><circle cx="12" cy="8" r="2.2"/><path d="M9 14h6M9 17h6"/></svg><span data-en="Contact">İletişim</span></a></li><li><button type="button" data-plan><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 10h5M11 10h10M8 4v6M14 4v6M3 14.5h18M9 14.5V20M15 14.5V20"/></svg><span data-en="Plan">Plan</span></button></li></ul></nav>
+
+<script defer src="assets/js/fx.js"></script>
+<script defer src="assets/js/ui.js"></script>
+<script defer src="assets/js/page.js"></script>
+<script defer src="assets/js/sema.js"></script>
+</body>
+</html>

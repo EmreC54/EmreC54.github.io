@@ -1,0 +1,22 @@
+/* Ziyaretçi defteri (giscus) için garaj teması. GitHub Pages'te otomatik kullanılır. */
+@import url("https://giscus.app/themes/dark_dimmed.css");
+main {
+  --color-canvas-default: #0e0f12;
+  --color-canvas-overlay: #17191d;
+  --color-canvas-inset: #0a0b0d;
+  --color-canvas-subtle: #15171b;
+  --color-fg-default: #e8e6e1;
+  --color-fg-muted: #a9aeb6;
+  --color-border-default: rgba(255, 255, 255, .14);
+  --color-border-muted: rgba(255, 255, 255, .08);
+  --color-accent-fg: #f2b33d;
+  --color-accent-emphasis: #f2b33d;
+  --color-btn-primary-bg: #f2b33d;
+  --color-btn-primary-hover-bg: #ffd27a;
+  --color-btn-primary-text: #101215;
+  --color-btn-primary-border: transparent;
+  --color-btn-primary-hover-border: transparent;
+  --color-btn-primary-disabled-bg: rgba(242, 179, 61, .45);
+  --color-btn-primary-disabled-text: rgba(16, 18, 21, .7);
+}
+.gsc-comment-box, .gsc-comment > div { border-radius: 10px; }

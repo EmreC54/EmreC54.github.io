@@ -1,0 +1,42 @@
+{
+  "name": "Emre API",
+  "version": "1.0.0",
+  "language": "en",
+  "endpoints": [
+    {
+      "path": "/api/en/emre.json",
+      "url": "https://emrec54.github.io/api/en/emre.json"
+    },
+    {
+      "path": "/api/en/stack.json",
+      "url": "https://emrec54.github.io/api/en/stack.json"
+    },
+    {
+      "path": "/api/en/experience.json",
+      "url": "https://emrec54.github.io/api/en/experience.json"
+    },
+    {
+      "path": "/api/en/posts.json",
+      "url": "https://emrec54.github.io/api/en/posts.json"
+    },
+    {
+      "path": "/api/en/cv.json",
+      "url": "https://emrec54.github.io/api/en/cv.json"
+    },
+    {
+      "path": "/api/en/health.json",
+      "url": "https://emrec54.github.io/api/en/health.json"
+    }
+  ],
+  "_links": {
+    "self": "https://emrec54.github.io/api/en/index.json",
+    "profile": "https://emrec54.github.io/api/en/emre.json",
+    "stack": "https://emrec54.github.io/api/en/stack.json",
+    "experience": "https://emrec54.github.io/api/en/experience.json",
+    "posts": "https://emrec54.github.io/api/en/posts.json",
+    "cv": "https://emrec54.github.io/api/en/cv.json",
+    "health": "https://emrec54.github.io/api/en/health.json",
+    "openapi": "https://emrec54.github.io/api/openapi.json",
+    "docs": "https://emrec54.github.io/api.html"
+  }
+}

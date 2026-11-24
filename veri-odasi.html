@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title data-en="Data Room — SQL and MongoDB · Emre Çuhadar">Veri Odası — SQL ve MongoDB · Emre Çuhadar</title>
+  <meta name="description" content="Sitenin içeriğini ve bu ziyareti SQL ya da MongoDB ile sorgula: JOIN, GROUP BY, aggregate. Tarayıcıda çalışan, salt okunur bir veritabanı." data-en-content="Query the site’s content and your visit with SQL or MongoDB: JOIN, GROUP BY, aggregate. A read-only database running in your browser.">
+  <link rel="canonical" href="https://emrec54.github.io/veri-odasi.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Garage by Emre Çuhadar">
+  <meta property="og:title" content="Veri Odası — SQL ve MongoDB · Emre Çuhadar">
+  <meta property="og:description" content="Sitenin içeriğini ve bu ziyareti SQL ya da MongoDB ile sorgula: JOIN, GROUP BY, aggregate. Tarayıcıda çalışan, salt okunur bir veritabanı.">
+  <meta property="og:url" content="https://emrec54.github.io/veri-odasi.html">
+  <meta property="og:image" content="https://emrec54.github.io/assets/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0b0c0f">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="alternate" type="application/rss+xml" title="Seyir Defteri — Emre Çuhadar" href="feed.xml">
+  <link rel="preload" href="assets/fonts/BigShoulders-Bold.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="assets/fonts/Inter-Regular.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/veri.css">
+  <script src="config.js"></script>
+  <script src="assets/js/site.js"></script>
+</head>
+<body class="sub-page room-veri has-dock" data-page="veri-odasi">
+<a class="skip-link" href="#main" data-en="Skip to content">İçeriğe geç</a>
+<div class="door-curtain" aria-hidden="true"><span><span>ATÖLYE</span> · <span data-en="DATA ROOM">VERİ ODASI</span></span></div>
+<div class="bg-scene" aria-hidden="true"></div>
+<canvas class="dust" id="dust" aria-hidden="true"></canvas>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="garaj.html" title="Garaja dön" data-en-title="Back to the garage"><span class="back">← cd ..</span><b>GARAGE</b></a>
+    <nav class="nav" aria-label="Ana menü" data-en-label="Main menu">
+      <a href="hakkimda.html" data-en="About">Hakkımda</a>
+      <a href="takim-cantasi.html" data-en="Toolbox">Takım Çantası</a>
+      <a href="seyir-defteri.html" data-en="Logbook">Seyir Defteri</a>
+      <a href="iletisim.html" data-en="Contact">İletişim</a>
+      <span class="sep" aria-hidden="true"></span>
+      <details class="nav-drop cur"><summary><span data-en="Workshop">Atölye</span><svg class="ico chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></summary><div class="nav-menu"><p class="nm-head mono"><span class="tape kurcala" aria-hidden="true"></span><span data-en="Tinker route · 4 stops">Kurcala rotası · 4 durak</span></p><a href="sema.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M7 9h4v4H7zM14 8h3M14 11h3M7 16h10M11 11h3"/></svg><span><b data-en="Blueprint">Şema</b><small data-en="A request’s journey">Bir isteğin yolculuğu</small></span></a><a href="kontrol-odasi.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6M8 18h8"/></svg><span><b data-en="Control Room">Kontrol Odası</b><small data-en="The site’s live metrics and logs">Sitenin canlı metrikleri ve logları</small></span></a><a href="veri-odasi.html" aria-current="page"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></svg><span><b data-en="Data Room">Veri Odası</b><small data-en="Query the data with SQL and MongoDB">SQL ve MongoDB ile veriyi sorgula</small></span></a><a href="api.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 4H7a2 2 0 0 0-2 2v3.5A1.5 1.5 0 0 1 3.5 11H3v2h.5A1.5 1.5 0 0 1 5 14.5V18a2 2 0 0 0 2 2h1M16 4h1a2 2 0 0 1 2 2v3.5a1.5 1.5 0 0 0 1.5 1.5h.5v2h-.5a1.5 1.5 0 0 0-1.5 1.5V18a2 2 0 0 1-2 2h-1"/><path d="M10 12h.01M14 12h.01"/></svg><span><b data-en="API">API</b><small data-en="Real JSON endpoints, Swagger-style">Gerçek JSON uçları, Swagger tarzı</small></span></a></div></details>
+    </nav>
+    <div class="tools" data-controls>
+      <button class="icon-btn plan-btn" type="button" data-plan aria-label="Garaj planı: neredesin, nereye gidebilirsin (M)" data-en-label="Garage plan: where you are, where to go (M)" title="Garaj planı (M)" data-en-title="Garage plan (M)"><span class="mini-plan" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 10h5M11 10h10M8 4v6M14 4v6M3 14.5h18M9 14.5V20M15 14.5V20"/></svg></span><span class="label" data-en="Plan">Plan</span></button>
+      <button class="icon-btn pal-btn" type="button" data-palette aria-label="Ara: sayfalar, yazılar, eylemler (Ctrl K)" data-en-label="Search pages, posts and actions (Ctrl K)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label" data-en="Search">Ara</span><kbd>Ctrl K</kbd></button>
+      <button class="icon-btn term-btn" type="button" data-terminal aria-label="Terminali aç" data-en-label="Open the terminal" title="Terminal ( &quot; )"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12.5 15H17"/></svg></button>
+    </div>
+  </div>
+</header>
+<div class="slat-band" aria-hidden="true"></div>
+
+<main id="main" tabindex="-1">
+  <div class="wrap sub">
+    <section class="sub-hero">
+      <p class="kicker" data-en="$ sqlcmd -S garage · mongosh garage">$ sqlcmd -S garage · mongosh garage</p>
+      <h1 data-en="Data Room">Veri Odası</h1>
+      <p class="lead" data-en="The site’s content and your current visit live in a small database. Ask in SQL or MongoDB; the answer appears right here.">Sitenin içeriği ve senin bu ziyaretin küçük bir veritabanında. SQL ya da MongoDB ile soru sor; cevap anında burada.</p>
+      <div class="explain">
+        <div class="explain-switch" role="group" aria-label="Anlatım düzeyi" data-en-label="Explanation level">
+          <span class="mono" data-en="explain:">anlatım:</span>
+          <button type="button" data-explain-set="basit" data-en="Simple">Basit</button>
+          <button type="button" data-explain-set="teknik" data-en="Technical">Teknik</button>
+        </div>
+        <p class="x-basit" data-en="Computers keep information in tidy tables called a “database”; the language for asking it questions is called a “query”. Here you can ask about the site’s content and your own visit (which pages you opened, how fast they loaded). Pick one of the <b>Examples</b> and press <b>Run</b>.">Bilgisayarlar bilgiyi “veritabanı” denen düzenli tablolarda saklar; ona soru sormanın diline “sorgu” denir. Burada sitenin içeriğine ve senin bu ziyaretine (hangi sayfaları açtığın, ne kadar sürede açıldıkları) soru sorabilirsin. <b>Örnekler</b>’den birini seç ve <b>Çalıştır</b>’a bas.</p>
+        <p class="x-teknik" data-en="<b>GarageSQL</b>: a read-only subset of T-SQL (JOIN, GROUP BY/HAVING, DISTINCT, TOP, aggregate and scalar functions, <code>INFORMATION_SCHEMA</code>). <b>MongoDB shell</b>: <code>find</code>, <code>sort/limit/skip</code>, <code>aggregate</code> (<code>$match</code>, <code>$group</code>, <code>$unwind</code>, <code>$lookup</code>, <code>$sortByCount</code>…). Data: config.js, the posts and this tab’s telemetry; input is never eval’d, it runs through hand-written parsers."><b>GarageSQL</b>: T-SQL’in salt okunur bir alt kümesi (JOIN, GROUP BY/HAVING, DISTINCT, TOP, toplama ve skaler fonksiyonlar, <code>INFORMATION_SCHEMA</code>). <b>MongoDB kabuğu</b>: <code>find</code>, <code>sort/limit/skip</code>, <code>aggregate</code> (<code>$match</code>, <code>$group</code>, <code>$unwind</code>, <code>$lookup</code>, <code>$sortByCount</code>…). Veri: config.js, yazılar ve bu sekmenin telemetrisi; kullanıcı girdisi eval edilmez, elle yazılmış ayrıştırıcılarla çalışır.</p>
+      </div>
+    </section>
+
+    <section class="db" id="db" aria-labelledby="dbTitle">
+      <h2 class="vh" id="dbTitle" data-en="Query console">Sorgu konsolu</h2>
+      <div class="db-bar">
+        <div class="seg db-lang" role="group" aria-label="Sorgu dili" data-en-label="Query language">
+          <button type="button" data-lang="sql" aria-pressed="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 9h18M3 14h18M9 9v11"/></svg><span>SQL</span></button>
+          <button type="button" data-lang="mongo" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></svg><span>MongoDB</span></button>
+        </div>
+        <button class="btn btn-primary btn-sm" type="button" id="dbRun"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 5l12 7-12 7z"/></svg><span data-en="Run">Çalıştır</span> <kbd class="k-run">Ctrl ↵</kbd></button>
+        <div class="db-ex">
+          <button class="btn btn-sm" type="button" id="dbExBtn" aria-expanded="false" aria-controls="dbExMenu"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11M9 8h6"/></svg><span data-en="Examples">Örnekler</span></button>
+          <div class="db-ex-menu" id="dbExMenu" role="menu" hidden></div>
+        </div>
+        <button class="btn btn-sm" type="button" id="dbChartBtn" disabled><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 20V4M4 20h16"/><path d="M7 15l4-5 3 3 5-6"/></svg><span data-en="Chart it">Grafiğe çevir</span></button>
+        <span class="grow"></span>
+        <span class="db-conn mono"><span class="dot" aria-hidden="true"></span><span id="dbConn">GarageDB</span> · <span data-en="read-only">salt okunur</span></span>
+      </div>
+      <div class="db-body">
+        <button class="dt-toggle mono" type="button" id="dbTreeBtn" aria-expanded="false" aria-controls="dbTree"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 9h18M3 14h18M9 9v11"/></svg><span data-en="Tables and columns">Tablolar ve sütunlar</span><span class="dt-count" id="dbTreeCount"></span></button>
+        <aside class="db-tree" id="dbTree" aria-label="Nesne gezgini" data-en-label="Object explorer"></aside>
+        <div class="db-main">
+          <div class="db-editor">
+            <div class="db-gutter mono" id="dbGutter" aria-hidden="true">1</div>
+            <div class="db-code">
+              <pre class="db-hl mono" aria-hidden="true"><code id="dbHl"></code></pre>
+              <textarea class="mono" id="dbInput" rows="6" wrap="off" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="Sorgu" data-en-label="Query" aria-describedby="dbKeys" aria-autocomplete="list" aria-controls="dbAc" aria-expanded="false"></textarea>
+              <ul class="db-ac mono" id="dbAc" role="listbox" aria-label="Öneriler" data-en-label="Suggestions" hidden></ul>
+            </div>
+            <p class="vh" id="dbKeys" data-en="Ctrl+Enter or F5 runs (only the selection, if any). Ctrl+Space suggests. Tab indents; to leave the editor press Esc, then Tab.">Ctrl+Enter ya da F5 çalıştırır (seçim varsa yalnız seçili kısmı). Ctrl+Boşluk öneri açar. Tab girinti ekler; düzenleyiciden çıkmak için önce Esc, sonra Tab.</p>
+          </div>
+          <div class="db-res">
+            <div class="db-res-h">
+              <div class="db-tabs" role="tablist" aria-label="Sonuç görünümü" data-en-label="Result view">
+                <button type="button" role="tab" id="dbTab-grid" aria-controls="dbPane" data-tab="grid" aria-selected="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 9h18M3 14h18M9 9v11"/></svg><span data-en="Results">Sonuç</span></button>
+                <button type="button" role="tab" id="dbTab-msg" aria-controls="dbPane" data-tab="msg" aria-selected="false" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg><span data-en="Messages">Mesajlar</span></button>
+                <button type="button" role="tab" id="dbTab-chart" aria-controls="dbPane" data-tab="chart" aria-selected="false" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 20V4M4 20h16"/><path d="M7 15l4-5 3 3 5-6"/></svg><span data-en="Chart">Grafik</span></button>
+              </div>
+              <div class="db-acts">
+                <button type="button" class="db-act" data-copy-res="tsv" disabled aria-label="Sonucu TSV olarak kopyala (Excel’e yapıştırılabilir)" data-en-label="Copy the result as TSV (pastes into Excel)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg><span>TSV</span></button>
+                <button type="button" class="db-act" data-copy-res="json" disabled aria-label="Sonucu JSON olarak kopyala" data-en-label="Copy the result as JSON"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg><span>JSON</span></button>
+                <button type="button" class="db-act" id="dbLink" aria-label="Bu sorgunun bağlantısını kopyala" data-en-label="Copy a link to this query"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span data-en="Link">Bağlantı</span></button>
+              </div>
+            </div>
+            <div class="db-pane" id="dbPane" role="tabpanel" aria-labelledby="dbTab-grid" tabindex="0"></div>
+            <div class="db-status mono" id="dbStatus" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="db-notes" aria-label="Bu odada ne var" data-en-label="What’s in this room">
+      <div class="glass"><h3 data-en="Content">İçerik</h3><p data-en="<code>experience</code>, <code>education</code>, <code>skills</code>, <code>posts</code>, <code>post_tags</code>, <code>pages</code>: from config.js and the post list. Change config.js and these tables change with it."><code>experience</code>, <code>education</code>, <code>skills</code>, <code>posts</code>, <code>post_tags</code>, <code>pages</code>: config.js’ten ve yazı listesinden gelir. config.js değişince bu tablolar da değişir.</p></div>
+      <div class="glass"><h3 data-en="Your visit (live)">Bu ziyaret (canlı)</h3><p data-en="<code>page_views</code>, <code>resources</code>, <code>logs</code>, <code>sim_requests</code>, <code>redis_keys</code>, <code>metrics</code>: real data measured in this tab. Send requests on the Blueprint, then query them here."><code>page_views</code>, <code>resources</code>, <code>logs</code>, <code>sim_requests</code>, <code>redis_keys</code>, <code>metrics</code>: bu sekmede ölçülen gerçek veriler. Şema’da istek gönder, burada sorgula.</p></div>
+      <div class="glass"><h3 data-en="Two languages, one dataset">İki dil, tek veri</h3><p data-en="The same data is a table in SQL and a collection in MongoDB. It’s in the terminal too: <code>sqlcmd</code> and <code>mongosh</code>.">Aynı veri SQL’de tablo, MongoDB’de koleksiyon. Terminalde de var: <code>sqlcmd</code> ve <code>mongosh</code>.</p></div>
+    </section>
+
+    <nav class="route-nav" data-route="kurcala" aria-label="Rota: Kurcala" data-en-label="Route: Tinker">
+      <a class="rn-prev" href="kontrol-odasi.html"><small class="mono" data-en="← previous stop">← önceki durak</small><b data-en="Control Room">Kontrol Odası</b></a>
+      <div class="rn-mid"><span class="rn-name mono"><span class="tape kurcala" aria-hidden="true"></span><span data-en="ROUTE · TINKER">ROTA · KURCALA</span> <b>3/4</b></span><ol class="rn-dots"><li data-p="sema"><a href="sema.html" title="Şema" data-en-title="Blueprint"><span class="vh" data-en="Blueprint">Şema</span></a></li><li data-p="kontrol-odasi"><a href="kontrol-odasi.html" title="Kontrol Odası" data-en-title="Control Room"><span class="vh" data-en="Control Room">Kontrol Odası</span></a></li><li data-p="veri-odasi" class="cur" aria-current="step"><a href="veri-odasi.html" title="Veri Odası" data-en-title="Data Room"><span class="vh" data-en="Data Room">Veri Odası</span></a></li><li data-p="api"><a href="api.html" title="API" data-en-title="API"><span class="vh" data-en="API">API</span></a></li></ol></div>
+      <a class="rn-next" href="api.html"><small class="mono" data-en="next stop →">sonraki durak →</small><b data-en="API">API</b></a>
+    </nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-l"><span>© 2026 Emre Çuhadar · Kocaeli</span><span class="build-info" data-build hidden></span></div>
+    <nav aria-label="Alt bağlantılar" data-en-label="Footer links">
+      <a href="https://github.com/EmreC54" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/emre-%C3%A7uhadar-b49871297" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="cv.html">CV</a>
+      <a href="feed.xml">RSS</a>
+      <button type="button" class="linkish" data-share><span data-en="Share · QR">Paylaş · QR</span></button>
+      <button type="button" class="linkish" data-keys><span data-en="Shortcuts">Kısayollar</span> <kbd>?</kbd></button>
+      <a href="https://zehrabetulcuhadar.github.io/" target="_blank" rel="noopener" data-en="Next door: Galaksim ↗">Komşu garaj: Galaksim ↗</a>
+    </nav>
+  </div>
+</footer>
+<nav class="dock" aria-label="Hızlı menü" data-en-label="Quick menu"><ul><li><a href="garaj.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 10l9-6 9 6v10H3z"/><path d="M7 20v-7h10v7M7 16h10"/></svg><span data-en="Garage">Garaj</span></a></li><li><a href="hakkimda.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"/></svg><span data-en="About">Hakkımda</span></a></li><li><a href="sema.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M7 9h4v4H7zM14 8h3M14 11h3M7 16h10M11 11h3"/></svg><span data-en="Blueprint">Şema</span></a></li><li><a href="iletisim.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="3" width="12" height="18" rx="2"/><circle cx="12" cy="8" r="2.2"/><path d="M9 14h6M9 17h6"/></svg><span data-en="Contact">İletişim</span></a></li><li><button type="button" data-plan><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 10h5M11 10h10M8 4v6M14 4v6M3 14.5h18M9 14.5V20M15 14.5V20"/></svg><span data-en="Plan">Plan</span></button></li></ul></nav>
+
+<script defer src="assets/js/fx.js"></script>
+<script defer src="assets/js/ui.js"></script>
+<script defer src="assets/js/query.js"></script>
+<script defer src="assets/js/veri.js"></script>
+</body>
+</html>

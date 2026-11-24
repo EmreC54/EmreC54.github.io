@@ -1,0 +1,39 @@
+{
+  "experience": [
+    {
+      "role": "Backend Yazılım Geliştirici",
+      "company": "Seyir Mobil",
+      "team": "Uygulama Altyapıları",
+      "start": "2026-10",
+      "end": null,
+      "current": true,
+      "note": null
+    },
+    {
+      "role": "Stajyer",
+      "company": "Seyir Mobil",
+      "team": "Mobil Uygulama Geliştirme",
+      "start": "2025",
+      "end": "2026",
+      "current": false,
+      "note": "~8 ay"
+    }
+  ],
+  "education": [
+    {
+      "school": "Mehmet Akif Ersoy Üniversitesi",
+      "field": "Bilişim Sistemleri ve Teknolojileri"
+    }
+  ],
+  "_links": {
+    "self": "https://emrec54.github.io/api/experience.json",
+    "profile": "https://emrec54.github.io/api/emre.json",
+    "stack": "https://emrec54.github.io/api/stack.json",
+    "experience": "https://emrec54.github.io/api/experience.json",
+    "posts": "https://emrec54.github.io/api/posts.json",
+    "cv": "https://emrec54.github.io/api/cv.json",
+    "health": "https://emrec54.github.io/api/health.json",
+    "openapi": "https://emrec54.github.io/api/openapi.json",
+    "docs": "https://emrec54.github.io/api.html"
+  }
+}

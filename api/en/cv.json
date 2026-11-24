@@ -1,0 +1,77 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Emre Çuhadar",
+    "label": "Backend Software Developer",
+    "email": "cuhadaremre54@gmail.com",
+    "url": "https://emrec54.github.io",
+    "summary": "Backend Software Developer at Seyir Mobil (Application Infrastructure). Tools: C#, .NET, ASP.NET, MSSQL, MongoDB, Redis, Graylog, Grafana, Prometheus.",
+    "location": {
+      "city": "Kocaeli",
+      "countryCode": "TR"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "EmreC54",
+        "url": "https://github.com/EmreC54"
+      },
+      {
+        "network": "LinkedIn",
+        "url": "https://www.linkedin.com/in/emre-%C3%A7uhadar-b49871297"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Seyir Mobil",
+      "position": "Backend Software Developer",
+      "startDate": "2026-10",
+      "summary": "Application Infrastructure"
+    },
+    {
+      "name": "Seyir Mobil",
+      "position": "Intern",
+      "startDate": "2025",
+      "endDate": "2026",
+      "summary": "Mobile Application Development · ~8 months"
+    }
+  ],
+  "education": [
+    {
+      "institution": "Mehmet Akif Ersoy University",
+      "area": "Information Systems and Technologies"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Language & Framework",
+      "keywords": [
+        "C#",
+        ".NET",
+        "ASP.NET"
+      ]
+    },
+    {
+      "name": "Data & Caching",
+      "keywords": [
+        "MSSQL",
+        "MongoDB",
+        "Redis"
+      ]
+    },
+    {
+      "name": "Observability",
+      "keywords": [
+        "Graylog",
+        "Grafana",
+        "Prometheus"
+      ]
+    }
+  ],
+  "meta": {
+    "canonical": "https://emrec54.github.io/api/en/cv.json",
+    "version": "v1.0.0",
+    "lastModified": "2026-11-23"
+  }
+}
