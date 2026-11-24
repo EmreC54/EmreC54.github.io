@@ -32,6 +32,6 @@ self.addEventListener('fetch', (e) => {
     return;
   }
   e.respondWith(fetch(req).then(put).catch(() =>
-    caches.match(req, { ignoreSearch: req.mode === 'navigate' })
+    caches.match(req, { ignoreSearch: true })
       .then((hit) => hit || (req.mode === 'navigate' ? caches.match('/offline.html') : Response.error()))));
 });

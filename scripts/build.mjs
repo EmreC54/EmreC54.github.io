@@ -374,10 +374,11 @@ if (flags.has('--write')) {
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 const hash = createHash('sha256');
+const htmlOut = [];
 for (const f of files.sort()) {
   if (GENERATED.has(f) || /^yazi\/[^/]+\.html$/.test(f)) continue;   // yazı sayfaları her yayında yeniden üretilir (taslağa alınan yazının eski sayfası yayına çıkmaz)
   mkdirSync(dirname(join(OUT, f)), { recursive: true });
-  if (f.endsWith('.html')) writeFileSync(join(OUT, f), applyContent(readFileSync(join(ROOT, f), 'utf8'), f)); else cpSync(join(ROOT, f), join(OUT, f));
+  if (f.endsWith('.html')) htmlOut.push(f); else cpSync(join(ROOT, f), join(OUT, f));
   if (f !== 'sw.js') hash.update(f).update(readFileSync(f));
 }
 writeFileSync(join(OUT, 'feed.xml'), feed);
@@ -387,6 +388,11 @@ writeFileSync(join(OUT, '.nojekyll'), '');
 if (icerikJs) { mkdirSync(join(OUT, 'assets/js'), { recursive: true }); writeFileSync(join(OUT, 'assets/js/icerik.js'), icerikJs); }
 for (const [f, h] of Object.entries(postPages)) { mkdirSync(dirname(join(OUT, f)), { recursive: true }); writeFileSync(join(OUT, f), h); }
 const version = 'garage-' + hash.digest('hex').slice(0, 12);
+// Sürüm etiketi: CSS/JS adreslerine ?v=… eklenir; yeni yayında tarayıcı eski dosyayı önbellekten getiremez
+const vTag = version.slice(7);
+const stamp = (html) => html.replace(/(\s(?:href|src)=")((?:\.\.\/)?(?:assets\/(?:css|js)\/[\w.-]+\.(?:css|js)|config\.js))"/g, '$1$2?v=' + vTag + '"');
+for (const f of htmlOut) writeFileSync(join(OUT, f), stamp(applyContent(readFileSync(join(ROOT, f), 'utf8'), f)));
+for (const f of Object.keys(postPages)) writeFileSync(join(OUT, f), stamp(postPages[f]));
 writeApi(OUT, version);
 if (existsSync(join(OUT, 'sw.js'))) writeFileSync(join(OUT, 'sw.js'), readFileSync(join(OUT, 'sw.js'), 'utf8').replace(/const VERSION = '[^']*';/, `const VERSION = '${version}';`));
 if (process.env.GITHUB_SHA) {
