@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title data-en="Control Room — Emre Çuhadar">Kontrol Odası — Emre Çuhadar</title>
+  <meta name="description" content="Bu sitenin canlı telemetrisi: gerçek yükleme süreleri, Web Vitals, kare hızı, yapılandırılmış loglar ve Prometheus biçiminde metrikler." data-en-content="This site’s live telemetry: real load times, Web Vitals, frame rate, structured logs and Prometheus-style metrics.">
+  <link rel="canonical" href="https://emrec54.github.io/kontrol-odasi.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Garage by Emre Çuhadar">
+  <meta property="og:title" content="Kontrol Odası — Emre Çuhadar">
+  <meta property="og:description" content="Bu sitenin canlı telemetrisi: gerçek yükleme süreleri, Web Vitals, kare hızı, yapılandırılmış loglar ve Prometheus biçiminde metrikler.">
+  <meta property="og:url" content="https://emrec54.github.io/kontrol-odasi.html">
+  <meta property="og:image" content="https://emrec54.github.io/assets/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0b0c0f">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="alternate" type="application/rss+xml" title="Seyir Defteri — Emre Çuhadar" href="feed.xml">
+  <link rel="preload" href="assets/fonts/BigShoulders-Bold.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="assets/fonts/Inter-Regular.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/kontrol.css">
+  <script src="config.js"></script>
+  <script src="assets/js/site.js"></script>
+</head>
+<body class="sub-page room-kontrol has-dock" data-page="kontrol-odasi">
+<a class="skip-link" href="#main" data-en="Skip to content">İçeriğe geç</a>
+<div class="door-curtain" aria-hidden="true"><span><span>ATÖLYE</span> · <span data-en="CONTROL ROOM">KONTROL ODASI</span></span></div>
+<div class="bg-scene" aria-hidden="true"></div>
+<canvas class="dust" id="dust" aria-hidden="true"></canvas>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="garaj.html" title="Garaja dön" data-en-title="Back to the garage"><span class="back">← cd ..</span><b>GARAGE</b></a>
+    <nav class="nav" aria-label="Ana menü" data-en-label="Main menu">
+      <a href="hakkimda.html" data-en="About">Hakkımda</a>
+      <a href="takim-cantasi.html" data-en="Toolbox">Takım Çantası</a>
+      <a href="seyir-defteri.html" data-en="Logbook">Seyir Defteri</a>
+      <a href="iletisim.html" data-en="Contact">İletişim</a>
+      <span class="sep" aria-hidden="true"></span>
+      <details class="nav-drop cur"><summary><span data-en="Workshop">Atölye</span><svg class="ico chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></summary><div class="nav-menu"><p class="nm-head mono"><span class="tape kurcala" aria-hidden="true"></span><span data-en="Tinker route · 4 stops">Kurcala rotası · 4 durak</span></p><a href="sema.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M7 9h4v4H7zM14 8h3M14 11h3M7 16h10M11 11h3"/></svg><span><b data-en="Blueprint">Şema</b><small data-en="A request’s journey">Bir isteğin yolculuğu</small></span></a><a href="kontrol-odasi.html" aria-current="page"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6M8 18h8"/></svg><span><b data-en="Control Room">Kontrol Odası</b><small data-en="The site’s live metrics and logs">Sitenin canlı metrikleri ve logları</small></span></a><a href="veri-odasi.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></svg><span><b data-en="Data Room">Veri Odası</b><small data-en="Query the data with SQL and MongoDB">SQL ve MongoDB ile veriyi sorgula</small></span></a><a href="api.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 4H7a2 2 0 0 0-2 2v3.5A1.5 1.5 0 0 1 3.5 11H3v2h.5A1.5 1.5 0 0 1 5 14.5V18a2 2 0 0 0 2 2h1M16 4h1a2 2 0 0 1 2 2v3.5a1.5 1.5 0 0 0 1.5 1.5h.5v2h-.5a1.5 1.5 0 0 0-1.5 1.5V18a2 2 0 0 1-2 2h-1"/><path d="M10 12h.01M14 12h.01"/></svg><span><b data-en="API">API</b><small data-en="Real JSON endpoints, Swagger-style">Gerçek JSON uçları, Swagger tarzı</small></span></a></div></details>
+    </nav>
+    <div class="tools" data-controls>
+      <button class="icon-btn plan-btn" type="button" data-plan aria-label="Garaj planı: neredesin, nereye gidebilirsin (M)" data-en-label="Garage plan: where you are, where to go (M)" title="Garaj planı (M)" data-en-title="Garage plan (M)"><span class="mini-plan" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 10h5M11 10h10M8 4v6M14 4v6M3 14.5h18M9 14.5V20M15 14.5V20"/></svg></span><span class="label" data-en="Plan">Plan</span></button>
+      <button class="icon-btn pal-btn" type="button" data-palette aria-label="Ara: sayfalar, yazılar, eylemler (Ctrl K)" data-en-label="Search pages, posts and actions (Ctrl K)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label" data-en="Search">Ara</span><kbd>Ctrl K</kbd></button>
+      <button class="icon-btn term-btn" type="button" data-terminal aria-label="Terminali aç" data-en-label="Open the terminal" title="Terminal ( &quot; )"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12.5 15H17"/></svg></button>
+    </div>
+  </div>
+</header>
+<div class="slat-band" aria-hidden="true"></div>
+
+<main id="main" tabindex="-1">
+  <div class="wrap sub">
+    <section class="sub-hero">
+      <p class="kicker" data-en="$ watch -n5 curl -s /metrics">$ watch -n5 curl -s /metrics</p>
+      <h1 data-en="Control Room">Kontrol Odası</h1>
+      <p class="lead" data-en="This site’s own observability: real load times measured by your browser, Web Vitals, frame rate and this session’s logs. Data stays in this tab; nothing is sent to any server.">Bu sitenin kendi gözlemlenebilirliği: tarayıcının ölçtüğü gerçek yükleme süreleri, Web Vitals, kare hızı ve bu oturumun logları. Veriler sadece bu sekmede tutulur; hiçbir sunucuya gönderilmez.</p>
+      <div class="explain">
+        <div class="explain-switch" role="group" aria-label="Anlatım düzeyi" data-en-label="Explanation level">
+          <span class="mono" data-en="explain:">anlatım:</span>
+          <button type="button" data-explain-set="basit" data-en="Simple">Basit</button>
+          <button type="button" data-explain-set="teknik" data-en="Technical">Teknik</button>
+        </div>
+        <p class="x-basit" data-en="This site’s own health screen. It shows, live, how fast the pages opened, whether the screen runs smoothly and what was logged in the background. Everything is measured in your browser and sent nowhere.">Bu sitenin kendi sağlık ekranı. Sayfaların ne kadar hızlı açıldığını, ekranın akıcı olup olmadığını ve arka planda kaydedilen olayları canlı gösterir. Hepsi senin tarayıcında ölçülür, hiçbir yere gönderilmez.</p>
+        <p class="x-teknik" data-en="Navigation and Resource Timing, LCP, CLS, INP and frame rate via <code>requestAnimationFrame</code>; <code>/metrics</code> in Prometheus exposition format, structured logs and PromQL-style alert rules. Data lives in <code>sessionStorage</code>, per tab.">Navigation ve Resource Timing, LCP, CLS, INP ve <code>requestAnimationFrame</code> ile kare hızı; Prometheus exposition biçiminde <code>/metrics</code>, yapılandırılmış loglar ve PromQL benzeri uyarı kuralları. Veriler <code>sessionStorage</code>’da, sekmeye özel.</p>
+      </div>
+    </section>
+
+    <section class="dash" id="dash" aria-label="Pano" data-en-label="Dashboard">
+      <div class="dash-bar">
+        <div class="db-row">
+          <span class="crumb"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6M8 18h8"/></svg><span>garage-web</span><span class="muted">/</span><b data-en="this session">bu oturum</b><span class="muted" id="sessAge"></span></span>
+          <span class="grow"></span>
+          <span class="privacy"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span data-en="stays in this tab">veriler bu sekmede kalır</span></span>
+        </div>
+        <div class="db-row">
+          <span class="bar-l mono" aria-hidden="true" data-en="range">aralık</span>
+          <div class="seg" id="dashRange" role="group" aria-label="Zaman aralığı" data-en-label="Time range"><button type="button" data-v="300" aria-pressed="false" data-en="5 m">5 dk</button><button type="button" data-v="900" aria-pressed="false" data-en="15 m">15 dk</button><button type="button" data-v="3600" aria-pressed="false" data-en="1 h">1 sa</button><button type="button" data-v="0" aria-pressed="true" data-en="session">oturum</button></div>
+          <span class="bar-l mono" aria-hidden="true" data-en="refresh">yenile</span>
+          <div class="seg" id="dashRefresh" role="group" aria-label="Yenileme aralığı" data-en-label="Refresh interval"><button type="button" data-v="0" aria-pressed="false" data-en="off">kapalı</button><button type="button" data-v="5" aria-pressed="true" data-en="5 s">5 sn</button><button type="button" data-v="10" aria-pressed="false" data-en="10 s">10 sn</button></div>
+          <span class="grow"></span>
+          <button class="btn btn-sm" type="button" id="dashTerm"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12.5 15H17"/></svg><span>curl /health</span></button>
+          <button class="btn btn-sm" type="button" id="dashReset"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.3-5.7L20 8M20 3v5h-5"/></svg><span data-en="Reset">Sıfırla</span></button>
+        </div>
+      </div>
+
+      <div class="dgrid stats">
+        <div class="dp stat"><h2 class="dp-h" data-en="Page load">Sayfa yükleme</h2><div class="dp-b"><span class="v" id="stLoad">—</span><span class="sub" id="stLoadSub"></span></div></div><div class="dp stat"><h2 class="dp-h" data-en="LCP">LCP</h2><div class="dp-b"><span class="v" id="stLcp">—</span><span class="sub" id="stLcpSub"></span></div></div><div class="dp stat"><h2 class="dp-h" data-en="INP">INP</h2><div class="dp-b"><span class="v" id="stInp">—</span><span class="sub" id="stInpSub"></span></div></div><div class="dp stat"><h2 class="dp-h" data-en="CLS">CLS</h2><div class="dp-b"><span class="v" id="stCls">—</span><span class="sub" id="stClsSub"></span></div></div><div class="dp stat"><h2 class="dp-h" data-en="Transfer">Aktarım</h2><div class="dp-b"><span class="v" id="stNet">—</span><span class="sub" id="stNetSub"></span></div></div><div class="dp stat"><h2 class="dp-h" data-en="Frame rate (live)">Kare hızı (canlı)</h2><div class="dp-b"><span class="v" id="stFps">—</span><span class="sub" id="stFpsSub"></span></div></div>
+      </div>
+
+      <div class="dgrid two">
+        <section class="dp"><h2 class="dp-h"><span data-en="Frame rate">Kare hızı</span><span class="info" data-en="requestAnimationFrame · last 60 s">requestAnimationFrame · son 60 sn</span></h2><div class="dp-b"><div class="chart"><svg id="fpsChart" role="img" aria-label="Kare hızı grafiği" data-en-label="Frame rate chart"></svg></div></div></section>
+        <section class="dp"><h2 class="dp-h"><span data-en="Page loads">Sayfa yükleme</span><span class="info" data-en="Navigation Timing · selected range">Navigation Timing · seçili aralık</span></h2><div class="dp-b"><div class="chart ts" id="loadsWrap"><svg id="loadsChart" role="img" aria-label="Sayfa yükleme süreleri, zamana göre" data-en-label="Page load times over time"></svg><div class="ts-tip" hidden></div></div><div class="legend"><span><i class="ln" style="background:#3987e5"></i><span data-en="load">yükleme</span></span><span><i class="ln" style="background:#d95926"></i>TTFB</span><span><i class="ann err"></i><span data-en="error">hata</span></span><span><i class="ann ev"></i><span data-en="event">olay</span></span></div></div></section>
+      </div>
+
+      <div class="dgrid wf">
+        <section class="dp" id="wfPanel">
+          <h2 class="dp-h"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 20V4M4 20h16"/><path d="M7 15l4-5 3 3 5-6"/></svg><span data-en="Page load waterfall">Sayfa yükleme şelalesi</span><span class="info" data-en="Resource Timing · which file loaded when">Resource Timing · hangi dosya ne zaman yüklendi</span>
+            <label class="wf-pick"><span class="vh" data-en="Page view">Sayfa görüntüleme</span><select id="wfView" class="mono"></select></label></h2>
+          <div class="dp-b">
+            <div class="wf-legend legend"><span><i style="background:#3987e5"></i>document</span><span><i style="background:#d95926"></i>script</span><span><i style="background:#199e70"></i>css</span><span><i style="background:#c98500"></i><span data-en="image · font">görsel · font</span></span><span><i style="background:#5b6170"></i><span data-en="other">diğer</span></span>
+              <span class="wf-marks"><i class="mk ttfb"></i>TTFB <i class="mk lcp"></i>LCP <i class="mk load"></i>load</span></div>
+            <div class="wf-wrap" id="wfWrap"><svg id="wfChart" role="img" aria-label="Kaynakların yüklenme şelalesi" data-en-label="Resource loading waterfall"></svg><div class="ts-tip" hidden></div></div>
+            <p class="wf-note mono" id="wfNote"></p>
+          </div>
+        </section>
+      </div>
+
+      <div class="dgrid three">
+        <section class="dp"><h2 class="dp-h"><span data-en="Slowest resources">En yavaş kaynaklar</span><span class="info" data-en="Resource Timing · this page">Resource Timing · bu sayfa</span></h2><div class="dp-b"><div class="table-scroll"><table class="dtable"><thead><tr><th data-en="resource">kaynak</th><th data-en="type">tür</th><th class="num" data-en="size">boyut</th><th class="num" data-en="time">süre</th><th></th></tr></thead><tbody id="resBody"></tbody></table></div></div></section>
+        <section class="dp"><h2 class="dp-h"><span data-en="Event counters">Olay sayaçları</span><span class="info" data-en="counter · this session">counter · bu oturum</span></h2><div class="dp-b"><dl class="counters" id="counters"></dl></div></section>
+        <section class="dp"><h2 class="dp-h"><span data-en="Alert rules">Uyarı kuralları</span><span class="info" id="alertsInfo">…</span></h2><div class="dp-b"><ul class="alerts" id="alerts"></ul></div></section>
+      </div>
+
+      <div class="dgrid logs">
+        <section class="dp">
+          <h2 class="dp-h"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg><span data-en="Log search">Log arama</span><span class="info"><span data-en="structured · Graylog-style">yapılandırılmış · Graylog tarzı</span> · <span id="logInfo"></span></span></h2>
+          <div class="dp-b">
+            <div class="log-tools">
+              <div class="log-q">
+                <input type="search" id="logSearch" class="mono" placeholder="level:error · page:sema · ms:&gt;100 · &quot;cache&quot; · NOT debug" data-en-placeholder="level:error · page:sema · ms:&gt;100 · &quot;cache&quot; · NOT debug" aria-label="Loglarda ara (Graylog sözdizimi)" data-en-label="Search logs (Graylog syntax)" aria-describedby="logHelp" autocomplete="off" spellcheck="false">
+                <p class="log-help mono" id="logHelp" data-en="field:value · ms:&gt;100 · &quot;phrase&quot; · AND / OR / NOT · wildcard GET*">alan:değer · ms:&gt;100 · &quot;ifade&quot; · AND / OR / NOT · joker GET*</p>
+              </div>
+              <div class="seg-lvl" id="logLevels" role="group" aria-label="Seviye" data-en-label="Level">
+                <button type="button" class="lvl" data-l="all" aria-pressed="true" data-en="all">tümü</button><button type="button" class="lvl" data-l="info" aria-pressed="false">info</button><button type="button" class="lvl" data-l="warn" aria-pressed="false">warn</button><button type="button" class="lvl" data-l="error" aria-pressed="false">error</button><button type="button" class="lvl" data-l="debug" aria-pressed="false">debug</button>
+              </div>
+            </div>
+            <div class="log-hist" id="logHistWrap"><svg id="logHist" role="img" aria-label="Zamana göre log sayısı" data-en-label="Log count over time"></svg><div class="ts-tip" hidden></div></div>
+            <p class="log-chip" id="logChip" hidden></p>
+            <ul class="log-list" id="logList"></ul>
+          </div>
+        </section>
+      </div>
+
+      <div class="dgrid ops">
+        <section class="dp" id="deploys">
+          <h2 class="dp-h"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 19c-4 1.3-4-2-6-2.5M15 21v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.8 2.8 5.8 3.1 5.8 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg><span data-en="Deploys">Yayınlar</span><span class="info" data-en="GitHub Actions · last runs">GitHub Actions · son çalıştırmalar</span><button class="btn btn-sm" type="button" id="ghRefresh" aria-label="Yayın listesini yenile" data-en-label="Refresh deploys"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.3-5.7L20 8M20 3v5h-5"/></svg></button></h2>
+          <div class="dp-b"><ul class="runs" id="ghRuns"><li class="log-empty" data-en="Loading…">Yükleniyor…</li></ul><p class="runs-foot mono" id="ghFoot"></p></div>
+        </section>
+        <section class="dp"><h2 class="dp-h"><span data-en="Environment">Ortam</span><span class="info" data-en="navigator · screen">navigator · screen</span></h2><div class="dp-b"><dl class="env" id="env"></dl></div></section>
+      </div>
+
+      <div class="dgrid last">
+        <section class="dp">
+          <h2 class="dp-h"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21c-4 0-6-2.6-6-6 0-3.3 3-5.5 3.5-9 2 1.5 3 3.5 2.8 5.5 1-.8 1.6-2 1.7-3.2C16.5 10 18 12.5 18 15c0 3.4-2 6-6 6z"/></svg><span>/metrics</span><span class="info"><span>text/plain; version=0.0.4</span> · <span id="promInfo"></span></span><button class="btn btn-sm" type="button" id="promCopy"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg><span data-en="Copy">Kopyala</span></button></h2>
+          <div class="dp-b"><pre class="prom" id="prom"></pre></div>
+        </section>
+      </div>
+    </section>
+
+    <nav class="route-nav" data-route="kurcala" aria-label="Rota: Kurcala" data-en-label="Route: Tinker">
+      <a class="rn-prev" href="sema.html"><small class="mono" data-en="← previous stop">← önceki durak</small><b data-en="Blueprint">Şema</b></a>
+      <div class="rn-mid"><span class="rn-name mono"><span class="tape kurcala" aria-hidden="true"></span><span data-en="ROUTE · TINKER">ROTA · KURCALA</span> <b>2/4</b></span><ol class="rn-dots"><li data-p="sema"><a href="sema.html" title="Şema" data-en-title="Blueprint"><span class="vh" data-en="Blueprint">Şema</span></a></li><li data-p="kontrol-odasi" class="cur" aria-current="step"><a href="kontrol-odasi.html" title="Kontrol Odası" data-en-title="Control Room"><span class="vh" data-en="Control Room">Kontrol Odası</span></a></li><li data-p="veri-odasi"><a href="veri-odasi.html" title="Veri Odası" data-en-title="Data Room"><span class="vh" data-en="Data Room">Veri Odası</span></a></li><li data-p="api"><a href="api.html" title="API" data-en-title="API"><span class="vh" data-en="API">API</span></a></li></ol></div>
+      <a class="rn-next" href="veri-odasi.html"><small class="mono" data-en="next stop →">sonraki durak →</small><b data-en="Data Room">Veri Odası</b></a>
+    </nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-l"><span>© 2026 Emre Çuhadar · Kocaeli</span><span class="build-info" data-build hidden></span></div>
+    <nav aria-label="Alt bağlantılar" data-en-label="Footer links">
+      <a href="https://github.com/EmreC54" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/emre-%C3%A7uhadar-b49871297" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="cv.html">CV</a>
+      <a href="feed.xml">RSS</a>
+      <button type="button" class="linkish" data-share><span data-en="Share · QR">Paylaş · QR</span></button>
+      <button type="button" class="linkish" data-keys><span data-en="Shortcuts">Kısayollar</span> <kbd>?</kbd></button>
+      <a href="https://zehrabetulcuhadar.github.io/" target="_blank" rel="noopener" data-en="Next door: Galaksim ↗">Komşu garaj: Galaksim ↗</a>
+    </nav>
+  </div>
+</footer>
+<nav class="dock" aria-label="Hızlı menü" data-en-label="Quick menu"><ul><li><a href="garaj.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 10l9-6 9 6v10H3z"/><path d="M7 20v-7h10v7M7 16h10"/></svg><span data-en="Garage">Garaj</span></a></li><li><a href="hakkimda.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"/></svg><span data-en="About">Hakkımda</span></a></li><li><a href="sema.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M7 9h4v4H7zM14 8h3M14 11h3M7 16h10M11 11h3"/></svg><span data-en="Blueprint">Şema</span></a></li><li><a href="iletisim.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="3" width="12" height="18" rx="2"/><circle cx="12" cy="8" r="2.2"/><path d="M9 14h6M9 17h6"/></svg><span data-en="Contact">İletişim</span></a></li><li><button type="button" data-plan><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 10h5M11 10h10M8 4v6M14 4v6M3 14.5h18M9 14.5V20M15 14.5V20"/></svg><span data-en="Plan">Plan</span></button></li></ul></nav>
+
+<script defer src="assets/js/fx.js"></script>
+<script defer src="assets/js/ui.js"></script>
+<script defer src="assets/js/page.js"></script>
+<script defer src="assets/js/kontrol.js"></script>
+</body>
+</html>
