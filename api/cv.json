@@ -31,7 +31,7 @@
     },
     {
       "name": "Seyir Mobil",
-      "position": "Stajyer",
+      "position": "Mobil Uygulama Geliştirme Stajyeri",
       "startDate": "2025",
       "endDate": "2026",
       "summary": "Mobil Uygulama Geliştirme · ~8 ay"
@@ -72,6 +72,6 @@
   "meta": {
     "canonical": "https://emrec54.github.io/api/cv.json",
     "version": "v1.0.0",
-    "lastModified": "2026-11-23"
+    "lastModified": "2026-11-24"
   }
 }

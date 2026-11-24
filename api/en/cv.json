@@ -31,7 +31,7 @@
     },
     {
       "name": "Seyir Mobil",
-      "position": "Intern",
+      "position": "Mobile Application Development Intern",
       "startDate": "2025",
       "endDate": "2026",
       "summary": "Mobile Application Development · ~8 months"
@@ -72,6 +72,6 @@
   "meta": {
     "canonical": "https://emrec54.github.io/api/en/cv.json",
     "version": "v1.0.0",
-    "lastModified": "2026-11-23"
+    "lastModified": "2026-11-24"
   }
 }

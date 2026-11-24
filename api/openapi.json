@@ -3,8 +3,8 @@
   "info": {
     "title": "Emre API",
     "version": "1.0.0",
-    "description": "Read-only JSON endpoints for Emre Çuhadar’s site, generated from config.js on every deploy. No authentication; CORS enabled.",
-    "x-description-tr": "Emre Çuhadar’ın sitesinin salt okunur JSON uçları; her yayında config.js’ten üretilir. Kimlik doğrulama yok; CORS açık.",
+    "description": "Read-only JSON endpoints for Emre Çuhadar’s site, generated from icerik.json on every deploy. No authentication; CORS enabled.",
+    "x-description-tr": "Emre Çuhadar’ın sitesinin salt okunur JSON uçları; her yayında icerik.json’dan üretilir. Kimlik doğrulama yok; CORS açık.",
     "contact": {
       "name": "Emre Çuhadar",
       "email": "cuhadaremre54@gmail.com",
@@ -339,7 +339,7 @@
                       "note": null
                     },
                     {
-                      "role": "Stajyer",
+                      "role": "Mobil Uygulama Geliştirme Stajyeri",
                       "company": "Seyir Mobil",
                       "team": "Mobil Uygulama Geliştirme",
                       "start": "2025",
@@ -503,7 +503,7 @@
                     },
                     {
                       "name": "Seyir Mobil",
-                      "position": "Stajyer",
+                      "position": "Mobil Uygulama Geliştirme Stajyeri",
                       "startDate": "2025",
                       "endDate": "2026",
                       "summary": "Mobil Uygulama Geliştirme · ~8 ay"
@@ -544,7 +544,7 @@
                   "meta": {
                     "canonical": "https://emrec54.github.io/api/cv.json",
                     "version": "v1.0.0",
-                    "lastModified": "2026-11-23"
+                    "lastModified": "2026-11-24"
                   }
                 }
               }

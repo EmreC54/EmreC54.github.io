@@ -10,7 +10,8 @@ Kişisel site: https://emrec54.github.io — framework yok; düz HTML, CSS ve Ja
 - `kontrol-odasi.html` sitenin kendi canlı metrikleri: zaman aralığı seçici, ortak artı imleçli grafikler, olay işaretleri, sayfa yükleme şelalesi (Resource Timing), Graylog sözdizimiyle log arama + histogram, GitHub Actions yayın geçmişi, `/metrics` çıktısı
 - `veri-odasi.html` sitenin içeriği ve bu ziyaretin ölçümleri üzerinde salt okunur **SQL** (T-SQL alt kümesi) ve **MongoDB** konsolu
 - `api.html` gerçek JSON uçlarının Swagger tarzı belgesi (`api/openapi.json`)
-- `config.js` kişisel bilgiler, atölye saatleri, takım çantası, giscus ayarları — API de buradan üretilir
+- `icerik.json` **kişisel metinlerin hepsi**: hakkımda, garaj selamı, deneyim, eğitim, diller, takım çantası, CV — sayfalar, API ve terminal buradan beslenir
+- `config.js` ayarlar: bağlantılar, atölye saatleri, hava durumu, gün döngüsü, giscus, terminal komutları
 - `posts/` Seyir Defteri yazıları (nasıl yazı ekleneceği: `posts/README.md`)
 - `assets/` CSS, JS, fontlar, görseller · `sw.js` + `manifest.webmanifest` çevrimdışı çalışma
 - `assets/js/query.js` Veri Odası ve terminalin ortak sorgu motoru (elle yazılmış SQL ve mongosh ayrıştırıcıları; `eval` yok)
@@ -18,6 +19,16 @@ Kişisel site: https://emrec54.github.io — framework yok; düz HTML, CSS ve Ja
 - `scripts/build.mjs` yayın öncesi kontrol (kırık bağlantı, yazı listesi) + RSS, site haritası, **API dosyaları**, **yazı sayfaları**
 - `scripts/smoke.mjs` duman testi: yayındaki siteyi gerçekten dolaşır (sayfalar, API, RSS, 404, sürüm tutarlılığı)
 - `assets/js/qr.js` bağımlılıksız QR kod üreticisi (paylaş penceresi ve CV'deki kod)
+
+## İçerik: metinleri değiştirmek
+Kişisel metinlerin hepsi `icerik.json`'da. GitHub'da dosyayı aç → kalem → tırnak içindeki yazıyı değiştir → Commit. 1–2 dakikada site güncellenir.
+
+- Her metin iki dilli: `"tr": "…"`, `"en": "…"`. İkisini birlikte güncelle.
+- Sadece tırnak içini değiştir; virgül, tırnak ve süslü parantezlere dokunma. Bir yeri bozarsan yayın durur ve hata mesajı satır numarasını söyler — canlı site bozulmaz.
+- `texts`: tek tek metinler (garaj selamı, hakkımda başlığı ve metni, defter girişi, CV profili). Sayfada `data-icerik="anahtar"` olan öğeler buradan dolar.
+- `experience`: iş geçmişi (en yeni en üstte). `start`/`end`: `"2026"` ya da `"2026-10"`; hâlâ sürüyorsa `"end": null`. `highlights` CV'deki maddeler.
+- `education`, `languages`, `toolbox`: eğitim, diller, takım çantası çekmeceleri (Hakkımda, CV ve terminal bunları kullanır).
+- Yerelde önizlemek için `node scripts/build.mjs --write`: sayfalar ve `assets/js/icerik.js` güncellenir (`icerik.js`'i elle değiştirme, üretilir).
 
 ## API
 `scripts/build.mjs` her yayında `config.js` ve `posts/index.json`'dan şu dosyaları üretir (Türkçe `api/`, İngilizce `api/en/`):

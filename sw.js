@@ -4,7 +4,7 @@
 // dosya içeriklerinin özetiyle değiştirilir; değişince eski önbellek silinir.
 const VERSION = 'garage-dev';
 const CORE = [
-  '/', '/garaj.html', '/offline.html', '/manifest.webmanifest', '/config.js',
+  '/', '/garaj.html', '/offline.html', '/manifest.webmanifest', '/config.js', '/assets/js/icerik.js',
   '/assets/css/base.css', '/assets/css/site.css', '/assets/css/intro.css',
   '/assets/js/site.js', '/assets/js/ui.js', '/assets/js/fx.js', '/assets/js/page.js', '/assets/js/garaj.js', '/assets/js/intro.js', '/assets/js/blog.js', '/assets/js/plan.js', '/assets/js/xray.js',
   '/assets/fonts/Inter-Regular.woff', '/assets/fonts/Inter-Medium.woff', '/assets/fonts/Inter-SemiBold.woff',
