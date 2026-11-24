@@ -67,7 +67,7 @@
     const item = (r) => '<a class="pll-item' + (r.id === here ? ' here' : '') + '" href="' + r.href + '"><span class="pll-tag mono">' + esc(tx(r.tag)) + '</span><b>' + esc(tx(r.name)) + '</b><small>' + esc(tx(r.sub)) + '</small>' +
       (r.id === here ? '<span class="pll-badge here">' + esc(T('buradasın', 'you are here')) + '</span>' : seen.has(r.id) ? '<span class="pll-badge">✓ ' + esc(T('gezildi', 'visited')) + '</span>' : '') + '</a>';
     const group = (row, name, cls) => '<div class="pll-group"><p class="pll-head mono"><span class="tape ' + cls + '" aria-hidden="true"></span>' + esc(name) + '</p>' + ROOMS.filter((r) => r.row === row).map(item).join('') + '</div>';
-    const extra = [{ id: 'garaj', href: 'garaj.html', tag: T('MERKEZ', 'HUB'), name: T('Garaj', 'Garage'), sub: T('dört kapı, tezgâh', 'four doors, the bench') }, { id: 'cv', href: 'cv.html', tag: 'CV', name: 'CV', sub: T('tek sayfa özgeçmiş', 'one-page résumé') }, { id: 'giris', href: 'index.html', tag: T('GİRİŞ', 'ENTRY'), name: T('Masa', 'The desk'), sub: T('giriş sahnesi', 'intro scene') }];
+    const extra = [{ id: 'garaj', href: 'garaj.html', tag: T('MERKEZ', 'HUB'), name: T('Garaj', 'Garage'), sub: T('iki kat, sekiz kapı', 'two floors, eight doors') }, { id: 'cv', href: 'cv.html', tag: 'CV', name: 'CV', sub: T('tek sayfa özgeçmiş', 'one-page résumé') }, { id: 'giris', href: 'index.html', tag: T('GİRİŞ', 'ENTRY'), name: T('Masa', 'The desk'), sub: T('giriş sahnesi', 'intro scene') }];
     return '<div class="pll">' + group(0, T('Tanış rotası', 'Meet route'), 'tanis') + group(1, T('Kurcala rotası', 'Tinker route'), 'kurcala') +
       '<div class="pll-group"><p class="pll-head mono">' + esc(T('Diğer', 'Other')) + '</p>' + extra.map(item).join('') + '</div></div>';
   }
