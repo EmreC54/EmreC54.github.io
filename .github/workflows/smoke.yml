@@ -1,0 +1,28 @@
+# Duman testi: her yayından sonra canlı siteyi dolaşır (sayfalar, API, RSS, yazılar, 404, sürüm tutarlılığı).
+# Yayını engellemez — site zaten yayındadır; bir sorun bulursa bu iş kırmızı olur ve GitHub e-posta atar.
+# Sonuç tablosu: Actions → "Duman testi" → çalıştırma → Summary.
+name: Duman testi
+
+on:
+  workflow_run:
+    workflows: [Yayınla]
+    types: [completed]
+  schedule:
+    - cron: '23 6 * * 1'   # her pazartesi 09:23 (Türkiye saati)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    # Yayın başarısız olduysa test etmenin anlamı yok
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: CDN'nin yeni sürümü alması için kısa bekleme
+        if: github.event_name == 'workflow_run'
+        run: sleep 45
+      - name: Canlı siteyi kontrol et
+        run: node scripts/smoke.mjs https://emrec54.github.io
