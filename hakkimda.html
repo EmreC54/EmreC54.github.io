@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/site.css">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Emre Çuhadar", "url": "https://emrec54.github.io/", "jobTitle": "Backend Software Developer", "worksFor": {"@type": "Organization", "name": "Seyir Mobil"}, "alumniOf": {"@type": "CollegeOrUniversity", "name": "Mehmet Akif Ersoy Üniversitesi"}, "address": {"@type": "PostalAddress", "addressLocality": "Kocaeli", "addressCountry": "TR"}, "email": "mailto:cuhadaremre54@gmail.com", "sameAs": ["https://github.com/EmreC54", "https://www.linkedin.com/in/emre-çuhadar-b49871297"], "knowsAbout": ["C#", ".NET", "ASP.NET Core", "Redis", "MongoDB", "Microsoft SQL Server", "Graylog", "Grafana", "Prometheus"]}</script>
+  <script src="assets/js/icerik.js"></script>
   <script src="config.js"></script>
   <script src="assets/js/site.js"></script>
 </head>
@@ -79,70 +80,45 @@
       <div class="about-main">
         <div>
           <p class="kicker" data-en="$ cat about.md">$ cat hakkimda.md</p>
-          <h2 data-en="I work on the side of code you don’t see.">Kodun görünmeyen tarafında çalışıyorum.</h2>
-          <p class="body" data-en="I’m a backend software developer on the Application Infrastructure team at Seyir Mobil. I started at the same company with an internship of about 8 months on the mobile application development team, and moved to infrastructure in October 2026. Today I build services with .NET, keep data in MSSQL, MongoDB and Redis, and watch the system with Graylog, Grafana and Prometheus.">Seyir Mobil’de Uygulama Altyapıları biriminde backend yazılım geliştiriciyim. Yolculuğuma aynı şirkette, mobil uygulama geliştirme ekibinde yaklaşık 8 aylık bir stajla başladım; Ekim 2026’da altyapı tarafına geçtim. Bugün .NET ile servis yazıyor, veriyi MSSQL, MongoDB ve Redis’te tutuyor, sistemi Graylog, Grafana ve Prometheus ile izliyorum.</p>
+          <h2 data-icerik="about_title" data-en="I work on the side of code you don’t see.">Kodun görünmeyen tarafında çalışıyorum.</h2>
+          <p class="body" data-icerik="about_text" data-en="I’m a backend software developer on the Application Infrastructure team at Seyir Mobil. I started at the same company with an internship of about 8 months on the mobile application development team, and moved to infrastructure in October 2026. Today I build services with .NET, keep data in MSSQL, MongoDB and Redis, and watch the system with Graylog, Grafana and Prometheus.">Seyir Mobil’de Uygulama Altyapıları biriminde backend yazılım geliştiriciyim. Yolculuğuma aynı şirkette, mobil uygulama geliştirme ekibinde yaklaşık 8 aylık bir stajla başladım; Ekim 2026’da altyapı tarafına geçtim. Bugün .NET ile servis yazıyor, veriyi MSSQL, MongoDB ve Redis’te tutuyor, sistemi Graylog, Grafana ve Prometheus ile izliyorum.</p>
         </div>
 
         <div class="api">
           <div class="api-head"><span>GET /api/emre</span><span class="ok">200 OK · application/json</span></div>
-          <pre data-en="{
-  <span class=&quot;k&quot;>&quot;role&quot;</span>: &quot;Backend Software Developer&quot;,
-  <span class=&quot;k&quot;>&quot;team&quot;</span>: &quot;Application Infrastructure&quot;,
-  <span class=&quot;k&quot;>&quot;company&quot;</span>: &quot;Seyir Mobil&quot;,
-  <span class=&quot;k&quot;>&quot;since&quot;</span>: &quot;2026-10&quot;,
-  <span class=&quot;k&quot;>&quot;location&quot;</span>: &quot;Kocaeli, Türkiye&quot;,
-  <span class=&quot;k&quot;>&quot;previously&quot;</span>: &quot;Mobile Application Development Intern&quot;,
-  <span class=&quot;k&quot;>&quot;education&quot;</span>: &quot;Mehmet Akif Ersoy University · Information Systems and Technologies&quot;
+          <!-- icerik:about_api --><pre data-en="{
+  &lt;span class=&quot;k&quot;&gt;&quot;role&quot;&lt;/span&gt;: &quot;Backend Software Developer&quot;,
+  &lt;span class=&quot;k&quot;&gt;&quot;team&quot;&lt;/span&gt;: &quot;Application Infrastructure&quot;,
+  &lt;span class=&quot;k&quot;&gt;&quot;company&quot;&lt;/span&gt;: &quot;Seyir Mobil&quot;,
+  &lt;span class=&quot;k&quot;&gt;&quot;since&quot;&lt;/span&gt;: &quot;2026-10&quot;,
+  &lt;span class=&quot;k&quot;&gt;&quot;location&quot;&lt;/span&gt;: &quot;Kocaeli, Türkiye&quot;,
+  &lt;span class=&quot;k&quot;&gt;&quot;previously&quot;&lt;/span&gt;: &quot;Mobile Application Development Intern&quot;,
+  &lt;span class=&quot;k&quot;&gt;&quot;education&quot;&lt;/span&gt;: &quot;Mehmet Akif Ersoy University · Information Systems and Technologies&quot;
 }">{
   <span class="k">"role"</span>: "Backend Yazılım Geliştirici",
   <span class="k">"team"</span>: "Uygulama Altyapıları",
   <span class="k">"company"</span>: "Seyir Mobil",
   <span class="k">"since"</span>: "2026-10",
-  <span class="k">"location"</span>: "Kocaeli",
+  <span class="k">"location"</span>: "Kocaeli, Türkiye",
   <span class="k">"previously"</span>: "Mobil Uygulama Geliştirme Stajyeri",
-  <span class="k">"education"</span>: "MAKÜ · Bilişim Sistemleri ve Teknolojileri"
-}</pre>
+  <span class="k">"education"</span>: "Mehmet Akif Ersoy Üniversitesi · Bilişim Sistemleri ve Teknolojileri"
+}</pre><!-- /icerik:about_api -->
         </div>
       </div>
     </section>
 
     <section aria-labelledby="km">
       <h2 class="section-title" id="km" data-en="ODOMETER">KİLOMETRE SAYACI</h2>
-      <ol class="grid3">
-        <li class="tile">
-          <span class="when" data-en="education">eğitim</span>
-          <strong data-en="Mehmet Akif Ersoy University">Mehmet Akif Ersoy Üniversitesi</strong>
-          <span class="desc" data-en="Information Systems and Technologies.">Bilişim Sistemleri ve Teknolojileri.</span>
-        </li>
-        <li class="tile">
-          <span class="when" data-en="2025 – 2026 · ~8 months">2025 – 2026 · ~8 ay</span>
-          <strong data-en="Seyir Mobil — Intern">Seyir Mobil — Stajyer</strong>
-          <span class="desc" data-en="Mobile Application Development team.">Mobil Uygulama Geliştirme bölümü.</span>
-        </li>
-        <li class="tile now">
-          <span class="when" data-en="Oct 2026 – now">Ekim 2026 – şimdi</span>
-          <strong data-en="Seyir Mobil — Backend Software Developer">Seyir Mobil — Backend Yazılım Geliştirici</strong>
-          <span class="desc" data-en="Application Infrastructure team.">Uygulama Altyapıları birimi.</span>
-        </li>
-      </ol>
+      <ol class="grid3"><!-- icerik:about_timeline --><li class="tile"><span class="when" data-en="education">eğitim</span><strong data-en="Mehmet Akif Ersoy University">Mehmet Akif Ersoy Üniversitesi</strong><span class="desc" data-en="Information Systems and Technologies.">Bilişim Sistemleri ve Teknolojileri.</span></li>
+        <li class="tile"><span class="when" data-en="2025 – 2026 · ~8 months">2025 – 2026 · ~8 ay</span><strong data-en="Seyir Mobil — Mobile Application Development Intern">Seyir Mobil — Mobil Uygulama Geliştirme Stajyeri</strong><span class="desc" data-en="Mobile Application Development team.">Mobil Uygulama Geliştirme ekibi.</span></li>
+        <li class="tile now"><span class="when" data-en="Oct 2026 – now">Ekim 2026 – şimdi</span><strong data-en="Seyir Mobil — Backend Software Developer">Seyir Mobil — Backend Yazılım Geliştirici</strong><span class="desc" data-en="Application Infrastructure team.">Uygulama Altyapıları ekibi.</span></li><!-- /icerik:about_timeline --></ol>
     </section>
 
     <section aria-labelledby="tezgah-title" id="tezgah">
       <h2 class="section-title" id="tezgah-title" data-en="ON THE WORKBENCH">ŞU AN TEZGAHTA</h2>
-      <div class="grid3">
-        <div class="tile now">
-          <span class="when" data-en="language &amp; framework">dil &amp; framework</span>
-          <ul class="chips"><li>C#</li><li>.NET</li><li>ASP.NET</li></ul>
-        </div>
-        <div class="tile now">
-          <span class="when" data-en="data &amp; caching">veri &amp; önbellek</span>
-          <ul class="chips"><li>MSSQL</li><li>MongoDB</li><li>Redis</li></ul>
-        </div>
-        <div class="tile now">
-          <span class="when" data-en="observability">gözlemlenebilirlik</span>
-          <ul class="chips"><li>Graylog</li><li>Grafana</li><li>Prometheus</li></ul>
-        </div>
-      </div>
+      <div class="grid3"><!-- icerik:about_bench --><div class="tile now"><span class="when" data-en="language &amp; framework">dil &amp; framework</span><ul class="chips"><li>C#</li><li>.NET</li><li>ASP.NET</li></ul></div>
+        <div class="tile now"><span class="when" data-en="data &amp; caching">veri &amp; önbellek</span><ul class="chips"><li>MSSQL</li><li>MongoDB</li><li>Redis</li></ul></div>
+        <div class="tile now"><span class="when" data-en="observability">gözlemlenebilirlik</span><ul class="chips"><li>Graylog</li><li>Grafana</li><li>Prometheus</li></ul></div><!-- /icerik:about_bench --></div>
     </section>
 
     <section class="callout-link">

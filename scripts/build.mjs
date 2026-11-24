@@ -1,7 +1,8 @@
 // Garage — kontrol ve yayın betiği. GitHub Actions her push'ta çalıştırır; yerelde de çalışır:
 //   node scripts/build.mjs           → kontrol et + _site/ klasörüne yayın kopyasını hazırla
 //   node scripts/build.mjs --check   → sadece kontrol et (hiçbir dosya yazmaz)
-//   node scripts/build.mjs --write   → ayrıca feed.xml, sitemap.xml, robots.txt, api/ ve yazi/<slug>.html'yi kök klasöre yaz
+//   node scripts/build.mjs --write   → ayrıca feed.xml, sitemap.xml, robots.txt, api/, yazi/<slug>.html ve assets/js/icerik.js'i
+//                                     kök klasöre yaz; sayfalardaki metinleri icerik.json'a göre güncelle
 // Yaptıkları: posts/index.json'u doğrular, sayfalardaki iç bağlantıları kontrol eder, RSS beslemesi ve
 // site haritası üretir, build.json (commit, çalıştırma no, zaman) yazar, sw.js önbellek sürümünü günceller.
 // Bir hata bulursa çıkış kodu 1 ile durur: bozuk bir sürüm yayına çıkmaz.
@@ -59,9 +60,10 @@ const exists = (p) => fileSet.has(p) || existsSync(join(ROOT, p));
 const pages = files.filter((f) => f.endsWith('.html'));
 const API_FILES = ['index', 'emre', 'stack', 'experience', 'posts', 'cv', 'health'].flatMap((n) => ['api/' + n + '.json', 'api/en/' + n + '.json']).concat(['api/openapi.json']);
 const POST_FILES = live.map((p) => 'yazi/' + p.slug + '.html');   // her yazının statik sayfası (bkz. 5)
-const GENERATED = new Set(['feed.xml', 'sitemap.xml', 'robots.txt', ...API_FILES, ...POST_FILES]);   // build.json: depodaki yer tutucu, CI'da gerçek bilgiyle değişir
+const GENERATED = new Set(['feed.xml', 'sitemap.xml', 'robots.txt', 'assets/js/icerik.js', ...API_FILES, ...POST_FILES]);   // build.json: depodaki yer tutucu, CI'da gerçek bilgiyle değişir
 for (const f of pages) {
   const html = readFileSync(f, 'utf8');
+  for (const m of html.matchAll(/\s(href|src)=(?!["'])([^\s>]*)/g)) err(`${f}: tırnaksız ${m[1]} → ${m[2] || '(boş)'}`);
   for (const m of html.matchAll(/\s(?:href|src)="([^"]+)"/g)) {
     const raw = m[1];
     if (/^(https?:|mailto:|tel:|data:|javascript:|#)/i.test(raw)) continue;
@@ -114,12 +116,92 @@ ${live.map((p) => `  <url><loc>${SITE}/yazi/${p.slug}.html</loc><lastmod>${p.upd
 `;
 const robots = `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`;
 
-// ------------------------------------------------------------------ 4. API: config.js ve yazılardan statik JSON uçları
+// ------------------------------------------------------------------ 3b. İçerik: icerik.json → sayfalar
+// Kişisel metinler tek dosyada (icerik.json). Yayında:
+//  · assets/js/icerik.js üretilir (terminal, Veri Odası, takım çantası bu veriyi kullanır),
+//  · sayfalardaki data-icerik="anahtar" öğelerinin metni ve <!-- icerik:liste --> blokları doldurulur.
+// --write ile kök klasördeki sayfalar da güncellenir (yerel önizleme aynı görünsün diye).
+let ICERIK = null;
+const ce = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+(() => {
+  if (!existsSync('icerik.json')) { err('icerik.json yok — kişisel metinler bu dosyada olmalı'); return; }
+  try { ICERIK = JSON.parse(readFileSync('icerik.json', 'utf8')); }
+  catch (e) {
+    const pos = Number((e.message.match(/position (\d+)/) || [])[1]);
+    const line = Number.isFinite(pos) ? readFileSync('icerik.json', 'utf8').slice(0, pos).split('\n').length : null;
+    err('icerik.json okunamadı' + (line ? ` (satır ${line} civarı)` : '') + ': ' + e.message + ' — çoğu zaman eksik/fazla virgül ya da tırnaktır');
+    ICERIK = null; return;
+  }
+  const bi = (v, at) => { if (!v || typeof v !== 'object' || typeof v.tr !== 'string' || typeof v.en !== 'string') err(`icerik.json → ${at}: { "tr": "…", "en": "…" } olmalı`); };
+  const ym = (v, at) => { if (v != null && !/^\d{4}(-\d{2})?$/.test(v)) err(`icerik.json → ${at}: "2026" ya da "2026-10" biçiminde olmalı`); };
+  const P = ICERIK.profile || {};
+  ['role', 'team', 'location'].forEach((k) => bi(P[k], 'profile.' + k));
+  Object.entries(ICERIK.texts || {}).forEach(([k, v]) => bi(v, 'texts.' + k));
+  (ICERIK.experience || []).forEach((e, i) => {
+    const at = `experience[${i + 1}]`;
+    if (!e.company) err(`icerik.json → ${at}.company eksik`);
+    bi(e.role, at + '.role'); bi(e.team, at + '.team'); ym(e.start, at + '.start'); ym(e.end, at + '.end');
+    if (!e.start) err(`icerik.json → ${at}.start eksik`);
+    if (e.note) bi(e.note, at + '.note');
+    (e.highlights || []).forEach((h, j) => bi(h, `${at}.highlights[${j + 1}]`));
+  });
+  (ICERIK.education || []).forEach((e, i) => { bi(e.school, `education[${i + 1}].school`); bi(e.field, `education[${i + 1}].field`); });
+  (ICERIK.languages || []).forEach((l, i) => bi(l, `languages[${i + 1}]`));
+  (ICERIK.toolbox || []).forEach((d, i) => {
+    bi(d.drawer, `toolbox[${i + 1}].drawer`);
+    if (!Array.isArray(d.tools) || !d.tools.length) err(`icerik.json → toolbox[${i + 1}].tools boş olamaz`);
+    (d.tools || []).forEach((t, j) => { if (!t.name) err(`icerik.json → toolbox[${i + 1}].tools[${j + 1}].name eksik`); if (t.note) bi(t.note, `toolbox[${i + 1}].tools[${j + 1}].note`); });
+  });
+})();
+const icerikJs = ICERIK ? '// Bu dosya scripts/build.mjs tarafından icerik.json\'dan üretilir — elle değiştirme.\nwindow.GARAGE_ICERIK = ' +
+  JSON.stringify(Object.fromEntries(Object.entries(ICERIK).filter(([k]) => !k.startsWith('_')))) + ';\n' : '';
+
+const MON = { tr: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+  trs: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
+  en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] };
+const ymText = (v, l, short) => { const [y, m] = String(v).split('-'); return m ? (l === 'en' ? MON.en : short ? MON.trs : MON.tr)[+m - 1] + ' ' + y : y; };
+const period = (e, l, cv) => ymText(e.start, l, cv) + ' – ' + (e.end ? ymText(e.end, l, cv) : (l === 'en' ? (cv ? 'present' : 'now') : (cv ? 'günümüz' : 'şimdi'))) + (e.note ? ' · ' + e.note[l] : '');
+const two = (tag, tr, en, attrs = '') => `<${tag}${attrs} data-en="${ce(en)}">${ce(tr)}</${tag}>`;
+const lower = (s, l) => s.toLocaleLowerCase(l === 'en' ? 'en' : 'tr');
+const BLOCKS = {
+  about_timeline: (I) => [
+    ...(I.education || []).map((e) => `<li class="tile">${two('span', 'eğitim', 'education', ' class="when"')}${two('strong', e.school.tr, e.school.en)}${two('span', e.field.tr + '.', e.field.en + '.', ' class="desc"')}</li>`),
+    ...[...(I.experience || [])].reverse().map((e) => `<li class="tile${e.end ? '' : ' now'}">${two('span', period(e, 'tr'), period(e, 'en'), ' class="when"')}${two('strong', e.company + ' — ' + e.role.tr, e.company + ' — ' + e.role.en)}${two('span', e.team.tr + ' ekibi.', e.team.en + ' team.', ' class="desc"')}</li>`)
+  ].join('\n        '),
+  about_bench: (I) => (I.toolbox || []).map((d) => `<div class="tile now">${two('span', lower(d.drawer.tr, 'tr'), lower(d.drawer.en, 'en'), ' class="when"')}<ul class="chips">${d.tools.map((t) => '<li>' + ce(t.name) + '</li>').join('')}</ul></div>`).join('\n        '),
+  about_api: (I) => {
+    const P = I.profile || {}, prev = (I.experience || []).find((e) => e.end), ed = (I.education || [])[0];
+    const json = (l) => '{\n' + [['role', P.role && P.role[l]], ['team', P.team && P.team[l]], ['company', P.company], ['since', P.since], ['location', P.location && P.location[l]],
+      ['previously', prev && prev.role[l]], ['education', ed && (ed.school[l] + ' · ' + ed.field[l])]].filter((r) => r[1])
+      .map((r) => '  <span class="k">"' + r[0] + '"</span>: "' + ce(r[1]) + '"').join(',\n') + '\n}';
+    return `<pre data-en="${ce(json('en'))}">${json('tr')}</pre>`;
+  },
+  cv_jobs: (I) => (I.experience || []).map((e) => `<div class="job"><div class="job-top">${two('b', e.role.tr, e.role.en)}${two('span', period(e, 'tr', true), period(e, 'en', true))}</div>${two('div', e.company + ' · ' + e.team.tr, e.company + ' · ' + e.team.en, ' class="org"')}` +
+    ((e.highlights || []).length ? '<ul>' + e.highlights.map((h) => two('li', h.tr, h.en)).join('') + '</ul>' : '') + '</div>').join('\n          '),
+  cv_education: (I) => (I.education || []).map((e) => `<div class="job"><div class="job-top">${two('b', e.school.tr, e.school.en)}</div>${two('div', e.field.tr, e.field.en, ' class="org"')}</div>`).join('\n          '),
+  cv_skills: (I) => (I.toolbox || []).map((d) => `<div class="skill-group">${two('small', d.drawer.tr, d.drawer.en)}${d.tools.map((t) => '<span>' + ce(t.name) + '</span>').join('')}</div>`).join('\n          '),
+  cv_languages: (I) => (I.languages || []).map((l) => two('p', l.tr, l.en)).join('\n          ')
+};
+function applyContent(html, file) {
+  if (!ICERIK) return html;
+  html = html.replace(/<(h1|h2|h3|p|span|strong|b|small|li)\b([^>]*?)\sdata-icerik="([a-z0-9_]+)"([^>]*)>([\s\S]*?)<\/\1>/g, (all, tag, pre, key, post) => {
+    const v = (ICERIK.texts || {})[key];
+    if (!v) { err(`${file}: icerik.json → texts.${key} yok`); return all; }
+    const attrs = (pre + post).replace(/\sdata-en="[^"]*"/, '');
+    return `<${tag}${attrs} data-icerik="${key}" data-en="${ce(v.en)}">${ce(v.tr)}</${tag}>`;
+  });
+  return html.replace(/(<!-- icerik:([a-z_]+) -->)[\s\S]*?(<!-- \/icerik:\2 -->)/g, (all, open, name, close) => {
+    if (!BLOCKS[name]) { err(`${file}: bilinmeyen içerik bloğu "${name}"`); return all; }
+    return open + BLOCKS[name](ICERIK) + close;
+  });
+}
+
+// ------------------------------------------------------------------ 4. API: icerik.json, config.js ve yazılardan statik JSON uçları
 // /api/*.json (Türkçe) ve /api/en/*.json (İngilizce) + /api/openapi.json (OpenAPI 3.0.3). GitHub Pages bunları
 // application/json ve "Access-Control-Allow-Origin: *" ile sunar; api.html sayfası bu belgeden çizilir.
 let cfg = null;
 try {
-  const ctx = { window: {} };
+  const ctx = { window: { GARAGE_ICERIK: ICERIK || {} } };
   vm.runInNewContext(readFileSync('config.js', 'utf8'), ctx, { filename: 'config.js', timeout: 1000 });
   cfg = ctx.window.GARAGE || null;
   if (!cfg) err('config.js: window.GARAGE bulunamadı');
@@ -128,7 +210,7 @@ const api = {};
 const health = (version) => ({ status: 'Healthy', version, commit: process.env.GITHUB_SHA || null, run: Number(process.env.GITHUB_RUN_NUMBER) || null, built: new Date().toISOString(), checks: { pages: 'Healthy', posts: live.length ? 'Healthy' : 'Empty', config: cfg ? 'Healthy' : 'Unhealthy' } });
 if (cfg) {
   const L = (o, l) => (o && typeof o === 'object' ? (o[l] || o.tr) : o);
-  const need = (v, what) => { if (v == null || v === '') err('config.js: ' + what + ' eksik (API için gerekli)'); return v; };
+  const need = (v, what) => { if ((v == null || v === '') && ICERIK) err('icerik.json/config.js: ' + what + ' eksik (API için gerekli)'); return v; };
   need(cfg.name, 'name'); need(cfg.profile && cfg.profile.company, 'profile.company');
   for (const l of ['tr', 'en']) {
     const base = l === 'tr' ? 'api/' : 'api/en/', url = (n) => SITE + '/' + base + n + '.json';
@@ -168,7 +250,7 @@ if (cfg) {
   const str = { type: 'string' }, strN = { type: 'string', nullable: true }, links = { type: 'object', additionalProperties: { type: 'string', format: 'uri', nullable: true } };
   api['api/openapi.json'] = {
     openapi: '3.0.3',
-    info: { title: 'Emre API', version: '1.0.0', description: 'Read-only JSON endpoints for Emre Çuhadar’s site, generated from config.js on every deploy. No authentication; CORS enabled.', 'x-description-tr': 'Emre Çuhadar’ın sitesinin salt okunur JSON uçları; her yayında config.js’ten üretilir. Kimlik doğrulama yok; CORS açık.', contact: { name: cfg.name, email: cfg.email, url: cfg.site || SITE } },
+    info: { title: 'Emre API', version: '1.0.0', description: 'Read-only JSON endpoints for Emre Çuhadar’s site, generated from icerik.json on every deploy. No authentication; CORS enabled.', 'x-description-tr': 'Emre Çuhadar’ın sitesinin salt okunur JSON uçları; her yayında icerik.json’dan üretilir. Kimlik doğrulama yok; CORS açık.', contact: { name: cfg.name, email: cfg.email, url: cfg.site || SITE } },
     servers: [{ url: SITE + '/api', description: 'Türkçe' }, { url: SITE + '/api/en', description: 'English' }],
     tags: [{ name: 'profile', description: 'Who I am', 'x-description-tr': 'Ben kimim' }, { name: 'content', description: 'Posts', 'x-description-tr': 'Yazılar' }, { name: 'system', description: 'Index and health', 'x-description-tr': 'Dizin ve sağlık' }],
     paths: {
@@ -262,7 +344,7 @@ const postPages = {};
     h = h.replace(/href="#([^"]*)"/g, 'href="' + self + '#$1"');      // sayfa içi bağlantılar <base> yüzünden köke gitmesin
     h = replaceOnce(h, /<article class="post" id="post">[\s\S]*?<\/article>/, '<article class="post" id="post" data-lang="tr">' + article + '</article>', '#post');
     h = replaceOnce(h, /(<nav class="post-nav" id="postNav"[^>]*>)<\/nav>/, '$1' + nav + '</nav>', '#postNav');
-    postPages[self] = h;
+    postPages[self] = applyContent(h, self);
   });
 })();
 
@@ -279,6 +361,10 @@ if (flags.has('--check')) process.exit(0);
 if (flags.has('--write')) {
   writeFileSync('feed.xml', feed); writeFileSync('sitemap.xml', sitemap); writeFileSync('robots.txt', robots);
   const n = writeApi(ROOT, 'local');
+  if (icerikJs) { mkdirSync('assets/js', { recursive: true }); writeFileSync('assets/js/icerik.js', icerikJs); }
+  let changed = 0;
+  for (const f of pages) { if (/^yazi\//.test(f)) continue; const h = readFileSync(f, 'utf8'), n2 = applyContent(h, f); if (n2 !== h) { writeFileSync(f, n2); changed++; } }
+  if (changed) console.log('✓ icerik.json → ' + changed + ' sayfanın metni güncellendi.');
   mkdirSync('yazi', { recursive: true });
   for (const f of readdirSync('yazi')) if (f.endsWith('.html') && !postPages['yazi/' + f]) rmSync(join('yazi', f));   // silinen/taslağa alınan yazılar
   for (const [f, h] of Object.entries(postPages)) writeFileSync(f, h);
@@ -291,13 +377,14 @@ const hash = createHash('sha256');
 for (const f of files.sort()) {
   if (GENERATED.has(f) || /^yazi\/[^/]+\.html$/.test(f)) continue;   // yazı sayfaları her yayında yeniden üretilir (taslağa alınan yazının eski sayfası yayına çıkmaz)
   mkdirSync(dirname(join(OUT, f)), { recursive: true });
-  cpSync(join(ROOT, f), join(OUT, f));
+  if (f.endsWith('.html')) writeFileSync(join(OUT, f), applyContent(readFileSync(join(ROOT, f), 'utf8'), f)); else cpSync(join(ROOT, f), join(OUT, f));
   if (f !== 'sw.js') hash.update(f).update(readFileSync(f));
 }
 writeFileSync(join(OUT, 'feed.xml'), feed);
 writeFileSync(join(OUT, 'sitemap.xml'), sitemap);
 writeFileSync(join(OUT, 'robots.txt'), robots);
 writeFileSync(join(OUT, '.nojekyll'), '');
+if (icerikJs) { mkdirSync(join(OUT, 'assets/js'), { recursive: true }); writeFileSync(join(OUT, 'assets/js/icerik.js'), icerikJs); }
 for (const [f, h] of Object.entries(postPages)) { mkdirSync(dirname(join(OUT, f)), { recursive: true }); writeFileSync(join(OUT, f), h); }
 const version = 'garage-' + hash.digest('hex').slice(0, 12);
 writeApi(OUT, version);

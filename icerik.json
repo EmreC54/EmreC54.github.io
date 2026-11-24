@@ -1,0 +1,100 @@
+{
+  "_nasil": "Sitedeki kişisel metinlerin hepsi bu dosyada. Her metin iki dilli: tr = Türkçe, en = İngilizce. Sadece tırnak içindeki yazıları değiştir; tırnaklara, virgüllere ve süslü parantezlere dokunma. Kaydettiğinde site 1-2 dakikada güncellenir. Ayrıntı: README.md → İçerik.",
+
+  "profile": {
+    "role": { "tr": "Backend Yazılım Geliştirici", "en": "Backend Software Developer" },
+    "team": { "tr": "Uygulama Altyapıları", "en": "Application Infrastructure" },
+    "company": "Seyir Mobil",
+    "since": "2026-10",
+    "location": { "tr": "Kocaeli, Türkiye", "en": "Kocaeli, Türkiye" }
+  },
+
+  "texts": {
+    "garage_hello_title": { "tr": "Merhaba, ben Emre.", "en": "Hi, I’m Emre." },
+    "garage_hello_text": {
+      "tr": "Seyir Mobil’de Uygulama Altyapıları biriminde backend geliştiriyorum. Staja mobil tarafta başladım, şimdi altyapıdayım.",
+      "en": "I build backend systems in the Application Infrastructure team at Seyir Mobil. I started as a mobile intern; now I’m on infrastructure."
+    },
+    "about_title": { "tr": "Kodun görünmeyen tarafında çalışıyorum.", "en": "I work on the side of code you don’t see." },
+    "about_text": {
+      "tr": "Seyir Mobil’de Uygulama Altyapıları biriminde backend yazılım geliştiriciyim. Yolculuğuma aynı şirkette, mobil uygulama geliştirme ekibinde yaklaşık 8 aylık bir stajla başladım; Ekim 2026’da altyapı tarafına geçtim. Bugün .NET ile servis yazıyor, veriyi MSSQL, MongoDB ve Redis’te tutuyor, sistemi Graylog, Grafana ve Prometheus ile izliyorum.",
+      "en": "I’m a backend software developer on the Application Infrastructure team at Seyir Mobil. I started at the same company with an internship of about 8 months on the mobile application development team, and moved to infrastructure in October 2026. Today I build services with .NET, keep data in MSSQL, MongoDB and Redis, and watch the system with Graylog, Grafana and Prometheus."
+    },
+    "logbook_intro": {
+      "tr": "Backend tarafında öğrendiklerimi kısa notlar olarak burada tutuyorum.",
+      "en": "Short notes on what I learn on the backend side. Posts are written in Turkish."
+    },
+    "cv_profile": {
+      "tr": "Seyir Mobil’de Uygulama Altyapıları biriminde backend yazılım geliştiriciyim. C# ve .NET ile servisler geliştiriyor; ilişkisel ve doküman tabanlı verilerle (MSSQL, MongoDB) ve önbellekleme (Redis) ile çalışıyor, sistemleri Graylog, Grafana ve Prometheus ile izlenebilir tutuyorum. Şirkete mobil geliştirme stajyeri olarak katıldım ve backend altyapı tarafına geçtim.",
+      "en": "Backend software developer on the Application Infrastructure team at Seyir Mobil. I build services with C# and .NET, work with relational and document data (MSSQL, MongoDB) and caching (Redis), and keep systems observable with Graylog, Grafana and Prometheus. I joined the company as a mobile development intern and moved into backend infrastructure."
+    },
+    "cv_updated": { "tr": "güncelleme: Kasım 2026", "en": "updated: November 2026" }
+  },
+
+  "experience": [
+    {
+      "company": "Seyir Mobil",
+      "role": { "tr": "Backend Yazılım Geliştirici", "en": "Backend Software Developer" },
+      "team": { "tr": "Uygulama Altyapıları", "en": "Application Infrastructure" },
+      "start": "2026-10",
+      "end": null,
+      "highlights": [
+        { "tr": "C#, .NET ve ASP.NET ile backend servisleri geliştirme.", "en": "Developing backend services with C#, .NET and ASP.NET." },
+        { "tr": "Veri saklama ve önbellekleme için MSSQL, MongoDB ve Redis ile çalışma.", "en": "Working with MSSQL, MongoDB and Redis for data storage and caching." },
+        { "tr": "Graylog, Grafana ve Prometheus ile izleme ve loglama.", "en": "Monitoring and logging with Graylog, Grafana and Prometheus." }
+      ]
+    },
+    {
+      "company": "Seyir Mobil",
+      "role": { "tr": "Mobil Uygulama Geliştirme Stajyeri", "en": "Mobile Application Development Intern" },
+      "team": { "tr": "Mobil Uygulama Geliştirme", "en": "Mobile Application Development" },
+      "start": "2025",
+      "end": "2026",
+      "note": { "tr": "~8 ay", "en": "~8 months" },
+      "highlights": [
+        { "tr": "Mobil uygulama geliştirme ekibinde yaklaşık 8 aylık staj.", "en": "Internship of about 8 months on the mobile application development team." }
+      ]
+    }
+  ],
+
+  "education": [
+    {
+      "school": { "tr": "Mehmet Akif Ersoy Üniversitesi", "en": "Mehmet Akif Ersoy University" },
+      "field": { "tr": "Bilişim Sistemleri ve Teknolojileri", "en": "Information Systems and Technologies" }
+    }
+  ],
+
+  "languages": [
+    { "tr": "Türkçe — ana dil", "en": "Turkish — native" }
+  ],
+
+  "toolbox": [
+    {
+      "id": "lang",
+      "drawer": { "tr": "Dil & Framework", "en": "Language & Framework" },
+      "tools": [
+        { "name": "C#", "note": { "tr": "Servisleri yazdığım ana dil.", "en": "My main language for building services." } },
+        { "name": ".NET", "note": { "tr": "API’lerin ve arka plan servislerinin çalıştığı platform.", "en": "The platform my APIs and background services run on." } },
+        { "name": "ASP.NET", "note": { "tr": "HTTP API’leri ve web servisleri.", "en": "HTTP APIs and web services." } }
+      ]
+    },
+    {
+      "id": "data",
+      "drawer": { "tr": "Veri & Önbellek", "en": "Data & Caching" },
+      "tools": [
+        { "name": "MSSQL", "note": { "tr": "İlişkisel veriler, sorgular ve raporlama.", "en": "Relational data, queries and reporting." } },
+        { "name": "MongoDB", "note": { "tr": "Esnek şemalı, doküman tabanlı veriler.", "en": "Flexible, document-based data." } },
+        { "name": "Redis", "note": { "tr": "Önbellek ve hızlı anahtar-değer erişimi.", "en": "Caching and fast key-value access." } }
+      ]
+    },
+    {
+      "id": "obs",
+      "drawer": { "tr": "Gözlemlenebilirlik", "en": "Observability" },
+      "tools": [
+        { "name": "Graylog", "note": { "tr": "Logları toplama, arama ve hata ayıklama.", "en": "Collecting, searching and debugging logs." } },
+        { "name": "Grafana", "note": { "tr": "Metrik panoları ve uyarılar.", "en": "Metric dashboards and alerts." } },
+        { "name": "Prometheus", "note": { "tr": "Servislerden metrik toplama.", "en": "Collecting metrics from services." } }
+      ]
+    }
+  ]
+}

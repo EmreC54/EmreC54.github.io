@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/site.css">
   <link rel="stylesheet" href="assets/css/api.css">
+  <script src="assets/js/icerik.js"></script>
   <script src="config.js"></script>
   <script src="assets/js/site.js"></script>
 </head>
@@ -70,7 +71,7 @@
           <button type="button" data-explain-set="teknik" data-en="Technical">Teknik</button>
         </div>
         <p class="x-basit" data-en="Apps talk to each other through doors called “APIs”: you ask for an address and get tidy information (JSON) back. The doors here are real. Open a row, press <b>Try it</b> and see the response; you can paste the address into your own browser too.">Uygulamalar birbirleriyle “API” denen kapılardan konuşur: bir adres istersin, karşılığında düzenli bir bilgi (JSON) gelir. Buradaki kapılar gerçek. Bir satırı aç, <b>Dene</b>’ye bas, gelen cevabı gör; adresi kendi tarayıcına da yapıştırabilirsin.</p>
-        <p class="x-teknik" data-en="Read-only endpoints documented with OpenAPI 3.0 and served as static JSON on GitHub Pages. <code>scripts/build.mjs</code> regenerates them from config.js on every deploy; no auth, <code>Access-Control-Allow-Origin: *</code>. Two servers: Turkish (<code>/api</code>) and English (<code>/api/en</code>).">OpenAPI 3.0 ile belgelenmiş, GitHub Pages’te statik JSON olarak sunulan salt okunur uçlar. Her yayında <code>scripts/build.mjs</code> config.js’ten yeniden üretir; kimlik doğrulama yok, <code>Access-Control-Allow-Origin: *</code>. İki sunucu: Türkçe (<code>/api</code>) ve İngilizce (<code>/api/en</code>).</p>
+        <p class="x-teknik" data-en="Read-only endpoints documented with OpenAPI 3.0 and served as static JSON on GitHub Pages. <code>scripts/build.mjs</code> regenerates them from icerik.json on every deploy; no auth, <code>Access-Control-Allow-Origin: *</code>. Two servers: Turkish (<code>/api</code>) and English (<code>/api/en</code>).">OpenAPI 3.0 ile belgelenmiş, GitHub Pages’te statik JSON olarak sunulan salt okunur uçlar. Her yayında <code>scripts/build.mjs</code> icerik.json’dan yeniden üretir; kimlik doğrulama yok, <code>Access-Control-Allow-Origin: *</code>. İki sunucu: Türkçe (<code>/api</code>) ve İngilizce (<code>/api/en</code>).</p>
       </div>
     </section>
 
@@ -79,7 +80,7 @@
         <div class="oas-info">
           <h2><span>Emre API</span> <span class="oas-v mono">1.0.0</span> <span class="oas-pill mono">OAS 3.0</span></h2>
           <p class="oas-spec mono"><a href="api/openapi.json">api/openapi.json</a></p>
-          <p class="oas-d" data-en="Read-only JSON endpoints for Emre Çuhadar’s site, generated from config.js on every deploy. No authentication; CORS enabled.">Emre Çuhadar’ın sitesinin salt okunur JSON uçları; her yayında config.js’ten üretilir. Kimlik doğrulama yok; CORS açık.</p>
+          <p class="oas-d" data-en="Read-only JSON endpoints for Emre Çuhadar’s site, generated from icerik.json on every deploy. No authentication; CORS enabled.">Emre Çuhadar’ın sitesinin salt okunur JSON uçları; her yayında icerik.json’dan üretilir. Kimlik doğrulama yok; CORS açık.</p>
         </div>
         <div class="oas-server">
           <label class="mono" for="oasServer" data-en="Servers">Sunucular</label>
