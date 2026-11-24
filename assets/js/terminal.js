@@ -86,7 +86,7 @@
   const normKey = (s) => String(s || '').toLocaleLowerCase('tr').replace(/ı/g, 'i').replace(/ş/g, 's').replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ö/g, 'o').replace(/ü/g, 'u').replace(/\.html$|\/$/g, '');
   function go(target) {
     const k = normKey(target);
-    if (/^[1-4]$/.test(k)) {
+    if (/^[1-8]$/.test(k)) {
       if (G.openBay) { close(); G.openBay(+k); return true; }
       location.href = 'garaj.html#bay-0' + k; return true;
     }
@@ -103,7 +103,7 @@
       const g = (title, items) => '<span class="c">' + pad(title, 12) + '</span>' + items.map((i) => '<span class="hl">' + i + '</span>').join('  ');
       print([
         T('<span class="m">Gezinme, bilgi, sistem ve veri komutları. Tab ile tamamla, ↑↓ ile geçmiş.</span>', '<span class="m">Navigation, info, system and data commands. Tab completes, ↑↓ history.</span>'), '',
-        g(T('gezinme', 'navigate'), ['open &lt;sayfa|1-4&gt;', 'map', 'route', 'plan', 'xray', 'ls', 'palette']),
+        g(T('gezinme', 'navigate'), ['open &lt;sayfa|1-8&gt;', 'map', 'route', 'plan', 'xray', 'ls', 'palette']),
         g(T('bilgi', 'info'), ['whoami', T('deneyim', 'experience'), T('egitim', 'education'), 'stack', T('iletisim', 'contact'), 'blog', 'cat &lt;dosya&gt;']),
         g(T('sistem', 'system'), ['curl &lt;yol&gt;', 'ping', 'top', 'logs [-f]', 'metrics', 'build', 'uptime', 'date']),
         g(T('veri', 'data'), ['redis-cli', 'sqlcmd', 'sql &lt;sorgu&gt;', 'mongosh']),
@@ -155,7 +155,7 @@
       print(lines.slice(0, 30).map(esc).concat(lines.length > 30 ? ['<span class="m">… (' + (lines.length - 30) + T(' satır daha) ', ' more lines) ') + '<a href="' + G.postUrl(p.slug) + '">' + T('tamamını oku', 'read it all') + '</a></span>'] : []));
     } },
     open: { d: ['sayfa aç', 'open a page'], run(a) {
-      if (!a[0]) return print(T('kullanım: open &lt;garaj|hakkimda|canta|defter|iletisim|sema|kontrol|veri|api|cv|giris|1-4&gt;', 'usage: open &lt;garage|about|toolbox|logbook|contact|blueprint|control|data|api|cv|intro|1-4&gt;'), 'm');
+      if (!a[0]) return print(T('kullanım: open &lt;garaj|hakkimda|canta|defter|iletisim|sema|kontrol|veri|api|cv|giris|1-8&gt;', 'usage: open &lt;garage|about|toolbox|logbook|contact|blueprint|control|data|api|cv|intro|1-8&gt;'), 'm');
       if (!go(a[0])) text(T('open: bulunamadı: ', 'open: not found: ') + a[0], 'r');
     } },
     curl: { d: ['gerçek HTTP istekleri', 'real HTTP requests'], run: curl },
@@ -530,7 +530,7 @@
     mongosh: { syn: 'mongosh [--eval "<code>"]', tr: 'MongoDB kabuğu: find, sort/limit/skip, aggregate ($match, $group, $unwind, $lookup…), countDocuments, distinct. Salt okunur.', en: 'MongoDB shell: find, sort/limit/skip, aggregate ($match, $group, $unwind, $lookup…), countDocuments, distinct. Read-only.', ex: ['mongosh', 'mongosh --eval "db.skills.find({ category: \'data\' }, { _id: 0, name: 1 })"'] },
     'redis-cli': { syn: 'redis-cli [command]', tr: 'Şema sayfasının da kullandığı paylaşılan önbellek: SET/GET/DEL, TTL, EXPIRE, INCR, KEYS, DBSIZE, INFO.', en: 'The shared cache the Blueprint page uses too: SET/GET/DEL, TTL, EXPIRE, INCR, KEYS, DBSIZE, INFO.', ex: ['redis-cli KEYS *', 'redis-cli SET demo hello EX 30'] },
     logs: { syn: 'logs [info|warn|error] [-f]', tr: 'Bu oturumun yapılandırılmış logları; -f canlı izler (Ctrl+C durdurur).', en: 'This session’s structured logs; -f follows live (Ctrl+C stops).', ex: ['logs warn', 'logs -f', 'logs | grep -ic info'] },
-    open: { syn: 'open <page|1-4>', tr: 'Bir odaya gider. Takma adlar: garaj, hakkimda, canta, defter, iletisim, sema, kontrol, veri, api, cv, giris; 1–4 garajdaki kapılar.', en: 'Walks to a room. Aliases: garage, about, toolbox, logbook, contact, blueprint, control, data, api, cv, intro; 1–4 are the garage doors.', ex: ['open veri', 'open 2'] },
+    open: { syn: 'open <page|1-8>', tr: 'Bir odaya gider. Takma adlar: garaj, hakkimda, canta, defter, iletisim, sema, kontrol, veri, api, cv, giris; 1–8 garajdaki kapılar (5–8 alt kat).', en: 'Walks to a room. Aliases: garage, about, toolbox, logbook, contact, blueprint, control, data, api, cv, intro; 1–8 are the garage doors (5–8 downstairs).', ex: ['open veri', 'open 2'] },
     map: { syn: 'map · plan', tr: 'map garajın planını burada çizer (buradasın ve gezilen odalar işaretli); plan görsel planı açar (M tuşu).', en: 'map draws the garage plan right here (you-are-here and visited rooms marked); plan opens the visual plan (M key).', ex: ['map', 'plan'] },
     route: { syn: 'route [tanis|kurcala|next]', tr: 'İki rota var. Tanış: Hakkımda → Takım Çantası → Seyir Defteri → İletişim. Kurcala: Şema → Kontrol Odası → Veri Odası → API. route next rotadaki sonraki durağa gider.', en: 'There are two routes. Meet: About → Toolbox → Logbook → Contact. Tinker: Blueprint → Control Room → Data Room → API. route next goes to the next stop.', ex: ['route', 'route kurcala', 'route next'] }
   };

@@ -831,3 +831,112 @@ html.lite .status .ws-ico.open .steam { animation: none; opacity: .7; }
 .bay.seen .led-strip::after { content: ""; position: absolute; right: 8px; top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px 1px rgba(79, 209, 139, .7); }
 .status .more { align-items: flex-start; }
 .status .more > .ico { margin-top: 2px; }
+
+/* =====================================================================
+   İki katlı garaj — zemin kat (garaj) + alt kat (atölye), kat başlıkları, merdiven döşemesi, asansör paneli
+   ===================================================================== */
+.floor { position: relative; scroll-margin-top: 76px; }
+.floor-head { display: flex; align-items: center; gap: 14px; margin: 8px 0 -40px; position: relative; z-index: 5; }
+.floor-no {
+  display: grid; place-items: center; flex: none; width: 46px; height: 46px; border-radius: 8px;
+  font: 700 22px/1 var(--f-display); color: var(--amber-hi); background: linear-gradient(#1d1f23, #131417);
+  border: 1px solid rgba(255, 255, 255, .09); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 0 22px rgba(242, 179, 61, .14);
+}
+.floor-head h2 { margin: 0; font: 700 20px/1.1 var(--f-display); letter-spacing: .1em; color: var(--text-hi); }
+.floor-head small { display: block; margin-top: 3px; font-size: 12px; color: var(--muted); }
+.floor-go {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 999px;
+  font-size: 12px; color: var(--text-2); text-decoration: none; border: 1px solid var(--line); background: rgba(16, 17, 20, .6);
+  transition: color .2s, border-color .2s;
+}
+.floor-go:hover { color: var(--text-hi); border-color: rgba(242, 179, 61, .5); }
+
+/* Katlar arası döşeme: beton kesit + merdiven */
+.slab { position: relative; height: 70px; margin: 18px -26px 34px; }
+.slab::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 24px; height: 22px; border-radius: 3px;
+  background: repeating-linear-gradient(90deg, rgba(0, 0, 0, .25) 0 2px, transparent 2px 90px), linear-gradient(#34373c, #222428 60%, #17181b);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+.slab .stairs {
+  position: absolute; right: 7%; top: 0; width: 150px; height: 70px;
+  background: repeating-linear-gradient(180deg, #2c2f34 0 9px, #1a1c1f 9px 10px);
+  clip-path: polygon(0 100%, 100% 0, 100% 14%, 14% 100%);
+  opacity: .9;
+}
+
+/* Alt kat: serin, mavimsi atölye ışığı */
+.floor.lower .floor-no { color: #a9d0ff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 0 22px rgba(110, 170, 255, .18); }
+.floor.lower .floor-go:hover { border-color: rgba(120, 175, 255, .55); }
+.garage.lower {
+  background:
+    radial-gradient(60% 40% at 50% 0%, rgba(120, 170, 255, .10), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, .25) 0 2px, transparent 2px 64px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, .18) 0 2px, transparent 2px 128px),
+    linear-gradient(#202329, #15171b);
+}
+.garage.lower .pendant .bulb { background: radial-gradient(circle at 50% 20%, #f7fbff, #c4defc 60%, #6f9bd3); box-shadow: 0 0 18px 6px rgba(160, 205, 255, .6), 0 0 80px 30px rgba(110, 170, 255, .16); }
+.garage.lower .pendant .cone { background: linear-gradient(180deg, rgba(175, 212, 255, .14), rgba(140, 190, 255, .05) 55%, transparent 90%); }
+.garage.lower .door {
+  background:
+    radial-gradient(45% 55% at var(--mx, 50%) var(--my, 35%), rgba(220, 235, 255, .16), transparent 70%),
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, .18) 0 1px, rgba(255, 255, 255, .05) 1px 3px, transparent 3px 22px, rgba(0, 0, 0, .18) 22px 44px, rgba(0, 0, 0, .55) 44px 47px, rgba(0, 0, 0, .15) 47px 48px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .02) 0 1px, transparent 1px 3px),
+    linear-gradient(90deg, #39414b, #4d5661 48%, #3c444e);
+}
+.door-glass { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 84%; height: 92px; }
+.door-glass i {
+  border: 3px solid #262a30; border-radius: 3px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, .20), rgba(255, 255, 255, 0) 42%), repeating-linear-gradient(90deg, rgba(255, 255, 255, .05) 0 1px, transparent 1px 6px), linear-gradient(#16263a, #1d3a5c);
+  box-shadow: inset 0 0 24px rgba(120, 180, 255, .35);
+}
+html.phase-night .door-glass i { box-shadow: inset 0 0 30px rgba(120, 180, 255, .55), 0 0 14px rgba(120, 180, 255, .12); }
+.garage.lower .bay.is-open .led-strip { background: #d4e8ff; box-shadow: 0 0 10px 2px rgba(160, 205, 255, .8), 0 20px 50px 10px rgba(110, 170, 255, .3); }
+@media (hover: hover) and (pointer: fine) {
+  .garage.lower .bay:hover .led-strip { background: #d4e8ff; box-shadow: 0 0 10px 2px rgba(160, 205, 255, .8), 0 20px 50px 10px rgba(110, 170, 255, .3); }
+}
+
+/* Atölye odasının içi: çalışan bir ekran + kısa açıklama */
+.inside.lab {
+  padding-top: 64px;
+  background: radial-gradient(70% 45% at 50% 0%, rgba(110, 170, 255, .14), transparent 70%), repeating-linear-gradient(0deg, rgba(160, 200, 255, .05) 0 1px, transparent 1px 22px), repeating-linear-gradient(90deg, rgba(160, 200, 255, .05) 0 1px, transparent 1px 22px), linear-gradient(#141821, #0d0f13);
+}
+.inside.lab::after { background: radial-gradient(60% 55% at 50% 0%, rgba(170, 210, 255, .26), transparent 72%); }
+.inside.lab .tc-art { position: relative; flex: none; height: 108px; overflow: hidden; border-radius: 6px; border: 1px solid rgba(255, 255, 255, .08); box-shadow: 0 10px 24px rgba(0, 0, 0, .5); }
+.inside.lab .tc-live { font: 12px var(--f-mono); color: var(--green); min-height: 1.5em; text-shadow: none; }
+.inside.lab h2 { font-size: 26px; }
+
+/* Asansör paneli: geniş ekranda sağda, katlardan birindeyken görünür */
+.lift { display: none; }
+@media (min-width: 1380px) {
+  .lift {
+    position: fixed; right: 22px; top: 50%; z-index: 40; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 8px;
+    border-radius: 12px; background: linear-gradient(#1b1d21, #121316); border: 1px solid rgba(255, 255, 255, .08);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .06);
+    transform: translate(12px, -50%); opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s var(--ease-out);
+  }
+  .lift.show { opacity: 1; transform: translate(0, -50%); pointer-events: auto; }
+}
+.lift-cap { font-size: 10px; letter-spacing: .2em; color: var(--faint); }
+.lift a {
+  display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; text-decoration: none; color: var(--text-2);
+  background: radial-gradient(circle at 50% 35%, #2c2f35, #17191c); border: 2px solid #3a3e45; box-shadow: inset 0 2px 4px rgba(0, 0, 0, .6);
+}
+.lift a b { font: 700 17px/1 var(--f-display); }
+.lift a small { margin-top: -10px; font: 9px var(--f-mono); color: var(--muted); }
+.lift a[aria-current="true"] { color: #121316; border-color: var(--amber); background: radial-gradient(circle at 50% 35%, var(--amber-hi), var(--amber)); box-shadow: 0 0 16px rgba(242, 179, 61, .45); }
+.lift a[aria-current="true"] small { color: #3a2a0c; }
+.lift a:hover { border-color: var(--amber); }
+
+/* Tezgâh artık iki alet: terminal ve CV */
+.bench-grid:has(> .tool-card:nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 760px) {
+  .floor-head { margin-bottom: -28px; }
+  .floor-head h2 { font-size: 17px; }
+  .floor-go { display: none; }
+  .slab { margin: 10px 0 26px; height: 54px; }
+  .slab .stairs { width: 110px; height: 54px; }
+}
+.inside.lab p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.inside.lab .tc-live { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.inside.lab .tc-art { height: 96px; }

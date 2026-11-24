@@ -4,7 +4,7 @@ Kişisel site: https://emrec54.github.io — framework yok; düz HTML, CSS ve Ja
 
 ## Klasörler
 - `index.html` giriş sahnesi (masa, kavisli monitör, tıklanabilir nesneler: şema, takım çantası, sunucu dolabı, klavye, ampuller, floresan, veritabanı sunucusu, işleme tezgâhı, arşiv kutuları)
-- `garaj.html` dört kapılı ana sayfa ve iki rota (Tanış / Kurcala) · `hakkimda`, `takim-cantasi`, `seyir-defteri`, `iletisim` bölmeler
+- `garaj.html` iki katlı ana sayfa: zemin kat (Hakkımda, Takım Çantası, Seyir Defteri, İletişim) + alt kat atölye (Şema, Kontrol Odası, Veri Odası, API), `1`–`8` tuşları, asansör paneli ve iki rota (Tanış / Kurcala) · `hakkimda`, `takim-cantasi`, `seyir-defteri`, `iletisim` bölmeler
 - `yazi/<slug>.html` her yazının statik sayfası (yayında üretilir; arama motoru ve paylaşım önizlemesi için başlık, özet, canonical, JSON-LD) · `yazi.html#slug` eski bağlantılar ve taslaklar için
 - `sema.html` bir isteğin API → Redis → MSSQL/MongoDB yolculuğu (Graylog / Prometheus / Grafana simülasyonu; kaos: yavaş / kapalı / dalgalı veritabanı; Polly tarzı yeniden deneme ve devre kesici, tek uçuş, token bucket hız sınırı; PUT ile önbellek geçersiz kılma ve önbellek fırtınası senaryoları; her isteğin iz (trace) zaman çizelgesi)
 - `kontrol-odasi.html` sitenin kendi canlı metrikleri: zaman aralığı seçici, ortak artı imleçli grafikler, olay işaretleri, sayfa yükleme şelalesi (Resource Timing), Graylog sözdizimiyle log arama + histogram, GitHub Actions yayın geçmişi, `/metrics` çıktısı

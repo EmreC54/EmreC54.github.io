@@ -79,8 +79,20 @@
     </section>
     <p class="vh" id="bayLive" aria-live="polite"></p>
 
+    <nav class="lift" aria-label="Katlar" data-en-label="Floors">
+      <span class="lift-cap mono" aria-hidden="true">KAT</span>
+      <a href="#kat-0" data-floor="0" aria-current="true"><b>0</b><small data-en="Garage">Garaj</small></a>
+      <a href="#kat-1" data-floor="1"><b>−1</b><small data-en="Workshop">Atölye</small></a>
+    </nav>
+
+    <div class="floor" id="kat-0" data-floor="0">
+    <div class="floor-head">
+      <span class="floor-no" aria-hidden="true">0</span>
+      <div><h2><span data-en="GROUND FLOOR · GARAGE">ZEMİN KAT · GARAJ</span></h2><small class="mono" data-en="the rooms that introduce me">beni tanıtan odalar</small></div>
+      <a class="floor-go mono" href="#kat-1" data-floor-go="1"><span data-en="down to the workshop">atölyeye in</span> <span aria-hidden="true">↓</span></a>
+    </div>
     <div class="garage-stage">
-    <section class="garage" id="garage" aria-label="Garaj kapıları" data-en-label="Garage doors">
+    <section class="garage" id="garage" aria-label="Zemin kat: garaj kapıları" data-en-label="Ground floor: garage doors">
       <div class="pendants" aria-hidden="true">
       <span class="pendant" style="--x:16%;--l:58px;--d:0s"><span class="cord"></span><span class="shade"></span><span class="bulb"></span><span class="cone"></span></span>
       <span class="pendant" style="--x:38.7%;--l:70px;--d:-2.4s"><span class="cord"></span><span class="shade"></span><span class="bulb"></span><span class="cone"></span></span>
@@ -178,7 +190,117 @@
     </section>
     <div class="bay-dots" id="bayDots" aria-hidden="true"></div>
     </div>
-    <p class="garage-hint"><span class="hint-fine" data-en="Hover a door or press <kbd>1</kbd>–<kbd>4</kbd> · <kbd>L</kbd> turns off the lights · <kbd>?</kbd> all shortcuts">Kapının üzerine gel ya da <kbd>1</kbd>–<kbd>4</kbd> tuşlarına bas · <kbd>L</kbd> ışıkları kapatır · <kbd>?</kbd> tüm kısayollar</span><span class="hint-touch"><span class="hint-swipe" data-en="Swipe the doors sideways — the one in the middle opens.">Kapıları yana kaydır — ortadaki kendiliğinden açılır.</span><span class="hint-tap" data-en="Tap a door to lift the shutter, then tap inside to step in.">Bir kapıya dokun, kepenk kalksın; içeri girmek için içine dokun.</span></span></p>
+    </div>
+
+    <div class="slab" aria-hidden="true"><span class="stairs"></span></div>
+
+    <div class="floor lower" id="kat-1" data-floor="1">
+    <div class="floor-head">
+      <span class="floor-no" aria-hidden="true">−1</span>
+      <div><h2><span data-en="LOWER FLOOR · WORKSHOP">ALT KAT · ATÖLYE</span></h2><small class="mono" data-en="working pieces to tinker with">kurcalanacak, çalışan parçalar</small></div>
+      <a class="floor-go mono" href="#kat-0" data-floor-go="0"><span data-en="up to the garage">garaja çık</span> <span aria-hidden="true">↑</span></a>
+    </div>
+    <div class="garage-stage">
+    <section class="garage lower" aria-label="Alt kat: atölye kapıları" data-en-label="Lower floor: workshop doors">
+      <div class="pendants" aria-hidden="true">
+      <span class="pendant" style="--x:16%;--l:58px;--d:0s"><span class="cord"></span><span class="shade"></span><span class="bulb"></span><span class="cone"></span></span>
+      <span class="pendant" style="--x:38.7%;--l:70px;--d:-2.4s"><span class="cord"></span><span class="shade"></span><span class="bulb"></span><span class="cone"></span></span>
+      <span class="pendant" style="--x:61.3%;--l:52px;--d:-5.1s"><span class="cord"></span><span class="shade"></span><span class="bulb"></span><span class="cone"></span></span>
+      <span class="pendant" style="--x:84%;--l:66px;--d:-1.2s"><span class="cord"></span><span class="shade"></span><span class="bulb"></span><span class="cone"></span></span>
+      </div>
+      <div class="beam-top" aria-hidden="true"></div>
+      <div class="bays">
+        <div class="bay" id="bay-05" data-name="Şema" data-name-en="Blueprint" data-label="atölye-01 (şema)" data-label-en="workshop-01 (blueprint)">
+          <div class="bay-head"><span><span data-en="WORKSHOP">ATÖLYE</span> 01</span><span class="lamp"><span class="off" data-en="CLOSED">KAPALI</span><span class="on" data-en="OPEN · 200">AÇIK · 200</span></span></div>
+          <div class="led-strip" aria-hidden="true"></div>
+          <div class="bay-body">
+            <div class="bay-frame">
+              <button class="door" type="button" aria-expanded="false" aria-controls="in-05" aria-label="Kapı 5: Şema" data-en-label="Door 5: Blueprint">
+                <span class="door-glass" aria-hidden="true"><i></i><i></i></span>
+                <span class="plate" aria-hidden="true"><b data-en="BLUEPRINT">ŞEMA</b><small data-en="request simulator">istek simülatörü</small></span>
+                <span class="handle" aria-hidden="true"></span>
+                <span class="seal" aria-hidden="true"></span>
+              </button>
+              <div class="inside lab" id="in-05">
+                <p class="kicker">$ trace GET /api/users/42</p>
+                <h2 data-en="A request’s journey">Bir isteğin yolculuğu</h2>
+                <span class="tc-art art-blueprint" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><b></b><em></em><s></s></span><p data-en="Follow a request from the app through the API, Redis and the database — logs to Graylog, metrics to Grafana. Break the database and watch the alert fire.">Bir isteği uygulamadan API’ye, Redis’e ve veritabanına kadar izle; loglar Graylog’a, metrikler Grafana’ya aksın. Veritabanını boz, uyarının tetiklendiğini gör.</p><span class="tc-live" id="tcCache"></span>
+                <a class="cta" href="sema.html"><span data-en="Open the Blueprint">Şemayı aç</span> <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </div>
+            </div>
+            <div class="hazard" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="bay" id="bay-06" data-name="Kontrol Odası" data-name-en="Control Room" data-label="atölye-02 (kontrol)" data-label-en="workshop-02 (control)">
+          <div class="bay-head"><span><span data-en="WORKSHOP">ATÖLYE</span> 02</span><span class="lamp"><span class="off" data-en="CLOSED">KAPALI</span><span class="on" data-en="OPEN · 200">AÇIK · 200</span></span></div>
+          <div class="led-strip" aria-hidden="true"></div>
+          <div class="bay-body">
+            <div class="bay-frame">
+              <button class="door" type="button" aria-expanded="false" aria-controls="in-06" aria-label="Kapı 6: Kontrol Odası" data-en-label="Door 6: Control Room">
+                <span class="door-glass" aria-hidden="true"><i></i><i></i></span>
+                <span class="plate" aria-hidden="true"><b data-en="CONTROL ROOM">KONTROL ODASI</b><small data-en="live metrics">canlı metrikler</small></span>
+                <span class="handle" aria-hidden="true"></span>
+                <span class="seal" aria-hidden="true"></span>
+              </button>
+              <div class="inside lab" id="in-06">
+                <p class="kicker">$ curl /metrics</p>
+                <h2 data-en="The site’s pulse">Sitenin nabzı</h2>
+                <span class="tc-art art-graph" aria-hidden="true"><svg id="tcSpark" viewBox="0 0 240 70" preserveAspectRatio="none"></svg></span><p data-en="This site’s own telemetry: real load times, Web Vitals, live frame rate, logs and a Prometheus-style /metrics endpoint.">Bu sitenin kendi telemetrisi: gerçek yükleme süreleri, Web Vitals, canlı kare hızı, loglar ve Prometheus biçiminde /metrics.</p><span class="tc-live" id="tcLoads"></span>
+                <a class="cta" href="kontrol-odasi.html"><span data-en="Enter the Control Room">Kontrol Odası’na gir</span> <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </div>
+            </div>
+            <div class="hazard" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="bay" id="bay-07" data-name="Veri Odası" data-name-en="Data Room" data-label="atölye-03 (veri)" data-label-en="workshop-03 (data)">
+          <div class="bay-head"><span><span data-en="WORKSHOP">ATÖLYE</span> 03</span><span class="lamp"><span class="off" data-en="CLOSED">KAPALI</span><span class="on" data-en="OPEN · 200">AÇIK · 200</span></span></div>
+          <div class="led-strip" aria-hidden="true"></div>
+          <div class="bay-body">
+            <div class="bay-frame">
+              <button class="door" type="button" aria-expanded="false" aria-controls="in-07" aria-label="Kapı 7: Veri Odası" data-en-label="Door 7: Data Room">
+                <span class="door-glass" aria-hidden="true"><i></i><i></i></span>
+                <span class="plate" aria-hidden="true"><b data-en="DATA ROOM">VERİ ODASI</b><small data-en="SQL · MongoDB">SQL · MongoDB</small></span>
+                <span class="handle" aria-hidden="true"></span>
+                <span class="seal" aria-hidden="true"></span>
+              </button>
+              <div class="inside lab" id="in-07">
+                <p class="kicker">$ sqlcmd -Q</p>
+                <h2 data-en="Query the site">Siteye soru sor</h2>
+                <span class="tc-art art-db" aria-hidden="true"><span class="q"><b>SELECT</b> category, <b>COUNT</b>(*)<br><b>FROM</b> skills <b>GROUP BY</b> category</span><span class="rows"><i style="--w:92%"></i><i style="--w:64%"></i><i style="--w:78%"></i></span></span><p data-en="Ask questions in SQL or MongoDB about the site’s content and your own visit: JOIN, GROUP BY, aggregate.">Sitenin içeriğine ve bu ziyaretine ait verilere SQL ya da MongoDB ile soru sor: JOIN, GROUP BY, aggregate.</p><span class="tc-live" id="tcDb"></span>
+                <a class="cta" href="veri-odasi.html"><span data-en="Enter the Data Room">Veri Odası’na gir</span> <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </div>
+            </div>
+            <div class="hazard" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="bay" id="bay-08" data-name="API" data-name-en="API" data-label="atölye-04 (api)" data-label-en="workshop-04 (api)">
+          <div class="bay-head"><span><span data-en="WORKSHOP">ATÖLYE</span> 04</span><span class="lamp"><span class="off" data-en="CLOSED">KAPALI</span><span class="on" data-en="OPEN · 200">AÇIK · 200</span></span></div>
+          <div class="led-strip" aria-hidden="true"></div>
+          <div class="bay-body">
+            <div class="bay-frame">
+              <button class="door" type="button" aria-expanded="false" aria-controls="in-08" aria-label="Kapı 8: API" data-en-label="Door 8: API">
+                <span class="door-glass" aria-hidden="true"><i></i><i></i></span>
+                <span class="plate" aria-hidden="true"><b data-en="API">API</b><small data-en="JSON endpoints">JSON uçları</small></span>
+                <span class="handle" aria-hidden="true"></span>
+                <span class="seal" aria-hidden="true"></span>
+              </button>
+              <div class="inside lab" id="in-08">
+                <p class="kicker">$ curl /api/emre.json</p>
+                <h2 data-en="Real endpoints">Gerçek uçlar</h2>
+                <span class="tc-art art-api" aria-hidden="true"><span class="ln"><span class="m">GET</span> /api/emre.json <span class="s">200</span></span><span class="ln j">{ "name": "Emre Çuhadar",</span><span class="ln j">&nbsp;&nbsp;"stack": [ "C#", ".NET", … ] }</span></span><p data-en="Real JSON endpoints with Swagger-style docs. You can call them from your own terminal too.">Swagger tarzı belgeli, gerçek JSON uçları. Kendi terminalinden de çağırabilirsin.</p>
+                <a class="cta" href="api.html"><span data-en="Open the API docs">API belgesini aç</span> <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </div>
+            </div>
+            <div class="hazard" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+      <div class="epoxy" aria-hidden="true"></div>
+    </section>
+    <div class="bay-dots" aria-hidden="true"></div>
+    </div>
+    </div>
+    <p class="garage-hint"><span class="hint-fine" data-en="Hover a door or press <kbd>1</kbd>–<kbd>8</kbd> · <kbd>L</kbd> turns off the lights · <kbd>?</kbd> all shortcuts">Kapının üzerine gel ya da <kbd>1</kbd>–<kbd>8</kbd> tuşlarına bas · <kbd>L</kbd> ışıkları kapatır · <kbd>?</kbd> tüm kısayollar</span><span class="hint-touch"><span class="hint-swipe" data-en="Swipe the doors sideways — the one in the middle opens.">Kapıları yana kaydır — ortadaki kendiliğinden açılır.</span><span class="hint-tap" data-en="Tap a door to lift the shutter, then tap inside to step in.">Bir kapıya dokun, kepenk kalksın; içeri girmek için içine dokun.</span></span></p>
 
     <section class="routes" aria-labelledby="routes-title">
       <h2 class="vh" id="routes-title" data-en="Where to start?">Nereden başlamalı?</h2>
@@ -197,39 +319,12 @@
     <section class="bench" aria-labelledby="bench-title">
       <div class="section-head">
         <div>
-          <p class="kicker">$ ls ~/atolye</p>
-          <h2 class="section-title" id="bench-title" data-en="THE WORKBENCH">ATÖLYE TEZGÂHI</h2>
+          <p class="kicker">$ ls ~/tezgah</p>
+          <h2 class="section-title" id="bench-title" data-en="ON THE BENCH">TEZGÂHIN ÜSTÜNDE</h2>
         </div>
-        <p class="bench-lead" data-en="Small, working pieces from my field: a request’s journey, this site’s own metrics, data you can query, a real API and a command line.">Alanımdan küçük ama çalışan parçalar: bir isteğin yolculuğu, bu sitenin kendi metrikleri, sorgulanabilir veriler, gerçek bir API ve bir komut satırı.</p>
+        <p class="bench-lead" data-en="Two tools you can reach from every page: a command line and a one-page résumé.">Her sayfadan ulaşılan iki alet: bir komut satırı ve tek sayfalık özgeçmiş.</p>
       </div>
       <div class="bench-grid">
-        <a class="tool-card" href="sema.html">
-          <span class="tc-art art-blueprint" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><b></b><em></em><s></s></span>
-          <h3 data-en="Blueprint">Şema</h3>
-          <p data-en="Follow a request from the app through the API, Redis and the database — logs to Graylog, metrics to Grafana. Break the database and watch the alert fire.">Bir isteği uygulamadan API’ye, Redis’e ve veritabanına kadar izle; loglar Graylog’a, metrikler Grafana’ya aksın. Veritabanını boz, uyarının tetiklendiğini gör.</p>
-          <span class="tc-live" id="tcCache"></span>
-          <span class="tc-go">sema.html <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </a>
-        <a class="tool-card" href="kontrol-odasi.html">
-          <span class="tc-art art-graph" aria-hidden="true"><svg id="tcSpark" viewBox="0 0 240 70" preserveAspectRatio="none"></svg></span>
-          <h3 data-en="Control Room">Kontrol Odası</h3>
-          <p data-en="This site’s own telemetry: real load times, Web Vitals, live frame rate, logs and a Prometheus-style /metrics endpoint.">Bu sitenin kendi telemetrisi: gerçek yükleme süreleri, Web Vitals, canlı kare hızı, loglar ve Prometheus biçiminde /metrics.</p>
-          <span class="tc-live" id="tcLoads"></span>
-          <span class="tc-go">kontrol-odasi.html <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </a>
-        <a class="tool-card" href="veri-odasi.html">
-          <span class="tc-art art-db" aria-hidden="true"><span class="q"><b>SELECT</b> category, <b>COUNT</b>(*)<br><b>FROM</b> skills <b>GROUP BY</b> category</span><span class="rows"><i style="--w:92%"></i><i style="--w:64%"></i><i style="--w:78%"></i></span></span>
-          <h3 data-en="Data Room">Veri Odası</h3>
-          <p data-en="Ask questions in SQL or MongoDB about the site’s content and your own visit: JOIN, GROUP BY, aggregate.">Sitenin içeriğine ve bu ziyaretine ait verilere SQL ya da MongoDB ile soru sor: JOIN, GROUP BY, aggregate.</p>
-          <span class="tc-live" id="tcDb"></span>
-          <span class="tc-go">veri-odasi.html <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </a>
-        <a class="tool-card" href="api.html">
-          <span class="tc-art art-api" aria-hidden="true"><span class="ln"><span class="m">GET</span> /api/emre.json <span class="s">200</span></span><span class="ln j">{ "name": "Emre Çuhadar",</span><span class="ln j">&nbsp;&nbsp;"stack": [ "C#", ".NET", … ] }</span></span>
-          <h3>API</h3>
-          <p data-en="Real JSON endpoints with Swagger-style docs. You can call them from your own terminal too.">Swagger tarzı belgeli, gerçek JSON uçları. Kendi terminalinden de çağırabilirsin.</p>
-          <span class="tc-go">api.html <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </a>
         <a class="tool-card" href="garaj.html#terminal" data-terminal>
           <span class="tc-art art-term" aria-hidden="true"><span class="g">emre@garage:~$</span> <span class="typed" id="tcTyped">curl -i /health</span><span class="caret"></span><br><span class="m">HTTP/1.1 200 OK · application/json</span><br><span class="m">{ "status": "Healthy", … }</span></span>
           <h3>Terminal</h3>

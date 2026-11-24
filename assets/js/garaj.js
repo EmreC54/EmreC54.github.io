@@ -6,7 +6,10 @@
   const $ = (id) => document.getElementById(id);
   const bays = Array.from(document.querySelectorAll('.bay'));
   if (!bays.length) return;
-  const garage = $('garage'), track = document.querySelector('.bays'), dotsBox = $('bayDots');
+  // İki kat: zemin (garaj) ve alt kat (atölye). Her katın kendi kapı dizisi ve (mobilde) noktaları var.
+  const garages = Array.from(document.querySelectorAll('.garage'));
+  const FLOORS = Array.from(document.querySelectorAll('.garage-stage')).map((st) => ({ track: st.querySelector('.bays'), dots: st.querySelector('.bay-dots'), bays: Array.from(st.querySelectorAll('.bay')) }));
+  const floorOf = (bay) => FLOORS.find((f) => f.bays.includes(bay));
   const openLabel = $('open-label'), live = $('bayLive');
   const mqMobile = window.matchMedia('(max-width: 760px)');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -90,36 +93,68 @@
   // =================================================================== MOBİL: KAYDIRILAN KAPILAR
   // Ortadaki kapı kendiliğinden açılır; alttaki noktalar hangi kapıda olduğunu gösterir.
   function scrollToBay(bay, instant) {
-    if (!track) return;
-    const left = bay.offsetLeft - (track.clientWidth - bay.clientWidth) / 2;
-    track.scrollTo({ left, behavior: instant || G.reduce ? 'auto' : 'smooth' });
+    const f = floorOf(bay);
+    if (!f || !f.track) return;
+    const left = bay.offsetLeft - (f.track.clientWidth - bay.clientWidth) / 2;
+    f.track.scrollTo({ left, behavior: instant || G.reduce ? 'auto' : 'smooth' });
   }
-  function centered() {
-    const mid = track.scrollLeft + track.clientWidth / 2;
-    let best = bays[0], d = Infinity;
-    bays.forEach((b) => { const c = b.offsetLeft + b.clientWidth / 2, dd = Math.abs(c - mid); if (dd < d) { d = dd; best = b; } });
+  function centered(f) {
+    const mid = f.track.scrollLeft + f.track.clientWidth / 2;
+    let best = f.bays[0], d = Infinity;
+    f.bays.forEach((b) => { const c = b.offsetLeft + b.clientWidth / 2, dd = Math.abs(c - mid); if (dd < d) { d = dd; best = b; } });
     return best;
   }
   function renderDots() {
-    if (!dotsBox) return;
-    const active = current || (mqMobile.matches && track ? centered() : null);
-    dotsBox.querySelectorAll('button').forEach((btn, i) => btn.setAttribute('aria-current', String(bays[i] === active)));
+    FLOORS.forEach((f) => {
+      if (!f.dots) return;
+      const active = current && f.bays.includes(current) ? current : (mqMobile.matches && f.track ? centered(f) : null);
+      f.dots.querySelectorAll('button').forEach((btn, i) => btn.setAttribute('aria-current', String(f.bays[i] === active)));
+    });
   }
-  if (dotsBox) {
-    dotsBox.innerHTML = bays.map((b, i) => '<button type="button" tabindex="-1" aria-label="' + G.esc(bayName(b)) + '" data-i="' + i + '"></button>').join('');
-    dotsBox.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { scrollToBay(bays[+b.dataset.i]); setOpen(bays[+b.dataset.i]); } });
+  FLOORS.forEach((f) => {
+    if (f.dots) {
+      f.dots.innerHTML = f.bays.map((b, i) => '<button type="button" tabindex="-1" aria-label="' + G.esc(bayName(b)) + '" data-i="' + i + '"></button>').join('');
+      f.dots.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { scrollToBay(f.bays[+b.dataset.i]); setOpen(f.bays[+b.dataset.i]); } });
+    }
+    let st = 0;
+    if (f.track) f.track.addEventListener('scroll', () => {
+      if (!mqMobile.matches) return;
+      clearTimeout(st);
+      st = setTimeout(() => setOpen(centered(f)), 110);
+    }, { passive: true });
+  });
+
+  // =================================================================== KATLAR (asansör paneli)
+  const lift = document.querySelector('.lift'), floorEls = Array.from(document.querySelectorAll('.floor[data-floor]'));
+  function goFloor(n) {
+    const el = floorEls.find((f) => f.dataset.floor === String(n));
+    if (!el) return;
+    window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - 76, behavior: G.reduce ? 'auto' : 'smooth' });
+    G.sfx('click');
+    G.metrics.inc('garage_floor_changes_total', { floor: String(n) });
   }
-  let st = 0;
-  if (track) track.addEventListener('scroll', () => {
-    if (!mqMobile.matches) return;
-    clearTimeout(st);
-    st = setTimeout(() => setOpen(centered()), 110);
-  }, { passive: true });
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-floor-go], .lift a[data-floor]');
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    goFloor(a.dataset.floorGo || a.dataset.floor);
+  });
+  if (lift && 'IntersectionObserver' in window) {
+    const seen = new Map();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => seen.set(en.target.dataset.floor, en.intersectionRatio));
+      let best = '0', r = -1;
+      seen.forEach((v, k) => { if (v > r) { r = v; best = k; } });
+      lift.querySelectorAll('a[data-floor]').forEach((a) => { if (a.dataset.floor === best) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+      lift.classList.toggle('show', r > 0);
+    }, { threshold: [0, .15, .3, .5, .7, 1] });
+    floorEls.forEach((f) => io.observe(f));
+  }
 
   // =================================================================== KLAVYE
   document.addEventListener('keydown', (e) => {
     if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || typingIn(e.target) || (G.topLayer && G.topLayer())) return;
-    if (/^[1-4]$/.test(e.key)) { e.preventDefault(); G.openBay(+e.key, true); }
+    if (/^[1-8]$/.test(e.key) && bays[+e.key - 1]) { e.preventDefault(); G.openBay(+e.key, true); }
     else if (e.key === 'l' || e.key === 'L') { e.preventDefault(); setLights(document.body.classList.contains('lights-off')); }
     else if (e.key === 'Escape' && current && !mqMobile.matches) {
       const f = document.activeElement, inBay = f && f.closest && f.closest('.bay');
@@ -163,9 +198,9 @@
     const mx = px / window.innerWidth - 0.5, my = py / window.innerHeight - 0.5;
     if (dust) dust.setOffset(-mx, -my);
     moveFlash(px, py);
-    if (garage && !G.reduce && mouse && !mqMobile.matches && !G.lite()) garage.style.transform = 'rotateX(' + (-my * 4).toFixed(2) + 'deg) rotateY(' + (mx * 6).toFixed(2) + 'deg)';
+    if (garages.length && !G.reduce && mouse && !mqMobile.matches && !G.lite()) garages.forEach((g) => { g.style.transform = 'rotateX(' + (-my * 4).toFixed(2) + 'deg) rotateY(' + (mx * 6).toFixed(2) + 'deg)'; });
   }
-  mqMobile.addEventListener('change', () => { if (garage) garage.style.transform = ''; setOpen(null, true); renderDots(); });
+  mqMobile.addEventListener('change', () => { garages.forEach((g) => { g.style.transform = ''; }); setOpen(null, true); renderDots(); });
 
   // =================================================================== TABELA: saat, atölye, yükleme süresi
   const timeEl = $('local-time'), wsIco = $('ws-ico'), wsText = $('ws-text'), wsDetail = $('ws-detail');
@@ -316,7 +351,7 @@
 
   // =================================================================== GEÇİŞLER VE BAŞLANGIÇ
   if (G.store.sget('garage-from-intro')) { G.store.sset('garage-from-intro', null); document.body.classList.add('from-intro'); }
-  document.addEventListener('garage:lang', () => { tick(); showLatest(); renderBench(); renderWx(); if (openLabel) openLabel.textContent = current ? bayLabel(current) : G.t('yok', 'none'); if (dotsBox) dotsBox.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-label', bayName(bays[i]))); });
-  if (!fromHash() && mqMobile.matches) setTimeout(() => { if (!current) setOpen(centered(), true); }, G.reduce ? 0 : 700);
+  document.addEventListener('garage:lang', () => { tick(); showLatest(); renderBench(); renderWx(); if (openLabel) openLabel.textContent = current ? bayLabel(current) : G.t('yok', 'none'); FLOORS.forEach((f) => { if (f.dots) f.dots.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-label', bayName(f.bays[i]))); }); });
+  if (!fromHash() && mqMobile.matches) setTimeout(() => { if (!current) setOpen(centered(FLOORS[0]), true); }, G.reduce ? 0 : 700);
   renderDots();
 })();
