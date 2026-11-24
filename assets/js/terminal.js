@@ -150,7 +150,7 @@
       const slug = f.replace(/^(seyir-defteri|posts)\//, '').replace(/\.md$/, '');
       const p = ps.find((x) => x.slug === slug);
       if (!p) return text('cat: ' + a[0] + ': ' + T('böyle bir dosya yok', 'No such file or directory'), 'r');
-      const md = await fetch(ROOT() + 'posts/' + p.slug + '.md').then((r) => r.text()).catch(() => '');
+      const md = await fetch(ROOT() + 'posts/' + p.slug + '.md').then((r) => r.text()).then((t) => t.replace(/^---\r?\n[\s\S]*?\r?\n---[ \t]*(?:\r?\n|$)/, '')).catch(() => '');
       const lines = md.split('\n');
       print(lines.slice(0, 30).map(esc).concat(lines.length > 30 ? ['<span class="m">… (' + (lines.length - 30) + T(' satır daha) ', ' more lines) ') + '<a href="' + G.postUrl(p.slug) + '">' + T('tamamını oku', 'read it all') + '</a></span>'] : []));
     } },

@@ -20,7 +20,8 @@
   function source(slug) {
     if (!mdCache[slug]) {
       mdCache[slug] = fetch('posts/' + encodeURIComponent(slug) + '.md', { cache: 'no-cache' })
-        .then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); });
+        .then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); })
+        .then((t) => t.replace(/^---\r?\n[\s\S]*?\r?\n---[ \t]*(?:\r?\n|$)/, ''));   // en üstteki başlık bölümü (title, date…) metne girmez
     }
     return mdCache[slug];
   }

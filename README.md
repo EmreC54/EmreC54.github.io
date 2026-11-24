@@ -12,7 +12,7 @@ Kişisel site: https://emrec54.github.io — framework yok; düz HTML, CSS ve Ja
 - `api.html` gerçek JSON uçlarının Swagger tarzı belgesi (`api/openapi.json`)
 - `icerik.json` **kişisel metinlerin hepsi**: hakkımda, garaj selamı, deneyim, eğitim, diller, takım çantası, CV — sayfalar, API ve terminal buradan beslenir
 - `config.js` ayarlar: bağlantılar, atölye saatleri, hava durumu, gün döngüsü, giscus, terminal komutları
-- `posts/` Seyir Defteri yazıları (nasıl yazı ekleneceği: `posts/README.md`)
+- `posts/` Seyir Defteri yazıları (nasıl yazı ekleneceği: `docs/yazi-ekleme.md`) · `admin/` yönetim paneli
 - `assets/` CSS, JS, fontlar, görseller · `sw.js` + `manifest.webmanifest` çevrimdışı çalışma
 - `assets/js/query.js` Veri Odası ve terminalin ortak sorgu motoru (elle yazılmış SQL ve mongosh ayrıştırıcıları; `eval` yok)
 - `assets/js/plan.js` garajın kat planı (`M` tuşu) · `assets/js/xray.js` röntgen modu (`X` tuşu: bölümleri yapan dosyalar, GitHub bağlantılarıyla)
@@ -29,6 +29,14 @@ Kişisel metinlerin hepsi `icerik.json`'da. GitHub'da dosyayı aç → kalem →
 - `experience`: iş geçmişi (en yeni en üstte). `start`/`end`: `"2026"` ya da `"2026-10"`; hâlâ sürüyorsa `"end": null`. `highlights` CV'deki maddeler.
 - `education`, `languages`, `toolbox`: eğitim, diller, takım çantası çekmeceleri (Hakkımda, CV ve terminal bunları kullanır).
 - Yerelde önizlemek için `node scripts/build.mjs --write`: sayfalar ve `assets/js/icerik.js` güncellenir (`icerik.js`'i elle değiştirme, üretilir).
+
+## Yönetim paneli (yazılar ve metinler)
+https://emrec54.github.io/admin/ — yazıları ve `icerik.json`'daki metinleri form gibi düzenlersin (Sveltia CMS). Sunucu yok: panel tarayıcında çalışır, kaydettiğin her şey depoya commit olarak gider ve GitHub Actions siteyi 1–2 dakikada yayınlar.
+
+**Giriş anahtarı (bir kez):** GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained tokens** → Generate new token. Repository access: **Only select repositories → EmreC54.github.io**. Permissions → Repository permissions → **Contents: Read and write**. Oluşan anahtarı panelde **Sign In with Token**'a yapıştır. Anahtar sadece senin tarayıcında saklanır; kaybedersen ya da süresi dolarsa yenisini oluşturursun.
+
+- Ayarlar: `admin/config.yml`. Panel arama motorlarına kapalı (`robots.txt`).
+- Yazı dosyaları `posts/*.md`: en üstte başlık bölümü (title, date, summary, tags), altında metin. `posts/index.json` bunlardan üretilir. Elle yazmak için: `docs/yazi-ekleme.md`.
 
 ## API
 `scripts/build.mjs` her yayında `config.js` ve `posts/index.json`'dan şu dosyaları üretir (Türkçe `api/`, İngilizce `api/en/`):

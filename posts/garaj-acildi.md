@@ -1,3 +1,14 @@
+---
+title: "Garaj açıldı: Bu siteyi nasıl kurdum?"
+date: 2026-11-20
+summary: "Framework kullanmadan, düz HTML, CSS ve JavaScript ile 3B bir garaj kurmak: kavisli monitör, katlanan kepenkler ve akıcılık için verdiğim kararlar."
+tags:
+  - frontend
+  - css-3d
+  - performans
+  - github-pages
+---
+
 Kişisel bir site yapmaya karar verdiğimde iki şey istedim: sıradan bir özgeçmiş sayfası gibi durmasın ve her parçasını kendim anlayabileyim. Sonuç, kapıları açılan bir garaj oldu. Bu ilk kayıtta siteyi nasıl kurduğumu ve yol boyunca öğrendiklerimi not ediyorum.
 
 ## Neden framework yok?
