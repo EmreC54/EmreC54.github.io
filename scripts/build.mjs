@@ -21,7 +21,7 @@ const errors = [], warnings = [];
 const err = (m) => errors.push(m);
 const warn = (m) => warnings.push(m);
 const xml = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
-const EXCLUDE = new Set(['_site', '.git', '.github', 'scripts', 'node_modules', 'README.md', 'posts/_sablon.md', 'posts/README.md', '.DS_Store']);
+const EXCLUDE = new Set(['_site', '.git', '.github', 'scripts', 'node_modules', 'README.md', 'docs', 'posts/_sablon.md', 'posts/README.md', '.DS_Store']);
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
@@ -33,24 +33,77 @@ function walk(dir, out = []) {
 }
 
 // ------------------------------------------------------------------ 1. Seyir Defteri
+// Her yazı posts/<slug>.md: en üstte YAML başlığı (--- … ---) — başlık, tarih, özet, etiketler — altında Markdown metin.
+// Yönetim paneli (admin/) de bu biçimde yazar. posts/index.json buradan üretilir (elle değiştirme).
+const FM_RE = /^---\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/;
+function yamlScalar(v) {
+  v = v.trim();
+  if (v === '' || v === '~' || v === 'null') return null;
+  if (v === 'true') return true;
+  if (v === 'false') return false;
+  if (/^'.*'$/s.test(v)) return v.slice(1, -1).replace(/''/g, "'");
+  if (/^".*"$/s.test(v)) { try { return JSON.parse(v); } catch (e) { return v.slice(1, -1); } }
+  if (/^\[.*\]$/s.test(v)) return v.slice(1, -1).split(',').map((x) => yamlScalar(x)).filter((x) => x !== null && x !== '');
+  return v.replace(/\s+#.*$/, '');
+}
+// Küçük, bağımlılıksız YAML okuyucu: düz anahtar: değer, tırnaklı metin, katlanmış satırlar, >- / | blokları, [a, b] ve "- madde" listeleri
+function parseFrontmatter(text) {
+  const m = text.match(FM_RE);
+  if (!m) return { data: null, body: text };
+  const data = {}, lines = m[1].split(/\r?\n/);
+  let key = null, mode = null, buf = [];
+  const flush = () => {
+    if (!key) return;
+    if (mode === 'list') data[key] = buf.map((x) => yamlScalar(x));
+    else if (mode === 'block>') data[key] = buf.map((x) => x.trim()).join(' ').trim();
+    else if (mode === 'block|') data[key] = buf.map((x) => x.replace(/^ {2}/, '')).join('\n').replace(/\s+$/, '');
+    else data[key] = yamlScalar(buf.join(' '));
+    key = null; mode = null; buf = [];
+  };
+  for (const line of lines) {
+    if (!line.trim() || /^\s*#/.test(line)) { if (mode && mode.startsWith('block')) buf.push(''); continue; }
+    const top = line.match(/^([A-Za-z_][\w-]*):(?:\s+(.*))?$/);
+    if (top && !/^\s/.test(line)) {
+      flush();
+      key = top[1];
+      const rest = (top[2] || '').trim();
+      if (rest === '') mode = 'list?';
+      else if (/^[>|][-+]?$/.test(rest)) mode = rest[0] === '>' ? 'block>' : 'block|';
+      else { mode = 'scalar'; buf.push(rest); }
+      continue;
+    }
+    const item = line.match(/^\s*-\s+(.*)$/);
+    if (key && (mode === 'list?' || mode === 'list') && item) { mode = 'list'; buf.push(item[1]); continue; }
+    if (key) { if (mode === 'list?') mode = 'scalar'; buf.push(mode === 'block|' ? line : line.trim()); }
+  }
+  flush();
+  Object.keys(data).forEach((k) => { if (data[k] === undefined || (Array.isArray(data[k]) && !data[k].length && k !== 'tags')) delete data[k]; });
+  return { data, body: text.slice(m[0].length) };
+}
+const postBodies = {};
 let posts = [];
-try {
-  const idx = JSON.parse(readFileSync('posts/index.json', 'utf8'));
-  posts = Array.isArray(idx.posts) ? idx.posts : (err('posts/index.json: "posts" bir liste olmalı'), []);
-} catch (e) { err('posts/index.json okunamadı ya da geçerli JSON değil: ' + e.message); }
+const mdFiles = existsSync('posts') ? readdirSync('posts').filter((f) => f.endsWith('.md') && !f.startsWith('_') && f !== 'README.md') : [];
+for (const f of mdFiles) {
+  const slug = f.replace(/\.md$/, '');
+  const { data, body } = parseFrontmatter(readFileSync(join('posts', f), 'utf8'));
+  if (!data) { err(`posts/${f}: en üstte --- ile başlayan başlık bölümü yok (title, date, summary, tags) — örnek: docs/yazi-sablonu.md`); continue; }
+  const d = (v) => (v instanceof Date ? v.toISOString().slice(0, 10) : v == null ? v : String(v).slice(0, 10));
+  posts.push({ slug, title: data.title != null ? String(data.title) : '', date: d(data.date), summary: data.summary != null ? String(data.summary) : '',
+    tags: Array.isArray(data.tags) ? data.tags.map(String) : (data.tags ? [String(data.tags)] : []), ...(data.updated ? { updated: d(data.updated) } : {}), ...(data.draft ? { draft: true } : {}) });
+  postBodies[slug] = body;
+}
 const slugs = new Set();
-posts.forEach((p, i) => {
-  const at = `posts/index.json → posts[${i}]${p && p.slug ? ' (' + p.slug + ')' : ''}`;
-  if (!p.slug || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(p.slug)) err(`${at}: slug sadece küçük harf, rakam ve tire içermeli (Türkçe karakter, boşluk yok)`);
-  else if (slugs.has(p.slug)) err(`${at}: bu slug iki kez kullanılmış`);
+posts.forEach((p) => {
+  const at = `posts/${p.slug}.md`;
+  if (!/^[a-z0-9çğıöşü]+(-[a-z0-9çğıöşü]+)*$/.test(p.slug)) err(`${at}: dosya adı sadece küçük harf, rakam ve tire içermeli (boşluk yok)`);
   slugs.add(p.slug);
-  if (!p.title) err(`${at}: title eksik`);
+  if (!p.title) err(`${at}: title (başlık) eksik`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(p.date || '') || Number.isNaN(Date.parse(p.date))) err(`${at}: date YYYY-AA-GG biçiminde olmalı (ör. 2026-12-01)`);
-  if (p.tags != null && !Array.isArray(p.tags)) err(`${at}: tags bir liste olmalı, ör. ["redis", "dotnet"]`);
   if (p.updated != null && (!/^\d{4}-\d{2}-\d{2}$/.test(p.updated) || Number.isNaN(Date.parse(p.updated)))) err(`${at}: updated YYYY-AA-GG biçiminde olmalı`);
-  if (p.slug && !existsSync(join('posts', p.slug + '.md'))) err(`${at}: posts/${p.slug}.md dosyası bulunamadı`);
   if (!p.summary) warn(`${at}: summary yok — listede ve RSS'te özet görünmez`);
 });
+posts.sort((a, b) => (a.date < b.date ? 1 : -1));
+const postsIndexJson = JSON.stringify({ _not: 'Bu dosya scripts/build.mjs tarafından posts/*.md başlıklarından üretilir — elle değiştirme.', posts }, null, 2) + '\n';
 const live = posts.filter((p) => !p.draft && p.slug && p.date).sort((a, b) => (a.date < b.date ? 1 : -1));
 
 // ------------------------------------------------------------------ 2. İç bağlantılar
@@ -60,7 +113,7 @@ const exists = (p) => fileSet.has(p) || existsSync(join(ROOT, p));
 const pages = files.filter((f) => f.endsWith('.html'));
 const API_FILES = ['index', 'emre', 'stack', 'experience', 'posts', 'cv', 'health'].flatMap((n) => ['api/' + n + '.json', 'api/en/' + n + '.json']).concat(['api/openapi.json']);
 const POST_FILES = live.map((p) => 'yazi/' + p.slug + '.html');   // her yazının statik sayfası (bkz. 5)
-const GENERATED = new Set(['feed.xml', 'sitemap.xml', 'robots.txt', 'assets/js/icerik.js', ...API_FILES, ...POST_FILES]);   // build.json: depodaki yer tutucu, CI'da gerçek bilgiyle değişir
+const GENERATED = new Set(['feed.xml', 'sitemap.xml', 'robots.txt', 'assets/js/icerik.js', 'posts/index.json', ...API_FILES, ...POST_FILES]);   // build.json: depodaki yer tutucu, CI'da gerçek bilgiyle değişir
 for (const f of pages) {
   const html = readFileSync(f, 'utf8');
   for (const m of html.matchAll(/\s(href|src)=(?!["'])([^\s>]*)/g)) err(`${f}: tırnaksız ${m[1]} → ${m[2] || '(boş)'}`);
@@ -97,7 +150,7 @@ const feed = `<?xml version="1.0" encoding="UTF-8"?>
     <language>tr</language>
 ${live.length ? `    <lastBuildDate>${rfc822(live[0].date)}</lastBuildDate>\n` : ''}${live.map((p) => `    <item>
       <title>${xml(p.title)}</title>
-      <link>${SITE}/yazi/${p.slug}.html</link>
+      <link>${SITE}/yazi/${encodeURIComponent(p.slug)}.html</link>
       <guid isPermaLink="false">${SITE}/posts/${p.slug}</guid>
       <pubDate>${rfc822(p.date)}</pubDate>
 ${(p.tags || []).map((t) => `      <category>${xml(t)}</category>\n`).join('')}      <description>${xml(p.summary || '')}</description>
@@ -107,14 +160,14 @@ ${(p.tags || []).map((t) => `      <category>${xml(t)}</category>\n`).join('')} 
 `;
 const gitDate = (f) => { try { return execSync(`git log -1 --format=%cs -- "${f}"`, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim(); } catch (e) { return ''; } };
 const today = new Date().toISOString().slice(0, 10);
-const listed = pages.filter((f) => !/^(404|offline|yazi)\.html$/.test(f) && !f.startsWith('yazi/')).sort((a, b) => (a === 'index.html' ? -1 : b === 'index.html' ? 1 : a.localeCompare(b)));
+const listed = pages.filter((f) => !/^(404|offline|yazi)\.html$/.test(f) && !f.startsWith('yazi/') && !f.startsWith('admin/')).sort((a, b) => (a === 'index.html' ? -1 : b === 'index.html' ? 1 : a.localeCompare(b)));
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${listed.map((f) => `  <url><loc>${SITE}/${f === 'index.html' ? '' : f}</loc><lastmod>${gitDate(f) || today}</lastmod><priority>${f === 'index.html' ? '1.0' : f === 'garaj.html' ? '0.9' : '0.7'}</priority></url>`).join('\n')}
-${live.map((p) => `  <url><loc>${SITE}/yazi/${p.slug}.html</loc><lastmod>${p.updated || gitDate('posts/' + p.slug + '.md') || p.date}</lastmod><priority>0.6</priority></url>`).join('\n')}
+${live.map((p) => `  <url><loc>${SITE}/yazi/${encodeURIComponent(p.slug)}.html</loc><lastmod>${p.updated || gitDate('posts/' + p.slug + '.md') || p.date}</lastmod><priority>0.6</priority></url>`).join('\n')}
 </urlset>
 `;
-const robots = `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`;
+const robots = `User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: ${SITE}/sitemap.xml\n`;
 
 // ------------------------------------------------------------------ 3b. İçerik: icerik.json → sayfalar
 // Kişisel metinler tek dosyada (icerik.json). Yayında:
@@ -133,7 +186,7 @@ const ce = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '
     ICERIK = null; return;
   }
   const bi = (v, at) => { if (!v || typeof v !== 'object' || typeof v.tr !== 'string' || typeof v.en !== 'string') err(`icerik.json → ${at}: { "tr": "…", "en": "…" } olmalı`); };
-  const ym = (v, at) => { if (v != null && !/^\d{4}(-\d{2})?$/.test(v)) err(`icerik.json → ${at}: "2026" ya da "2026-10" biçiminde olmalı`); };
+  const ym = (v, at) => { if (v != null && v !== '' && !/^\d{4}(-\d{2})?$/.test(v)) err(`icerik.json → ${at}: "2026" ya da "2026-10" biçiminde olmalı`); };
   const P = ICERIK.profile || {};
   ['role', 'team', 'location'].forEach((k) => bi(P[k], 'profile.' + k));
   Object.entries(ICERIK.texts || {}).forEach(([k, v]) => bi(v, 'texts.' + k));
@@ -142,7 +195,7 @@ const ce = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '
     if (!e.company) err(`icerik.json → ${at}.company eksik`);
     bi(e.role, at + '.role'); bi(e.team, at + '.team'); ym(e.start, at + '.start'); ym(e.end, at + '.end');
     if (!e.start) err(`icerik.json → ${at}.start eksik`);
-    if (e.note) bi(e.note, at + '.note');
+    if (e.note && (e.note.tr || e.note.en)) bi(e.note, at + '.note');
     (e.highlights || []).forEach((h, j) => bi(h, `${at}.highlights[${j + 1}]`));
   });
   (ICERIK.education || []).forEach((e, i) => { bi(e.school, `education[${i + 1}].school`); bi(e.field, `education[${i + 1}].field`); });
@@ -160,7 +213,7 @@ const MON = { tr: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temm
   trs: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
   en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] };
 const ymText = (v, l, short) => { const [y, m] = String(v).split('-'); return m ? (l === 'en' ? MON.en : short ? MON.trs : MON.tr)[+m - 1] + ' ' + y : y; };
-const period = (e, l, cv) => ymText(e.start, l, cv) + ' – ' + (e.end ? ymText(e.end, l, cv) : (l === 'en' ? (cv ? 'present' : 'now') : (cv ? 'günümüz' : 'şimdi'))) + (e.note ? ' · ' + e.note[l] : '');
+const period = (e, l, cv) => ymText(e.start, l, cv) + ' – ' + (e.end ? ymText(e.end, l, cv) : (l === 'en' ? (cv ? 'present' : 'now') : (cv ? 'günümüz' : 'şimdi'))) + (e.note && e.note[l] ? ' · ' + e.note[l] : '');
 const two = (tag, tr, en, attrs = '') => `<${tag}${attrs} data-en="${ce(en)}">${ce(tr)}</${tag}>`;
 const lower = (s, l) => s.toLocaleLowerCase(l === 'en' ? 'en' : 'tr');
 const BLOCKS = {
@@ -229,7 +282,7 @@ if (cfg) {
     api[base + 'emre.json'] = withLinks('emre', { name: cfg.name, role, company: p.company || null, team: team || null, since: p.since || null, location: L(p.location, l) || cfg.city || null, timeZone: cfg.timeZone || null, summary, stack: tools, links });
     api[base + 'stack.json'] = withLinks('stack', { count: tools.length, drawers: stack });
     api[base + 'experience.json'] = withLinks('experience', { experience: jobs, education: schools });
-    api[base + 'posts.json'] = withLinks('posts', { count: live.length, posts: live.map((x) => ({ slug: x.slug, title: x.title, date: x.date, tags: x.tags || [], summary: x.summary || '', url: SITE + '/yazi/' + x.slug + '.html', markdown: SITE + '/posts/' + x.slug + '.md' })) });
+    api[base + 'posts.json'] = withLinks('posts', { count: live.length, posts: live.map((x) => ({ slug: x.slug, title: x.title, date: x.date, tags: x.tags || [], summary: x.summary || '', url: SITE + '/yazi/' + encodeURIComponent(x.slug) + '.html', markdown: SITE + '/posts/' + x.slug + '.md' })) });
     api[base + 'cv.json'] = {
       $schema: 'https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json',
       basics: { name: cfg.name, label: role, email: cfg.email || undefined, url: cfg.site || SITE, summary,
@@ -307,8 +360,8 @@ const postPages = {};
   const replaceOnce = (html, re, to, what) => { if (!re.test(html)) { err('yazi.html şablonunda bulunamadı: ' + what); return html; } return html.replace(re, to); };
   live.forEach((p, i) => {
     let md = '';
-    try { md = readFileSync(join('posts', p.slug + '.md'), 'utf8'); } catch (e) { return; }
-    const url = `${SITE}/yazi/${p.slug}.html`, self = `yazi/${p.slug}.html`;
+    md = postBodies[p.slug]; if (md == null) return;
+    const url = `${SITE}/yazi/${encodeURIComponent(p.slug)}.html`, self = `yazi/${p.slug}.html`;
     const r = blog.render(md);
     const desc = p.summary || (r.html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 155));
     const toc = r.toc.length >= 3 ? '<nav class="toc mono" aria-label="İçindekiler"><span>içindekiler</span>' + r.toc.map((t) => '<a href="#' + t.id + '">' + t.text + '</a>').join('') + '</nav>' : '';
@@ -325,8 +378,8 @@ const postPages = {};
         '</div>' +
       '</header>' + toc + '<div class="prose">' + r.html + '</div>';
     const prev = live[i + 1], next = live[i - 1];
-    const nav = (prev ? '<a href="yazi/' + prev.slug + '.html"><small class="mono">← önceki</small><b>' + htmlEsc(prev.title) + '</b></a>' : '<span></span>') +
-      (next ? '<a href="yazi/' + next.slug + '.html"><small class="mono">sonraki →</small><b>' + htmlEsc(next.title) + '</b></a>' : '<span></span>');
+    const nav = (prev ? '<a href="yazi/' + encodeURIComponent(prev.slug) + '.html"><small class="mono">← önceki</small><b>' + htmlEsc(prev.title) + '</b></a>' : '<span></span>') +
+      (next ? '<a href="yazi/' + encodeURIComponent(next.slug) + '.html"><small class="mono">sonraki →</small><b>' + htmlEsc(next.title) + '</b></a>' : '<span></span>');
     const ld = { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: p.title, description: desc, datePublished: p.date, dateModified: p.updated || p.date,
       inLanguage: 'tr', url, mainEntityOfPage: url, image: SITE + '/assets/img/og.jpg', keywords: (p.tags || []).join(', ') || undefined,
       author: { '@type': 'Person', name: 'Emre Çuhadar', url: SITE + '/' }, publisher: { '@type': 'Person', name: 'Emre Çuhadar', url: SITE + '/' } };
@@ -341,7 +394,7 @@ const postPages = {};
       (p.tags || []).map((t) => '\n  <meta property="article:tag" content="' + htmlEsc(t) + '">').join(''), 'og:url');
     h = replaceOnce(h, /<\/head>/, '  <script type="application/ld+json">' + JSON.stringify(ld).replace(/</g, '\\u003c') + '</script>\n</head>', '</head>');
     h = replaceOnce(h, /<body([^>]*)data-page="yazi"/, '<body$1data-page="yazi" data-slug="' + p.slug + '"', 'body data-page');
-    h = h.replace(/href="#([^"]*)"/g, 'href="' + self + '#$1"');      // sayfa içi bağlantılar <base> yüzünden köke gitmesin
+    h = h.replace(/href="#([^"]*)"/g, 'href="' + encodeURI(self) + '#$1"');      // sayfa içi bağlantılar <base> yüzünden köke gitmesin
     h = replaceOnce(h, /<article class="post" id="post">[\s\S]*?<\/article>/, '<article class="post" id="post" data-lang="tr">' + article + '</article>', '#post');
     h = replaceOnce(h, /(<nav class="post-nav" id="postNav"[^>]*>)<\/nav>/, '$1' + nav + '</nav>', '#postNav');
     postPages[self] = applyContent(h, self);
@@ -359,7 +412,7 @@ console.log(`✓ ${posts.length} kayıt, ${pages.length} sayfa ve ${files.length
 if (flags.has('--check')) process.exit(0);
 
 if (flags.has('--write')) {
-  writeFileSync('feed.xml', feed); writeFileSync('sitemap.xml', sitemap); writeFileSync('robots.txt', robots);
+  writeFileSync('feed.xml', feed); writeFileSync('sitemap.xml', sitemap); writeFileSync('robots.txt', robots); writeFileSync('posts/index.json', postsIndexJson);
   const n = writeApi(ROOT, 'local');
   if (icerikJs) { mkdirSync('assets/js', { recursive: true }); writeFileSync('assets/js/icerik.js', icerikJs); }
   let changed = 0;
@@ -384,6 +437,7 @@ for (const f of files.sort()) {
 writeFileSync(join(OUT, 'feed.xml'), feed);
 writeFileSync(join(OUT, 'sitemap.xml'), sitemap);
 writeFileSync(join(OUT, 'robots.txt'), robots);
+mkdirSync(join(OUT, 'posts'), { recursive: true }); writeFileSync(join(OUT, 'posts/index.json'), postsIndexJson);
 writeFileSync(join(OUT, '.nojekyll'), '');
 if (icerikJs) { mkdirSync(join(OUT, 'assets/js'), { recursive: true }); writeFileSync(join(OUT, 'assets/js/icerik.js'), icerikJs); }
 for (const [f, h] of Object.entries(postPages)) { mkdirSync(dirname(join(OUT, f)), { recursive: true }); writeFileSync(join(OUT, f), h); }

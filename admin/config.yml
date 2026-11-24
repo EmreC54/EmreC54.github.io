@@ -1,0 +1,118 @@
+# Yönetim paneli (Sveltia CMS) — https://emrec54.github.io/admin/
+# Yazılar posts/*.md dosyalarına, kişisel metinler icerik.json'a yazılır. Her kayıt bir commit'tir.
+backend:
+  name: github
+  repo: EmreC54/EmreC54.github.io
+  branch: main
+  commit_messages:
+    create: "Yeni yazı: {{slug}}"
+    update: "Güncelleme: {{slug}}"
+    delete: "Silindi: {{slug}}"
+    uploadMedia: "Görsel: {{path}}"
+    deleteMedia: "Görsel silindi: {{path}}"
+
+site_url: https://emrec54.github.io
+display_url: https://emrec54.github.io
+
+# Yazılara eklenen görseller
+media_folder: assets/img/yazi
+public_folder: /assets/img/yazi
+
+# Yeni yazının dosya adı başlıktan üretilir: Türkçe harfler sadeleşir (ş → s), boşluk → tire
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  - name: posts
+    label: Seyir Defteri
+    label_singular: Yazı
+    description: "Yazılar. Kaydedince 1-2 dakikada sitede ve RSS'te görünür."
+    folder: posts
+    extension: md
+    format: yaml-frontmatter
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{title}} · {{date}}"
+    sortable_fields: [date, title]
+    media_folder: /assets/img/yazi
+    public_folder: /assets/img/yazi
+    fields:
+      - { name: title, label: Başlık, widget: string }
+      - { name: date, label: Tarih, widget: datetime, time_format: false, format: "YYYY-MM-DD" }
+      - { name: summary, label: Özet, widget: text, hint: "Listede, RSS'te ve paylaşım önizlemesinde görünen bir iki cümle." }
+      - { name: tags, label: Etiketler, widget: list, required: false, hint: "Küçük harf, tek kelime ya da tireli: redis, dotnet, css-3d" }
+      - { name: draft, label: "Taslak (sitede görünmez)", widget: boolean, default: false, required: false }
+      - { name: updated, label: "Güncelleme tarihi", widget: datetime, time_format: false, format: "YYYY-MM-DD", required: false, hint: "Yazıyı sonradan değiştirdiysen" }
+      - { name: body, label: Metin, widget: markdown }
+
+  - name: site
+    label: Site metinleri
+    description: "Hakkımda, garaj, CV, deneyim, takım çantası. Her metin iki dilli: Türkçe ve İngilizce."
+    files:
+      - name: icerik
+        label: Kişisel metinler
+        file: icerik.json
+        fields:
+          - { name: _nasil, widget: hidden }
+          - name: texts
+            label: Metinler
+            widget: object
+            fields:
+              - { name: garage_hello_title, label: "Garaj · ilk kapı başlığı", widget: object, fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }] }
+              - { name: garage_hello_text, label: "Garaj · ilk kapı metni", widget: object, fields: [{ name: tr, label: Türkçe, widget: text }, { name: en, label: English, widget: text }] }
+              - { name: about_title, label: "Hakkımda · başlık", widget: object, fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }] }
+              - { name: about_text, label: "Hakkımda · metin", widget: object, fields: [{ name: tr, label: Türkçe, widget: text }, { name: en, label: English, widget: text }] }
+              - { name: logbook_intro, label: "Seyir Defteri · giriş", widget: object, fields: [{ name: tr, label: Türkçe, widget: text }, { name: en, label: English, widget: text }] }
+              - { name: cv_profile, label: "CV · profil", widget: object, fields: [{ name: tr, label: Türkçe, widget: text }, { name: en, label: English, widget: text }] }
+              - { name: cv_updated, label: "CV · güncelleme notu", widget: object, fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }] }
+          - name: profile
+            label: Profil
+            widget: object
+            fields:
+              - { name: role, label: Unvan, widget: object, fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }] }
+              - { name: team, label: Ekip, widget: object, fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }] }
+              - { name: company, label: Şirket, widget: string }
+              - { name: since, label: "Başlangıç (YYYY-AA)", widget: string, pattern: ['^\d{4}(-\d{2})?$', "2026 ya da 2026-10 biçiminde"] }
+              - { name: location, label: Konum, widget: object, fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }] }
+          - name: experience
+            label: "Deneyim (en yeni en üstte)"
+            label_singular: İş
+            widget: list
+            fields:
+              - { name: company, label: Şirket, widget: string }
+              - { name: role, label: Unvan, widget: object, fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }] }
+              - { name: team, label: Ekip, widget: object, fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }] }
+              - { name: start, label: "Başlangıç (2025 ya da 2025-09)", widget: string, pattern: ['^\d{4}(-\d{2})?$', "2026 ya da 2026-10 biçiminde"] }
+              - { name: end, label: "Bitiş (boş = hâlâ devam ediyor)", widget: string, required: false }
+              - { name: note, label: "Kısa not (ör. ~8 ay)", widget: object, required: false, fields: [{ name: tr, label: Türkçe, widget: string, required: false }, { name: en, label: English, widget: string, required: false }] }
+              - name: highlights
+                label: "CV maddeleri"
+                widget: list
+                required: false
+                fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }]
+          - name: education
+            label: Eğitim
+            widget: list
+            fields:
+              - { name: school, label: Okul, widget: object, fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }] }
+              - { name: field, label: Bölüm, widget: object, fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }] }
+          - name: languages
+            label: Diller
+            widget: list
+            fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }]
+          - name: toolbox
+            label: Takım çantası
+            label_singular: Çekmece
+            widget: list
+            fields:
+              - { name: id, label: "Kısa ad (ör. data)", widget: string }
+              - { name: drawer, label: Çekmece adı, widget: object, fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }] }
+              - name: tools
+                label: Aletler
+                widget: list
+                fields:
+                  - { name: name, label: Ad, widget: string }
+                  - { name: note, label: Açıklama, widget: object, fields: [{ name: tr, label: Türkçe, widget: string }, { name: en, label: English, widget: string }] }
