@@ -4,6 +4,7 @@
   'use strict';
   const G = window.GARAGE;
   const BASE = (document.currentScript && document.currentScript.src.replace(/ui\.js(\?.*)?$/, '')) || 'assets/js/';
+  const VQ = (document.currentScript && (document.currentScript.src.match(/\?v=[\w-]+/) || [''])[0]) || '';   // yayındaki sürüm etiketi: gerekince yüklenen dosyalar da taze gelsin
   const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   G.esc = esc;
@@ -319,7 +320,7 @@
   // =================================================================== İHTİYAÇ ANINDA YÜKLENEN BETİKLER
   const loading = {};
   G.loadScript = (file) => loading[file] || (loading[file] = new Promise((res, rej) => {
-    const s = document.createElement('script'); s.src = BASE + file; s.onload = res;
+    const s = document.createElement('script'); s.src = BASE + file + VQ; s.onload = res;
     s.onerror = () => { delete loading[file]; rej(new Error(file)); };
     document.head.appendChild(s);
   }));
